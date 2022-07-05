@@ -106,7 +106,6 @@
 				1DE780AFA328891EAE12D38D /* Pods-FoodieaTests.debug.xcconfig */,
 				3333358C93A3B3307FCDC053 /* Pods-FoodieaTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -145,12 +144,8 @@
 		833B1A622874F3AC004E9D0C /* Foodiea */ = {
 			isa = PBXGroup;
 			children = (
-				833B1A632874F3AC004E9D0C /* AppDelegate.h */,
-				833B1A642874F3AC004E9D0C /* AppDelegate.m */,
-				833B1A662874F3AC004E9D0C /* SceneDelegate.h */,
-				833B1A672874F3AC004E9D0C /* SceneDelegate.m */,
-				833B1A692874F3AC004E9D0C /* ViewController.h */,
-				833B1A6A2874F3AC004E9D0C /* ViewController.m */,
+				833B1A992874F862004E9D0C /* ViewControllers */,
+				833B1A982874F84A004E9D0C /* Delegates */,
 				833B1A6C2874F3AC004E9D0C /* Main.storyboard */,
 				833B1A6F2874F3AD004E9D0C /* Assets.xcassets */,
 				833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */,
@@ -175,6 +170,26 @@
 				833B1A8B2874F3AE004E9D0C /* FoodieaUITestsLaunchTests.m */,
 			);
 			path = FoodieaUITests;
+			sourceTree = "<group>";
+		};
+		833B1A982874F84A004E9D0C /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				833B1A672874F3AC004E9D0C /* SceneDelegate.m */,
+				833B1A662874F3AC004E9D0C /* SceneDelegate.h */,
+				833B1A642874F3AC004E9D0C /* AppDelegate.m */,
+				833B1A632874F3AC004E9D0C /* AppDelegate.h */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		833B1A992874F862004E9D0C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				833B1A6A2874F3AC004E9D0C /* ViewController.m */,
+				833B1A692874F3AC004E9D0C /* ViewController.h */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
