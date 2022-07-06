@@ -114,7 +114,7 @@
                     <connections>
                         <outlet property="passwordField" destination="JT6-ma-f3b" id="ln1-r2-dlk"/>
                         <outlet property="usernameField" destination="ghs-c0-ToY" id="XgJ-QB-mdZ"/>
-                        <segue destination="sCR-hT-lQh" kind="show" identifier="loginSegue" id="iig-Gn-4xh"/>
+                        <segue destination="sCR-hT-lQh" kind="presentation" identifier="loginSegue" id="iig-Gn-4xh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
