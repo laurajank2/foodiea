@@ -22,6 +22,8 @@
 		833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */; };
 		833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA628750FD0004E9D0C /* ProfileViewController.m */; };
 		833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833B1AA8287510A2004E9D0C /* Assets.xcassets */; };
+		833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAB28751438004E9D0C /* SettingsViewController.m */; };
+		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
 		9DCB6E9D0799473B1CA7A791 /* Pods_Foodiea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335A887519EBDA38CC57B49A /* Pods_Foodiea.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +73,10 @@
 		833B1AA528750FD0004E9D0C /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		833B1AA628750FD0004E9D0C /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		833B1AA8287510A2004E9D0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../.Trash/Assets.xcassets; sourceTree = "<group>"; };
+		833B1AAA28751438004E9D0C /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		833B1AAB28751438004E9D0C /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
+		833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
 		99554834C50534FAE4D81652 /* Pods-Foodiea-FoodieaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.release.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A2B6122273843222BED852B6 /* Pods-Foodiea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea/Pods-Foodiea.debug.xcconfig"; sourceTree = "<group>"; };
 		F70655A225379F27EDC5EAF2 /* Pods-Foodiea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea.release.xcconfig"; path = "Target Support Files/Pods-Foodiea/Pods-Foodiea.release.xcconfig"; sourceTree = "<group>"; };
@@ -195,6 +201,8 @@
 		833B1A992874F862004E9D0C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */,
+				833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */,
 				833B1AA628750FD0004E9D0C /* ProfileViewController.m */,
 				833B1AA528750FD0004E9D0C /* ProfileViewController.h */,
 				833B1A6A2874F3AC004E9D0C /* ViewController.m */,
@@ -203,6 +211,8 @@
 				833B1AA2287505FA004E9D0C /* HomeFeedViewController.h */,
 				833B1A9F2875037E004E9D0C /* LoginViewController.h */,
 				833B1AA02875037E004E9D0C /* LoginViewController.m */,
+				833B1AAB28751438004E9D0C /* SettingsViewController.m */,
+				833B1AAA28751438004E9D0C /* SettingsViewController.h */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -448,6 +458,8 @@
 				833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */,
 				833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */,
 				833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */,
+				833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */,
+				833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
 				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,

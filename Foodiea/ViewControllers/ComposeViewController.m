@@ -1,26 +1,22 @@
 //
-//  HomeFeedViewController.m
+//  ComposeViewController.m
 //  Foodiea
 //
-//  Created by Laura Jankowski on 7/5/22.
+//  Created by Laura Jankowski on 7/6/22.
 //
 
-#import "HomeFeedViewController.h"
+#import "ComposeViewController.h"
 
-@interface HomeFeedViewController ()
+@interface ComposeViewController ()
 
 @end
 
-@implementation HomeFeedViewController
+@implementation ComposeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
-- (IBAction)didTapProfile:(id)sender {
-    [self performSegueWithIdentifier:@"profileSegue" sender:nil];
-}
-
 
 /*
 #pragma mark - Navigation

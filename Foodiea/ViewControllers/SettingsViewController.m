@@ -1,26 +1,22 @@
 //
-//  HomeFeedViewController.m
+//  SettingsViewController.m
 //  Foodiea
 //
 //  Created by Laura Jankowski on 7/5/22.
 //
 
-#import "HomeFeedViewController.h"
+#import "SettingsViewController.h"
 
-@interface HomeFeedViewController ()
+@interface SettingsViewController ()
 
 @end
 
-@implementation HomeFeedViewController
+@implementation SettingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
-- (IBAction)didTapProfile:(id)sender {
-    [self performSegueWithIdentifier:@"profileSegue" sender:nil];
-}
-
 
 /*
 #pragma mark - Navigation
