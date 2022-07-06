@@ -13,7 +13,6 @@
 		833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A672874F3AC004E9D0C /* SceneDelegate.m */; };
 		833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A6A2874F3AC004E9D0C /* ViewController.m */; };
 		833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833B1A6C2874F3AC004E9D0C /* Main.storyboard */; };
-		833B1A702874F3AD004E9D0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833B1A6F2874F3AD004E9D0C /* Assets.xcassets */; };
 		833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */; };
 		833B1A762874F3AD004E9D0C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A752874F3AD004E9D0C /* main.m */; };
 		833B1A802874F3AE004E9D0C /* FoodieaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A7F2874F3AE004E9D0C /* FoodieaTests.m */; };
@@ -21,6 +20,8 @@
 		833B1A8C2874F3AE004E9D0C /* FoodieaUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A8B2874F3AE004E9D0C /* FoodieaUITestsLaunchTests.m */; };
 		833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA02875037E004E9D0C /* LoginViewController.m */; };
 		833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */; };
+		833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA628750FD0004E9D0C /* ProfileViewController.m */; };
+		833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833B1AA8287510A2004E9D0C /* Assets.xcassets */; };
 		9DCB6E9D0799473B1CA7A791 /* Pods_Foodiea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335A887519EBDA38CC57B49A /* Pods_Foodiea.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +56,6 @@
 		833B1A692874F3AC004E9D0C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		833B1A6A2874F3AC004E9D0C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		833B1A6D2874F3AC004E9D0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		833B1A6F2874F3AD004E9D0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		833B1A722874F3AD004E9D0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		833B1A742874F3AD004E9D0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		833B1A752874F3AD004E9D0C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -68,6 +68,9 @@
 		833B1AA02875037E004E9D0C /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		833B1AA2287505FA004E9D0C /* HomeFeedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeFeedViewController.h; sourceTree = "<group>"; };
 		833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeFeedViewController.m; sourceTree = "<group>"; };
+		833B1AA528750FD0004E9D0C /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		833B1AA628750FD0004E9D0C /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		833B1AA8287510A2004E9D0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../.Trash/Assets.xcassets; sourceTree = "<group>"; };
 		99554834C50534FAE4D81652 /* Pods-Foodiea-FoodieaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.release.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A2B6122273843222BED852B6 /* Pods-Foodiea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea/Pods-Foodiea.debug.xcconfig"; sourceTree = "<group>"; };
 		F70655A225379F27EDC5EAF2 /* Pods-Foodiea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea.release.xcconfig"; path = "Target Support Files/Pods-Foodiea/Pods-Foodiea.release.xcconfig"; sourceTree = "<group>"; };
@@ -153,9 +156,9 @@
 				833B1A992874F862004E9D0C /* ViewControllers */,
 				833B1A982874F84A004E9D0C /* Delegates */,
 				833B1A6C2874F3AC004E9D0C /* Main.storyboard */,
-				833B1A6F2874F3AD004E9D0C /* Assets.xcassets */,
 				833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */,
 				833B1A742874F3AD004E9D0C /* Info.plist */,
+				833B1AA8287510A2004E9D0C /* Assets.xcassets */,
 				833B1A752874F3AD004E9D0C /* main.m */,
 			);
 			path = Foodiea;
@@ -192,6 +195,8 @@
 		833B1A992874F862004E9D0C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				833B1AA628750FD0004E9D0C /* ProfileViewController.m */,
+				833B1AA528750FD0004E9D0C /* ProfileViewController.h */,
 				833B1A6A2874F3AC004E9D0C /* ViewController.m */,
 				833B1A692874F3AC004E9D0C /* ViewController.h */,
 				833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */,
@@ -311,7 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */,
-				833B1A702874F3AD004E9D0C /* Assets.xcassets in Resources */,
+				833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */,
 				833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,6 +449,7 @@
 				833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */,
 				833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
+				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,
 				833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */,
 			);

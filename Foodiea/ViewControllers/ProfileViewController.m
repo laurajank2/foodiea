@@ -1,22 +1,23 @@
 //
-//  HomeFeedViewController.m
+//  ProfileViewController.m
 //  Foodiea
 //
 //  Created by Laura Jankowski on 7/5/22.
 //
 
-#import "HomeFeedViewController.h"
+#import "ProfileViewController.h"
 
-@interface HomeFeedViewController ()
+@interface ProfileViewController ()
 
 @end
 
-@implementation HomeFeedViewController
+@implementation ProfileViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
+
 /*
 #pragma mark - Navigation
 

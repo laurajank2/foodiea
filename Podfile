@@ -7,6 +7,7 @@ target 'Foodiea' do
 
   # Pods for Foodiea
 pod 'Parse'
+pod 'MKDropdownMenu'
 
   target 'FoodieaTests' do
     inherit! :search_paths

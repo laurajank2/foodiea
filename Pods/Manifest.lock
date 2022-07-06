@@ -1,22 +1,26 @@
 PODS:
   - Bolts/Tasks (1.9.1)
+  - MKDropdownMenu (1.4)
   - Parse (1.19.3):
     - Parse/Core (= 1.19.3)
   - Parse/Core (1.19.3):
     - Bolts/Tasks (= 1.9.1)
 
 DEPENDENCIES:
+  - MKDropdownMenu
   - Parse
 
 SPEC REPOS:
   trunk:
     - Bolts
+    - MKDropdownMenu
     - Parse
 
 SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
+  MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
 
-PODFILE CHECKSUM: b6204056706c6ec2c3c115cfeab27a6fb7e8c11d
+PODFILE CHECKSUM: ac47f223b80f82bd677fd3501381b5c311699427
 
 COCOAPODS: 1.11.3
