@@ -433,11 +433,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Share"/>
+                                <connections>
+                                    <action selector="didTapShare:" destination="EYJ-qb-CZu" eventType="touchUpInside" id="UNY-Tp-s0R"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="postCaption" destination="ugC-9A-UAs" id="4Va-6m-Fv0"/>
+                        <outlet property="postDatePicker" destination="U0i-Fz-een" id="bnH-GC-Bvn"/>
                         <outlet property="postImage" destination="Hrf-d5-a9h" id="azs-tD-qn8"/>
+                        <outlet property="priceSegControl" destination="hBq-Zb-eEO" id="Rvk-XO-dfZ"/>
+                        <outlet property="restaurantName" destination="oBs-cJ-Vto" id="h0u-tB-iHP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xiu-IA-o1q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

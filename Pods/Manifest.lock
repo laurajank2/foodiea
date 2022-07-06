@@ -5,22 +5,26 @@ PODS:
     - Parse/Core (= 1.19.3)
   - Parse/Core (1.19.3):
     - Bolts/Tasks (= 1.9.1)
+  - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
   - MKDropdownMenu
   - Parse
+  - "UITextView+Placeholder"
 
 SPEC REPOS:
   trunk:
     - Bolts
     - MKDropdownMenu
     - Parse
+    - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
+  "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: ac47f223b80f82bd677fd3501381b5c311699427
+PODFILE CHECKSUM: 5cfd99a30cec5be1d1fc7d62056bc07f5c1c89d1
 
 COCOAPODS: 1.11.3

@@ -6,9 +6,14 @@
 //
 
 #import "ComposeViewController.h"
+#import "Post.h"
 
 @interface ComposeViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *postImage;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *priceSegControl;
+@property (weak, nonatomic) IBOutlet UITextView *postCaption;
+@property (weak, nonatomic) IBOutlet UITextField *restaurantName;
+@property (weak, nonatomic) IBOutlet UIDatePicker *postDatePicker;
 
 @end
 
@@ -64,6 +69,27 @@
     
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)didTapShare:(id)sender {
+    CGFloat width = self.postImage.bounds.size.width * 10;
+    CGFloat height = self.postImage.bounds.size.height * 10;
+    CGSize newSize = CGSizeMake(width, height);
+    NSString *selectedPrice = [self.priceSegControl titleForSegmentAtIndex:self.priceSegControl.selectedSegmentIndex];
+    [Post postUserImage:[self resizeImage:self.postImage.image withSize:newSize]
+        restaurantName: self.restaurantName.text
+        restaurantPrice:selectedPrice
+        withCaption: self.postCaption.text
+        postDate: self.postDatePicker.date
+        withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
+        if(succeeded) {
+            NSLog(@"Successfully posted image!");
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        } else {
+            NSLog(@"Error posting image: %@", error);
+        }
+    }];
 }
 
 /*
