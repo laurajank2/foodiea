@@ -317,7 +317,7 @@
                     <navigationItem key="navigationItem" id="ecd-jj-reC">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="zW9-0b-Fh6">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="PJw-la-HFh">
-                                <rect key="frame" x="302" y="12.5" width="92" height="31"/>
+                                <rect key="frame" x="302" y="11" width="92" height="34.5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Log out"/>
@@ -335,7 +335,7 @@
         <!--Navigation Controller-->
         <scene sceneID="I3o-xm-YeX">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sCR-hT-lQh" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="HomeNav" automaticallyAdjustsScrollViewInsets="NO" id="sCR-hT-lQh" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="6Af-3H-pLm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nqx-XY-VVw">
@@ -354,7 +354,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Oqz-Vh-iTw">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sIm-c5-0uc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sms-pQ-m5n" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="65M-5j-uGG">
@@ -366,6 +365,7 @@
                         <segue destination="5rJ-G6-ujB" kind="relationship" relationship="rootViewController" id="eMb-k5-NEO"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sIm-c5-0uc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3446.376811594203" y="78.348214285714278"/>
         </scene>
