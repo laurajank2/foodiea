@@ -27,6 +27,11 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    [self fetchPosts];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.posts.count;
 }

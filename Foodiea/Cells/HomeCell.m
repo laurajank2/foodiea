@@ -29,10 +29,10 @@
     self.postCaption.text = self.post[@"caption"];
     self.usernameLabel.text = self.post.author.username;
     self.dateLabel.text = [NSString stringWithFormat:@"%@%@%@", @"Created ",  self.post.createdAt.shortTimeAgoSinceNow, @" ago"];
-    //image
-    self.postImage.file = self.post[@"image"];
     self.priceLabel.text = self.post[@"price"];
     
+    //image
+    self.postImage.file = self.post[@"picture"];
     [self.postImage loadInBackground];
     self.userImage.file = self.post.author[@"profileImage"];
     [self.userImage loadInBackground];

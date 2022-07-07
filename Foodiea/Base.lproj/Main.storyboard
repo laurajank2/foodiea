@@ -191,7 +191,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="great food place! Would come again if I have the time and money!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJb-Mg-UWH">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="great food place! Would come again if I have the time and money!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HJb-Mg-UWH">
                                                     <rect key="frame" x="20" y="522" width="350" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -219,6 +219,7 @@
                                                 <constraint firstItem="p4D-2B-QO3" firstAttribute="leading" secondItem="uaV-Mm-JlG" secondAttribute="trailing" constant="10" id="bz8-nL-mUB"/>
                                                 <constraint firstItem="mpw-2T-LCc" firstAttribute="top" secondItem="gpz-Sh-TEN" secondAttribute="bottom" constant="10" id="cq8-d1-hYl"/>
                                                 <constraint firstItem="uaV-Mm-JlG" firstAttribute="top" secondItem="JzW-aK-gBk" secondAttribute="top" constant="10" id="gUn-fT-HSL"/>
+                                                <constraint firstAttribute="trailing" secondItem="HJb-Mg-UWH" secondAttribute="trailing" constant="20" symbolic="YES" id="kOR-MD-aZk"/>
                                                 <constraint firstAttribute="bottom" secondItem="HJb-Mg-UWH" secondAttribute="bottom" constant="10" id="nfb-4c-ChB"/>
                                                 <constraint firstItem="YAs-C5-Za9" firstAttribute="leading" secondItem="gpz-Sh-TEN" secondAttribute="leading" id="qY5-yY-6wc"/>
                                                 <constraint firstItem="HJb-Mg-UWH" firstAttribute="top" secondItem="ASS-GJ-UGj" secondAttribute="bottom" constant="8" symbolic="YES" id="tI4-SB-rWe"/>
