@@ -38,6 +38,22 @@
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
     self.manager = [[APIManager alloc] init];
+    [self filloutUser];
+}
+
+-(void)filloutUser {
+    //image
+    self.profileImage.file = self.user[@"profileImage"];
+    [self.profileImage loadInBackground];
+    [self.profileImage.layer setBorderColor: [[UIColor blackColor] CGColor]];
+    [self.profileImage.layer setBorderWidth: 1.5];
+    self.userName.text = self.user.username;
+    self.screenName.text = self.user[@"screenname"];
+    self.bio.text = self.user[@"bio"];
+    self.fav1.text = self.user[@"fav1"];
+    self.fav2.text = self.user[@"fav2"];
+    self.fav3.text = self.user[@"fav3"];
+    
 }
 
 - (IBAction)logout:(id)sender {
