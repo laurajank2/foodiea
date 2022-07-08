@@ -25,10 +25,26 @@
     // Configure the view for the selected state
 }
 - (IBAction)didTapBookmark:(id)sender {
-    PFUser *user = [PFUser currentUser];
-    PFRelation *relation = [user relationForKey:@"bookmarks"];
-    [relation addObject:self.post];
-    [self.manager saveUserInfo:user];
+    if(self.bookmarked) {
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [user relationForKey:@"bookmarks"];
+        [relation removeObject:self.post];
+        [self.manager saveUserInfo:user];
+        NSString *imageName = @"bookmark-empty.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = NO;
+    } else {
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [user relationForKey:@"bookmarks"];
+        [relation addObject:self.post];
+        [self.manager saveUserInfo:user];
+        NSString *imageName = @"bookmark-full.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = YES;
+    }
+    
 }
 
 - (void)setPost:(Post *)newPost {
@@ -76,6 +92,7 @@
                     NSString *imageName = @"bookmark-full.png";
                     UIImage *img = [UIImage imageNamed:imageName];
                     [self.bookmarkView setImage:img];
+                    self.bookmarked = YES;
                     break;
                 }
                 // do stuff
@@ -85,6 +102,30 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+}
+
+-(BOOL)isBookmarked {
+    __block BOOL isBookmarked = NO;
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
+    // generate a query based on that relation
+    PFQuery *query = [relation query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if ([posts count] != 0) {
+            // do something with the array of object returned by the call
+            NSLog(@"%@", posts);
+            for (Post* potential in posts) {
+                if ([potential.objectId isEqualToString:self.post.objectId]) {
+                    isBookmarked = true;
+                    break;
+                }
+                // do stuff
+            }
+        } else {
+            NSLog(@"no bookmarks");
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+    return isBookmarked;
 }
 
 @end

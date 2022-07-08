@@ -6,6 +6,7 @@
 //
 
 #import "APIManager.h"
+#import "Post.h"
 #import <Parse/Parse.h>
 @implementation APIManager
 
