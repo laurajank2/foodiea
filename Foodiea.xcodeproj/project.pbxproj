@@ -26,6 +26,7 @@
 		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
 		83F55714287651E3003D4502 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F55713287651E3003D4502 /* HomeCell.m */; };
+		83F55717287750BE003D4502 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F55716287750BE003D4502 /* ProfileCell.m */; };
 		9DCB6E9D0799473B1CA7A791 /* Pods_Foodiea.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335A887519EBDA38CC57B49A /* Pods_Foodiea.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,8 @@
 		83F5570F287646E9003D4502 /* Post.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		83F55712287651E3003D4502 /* HomeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCell.h; sourceTree = "<group>"; };
 		83F55713287651E3003D4502 /* HomeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeCell.m; sourceTree = "<group>"; };
+		83F55715287750BE003D4502 /* ProfileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileCell.h; sourceTree = "<group>"; };
+		83F55716287750BE003D4502 /* ProfileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileCell.m; sourceTree = "<group>"; };
 		99554834C50534FAE4D81652 /* Pods-Foodiea-FoodieaUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.release.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A2B6122273843222BED852B6 /* Pods-Foodiea.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea/Pods-Foodiea.debug.xcconfig"; sourceTree = "<group>"; };
 		F70655A225379F27EDC5EAF2 /* Pods-Foodiea.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea.release.xcconfig"; path = "Target Support Files/Pods-Foodiea/Pods-Foodiea.release.xcconfig"; sourceTree = "<group>"; };
@@ -239,6 +242,8 @@
 			children = (
 				83F55712287651E3003D4502 /* HomeCell.h */,
 				83F55713287651E3003D4502 /* HomeCell.m */,
+				83F55715287750BE003D4502 /* ProfileCell.h */,
+				83F55716287750BE003D4502 /* ProfileCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -482,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */,
+				83F55717287750BE003D4502 /* ProfileCell.m in Sources */,
 				833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */,
 				83F55714287651E3003D4502 /* HomeCell.m in Sources */,
 				833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */,

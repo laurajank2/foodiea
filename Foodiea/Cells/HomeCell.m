@@ -28,9 +28,18 @@
     //[self.postImage loadInBackground];
     self.postCaption.text = self.post[@"caption"];
     self.usernameLabel.text = self.post.author.username;
-    self.dateLabel.text = [NSString stringWithFormat:@"%@%@%@", @"Created ",  self.post.createdAt.shortTimeAgoSinceNow, @" ago"];
+    NSDate *dateVisited = self.post[@"date"];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"EEEE, MMMM dd yyyy"];
+
+    //Optionally for time zone conversions
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
+
+    NSString *dateString = [formatter stringFromDate:dateVisited];
+
+    self.dateLabel.text = dateString;
     self.priceLabel.text = self.post[@"price"];
-    
+    self.restaurantName.text = [NSString stringWithFormat:@"%@%@", @"Ate at ",  self.post[@"restaurantName"]];
     //image
     self.postImage.file = self.post[@"picture"];
     [self.postImage loadInBackground];

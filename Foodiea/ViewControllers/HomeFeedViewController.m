@@ -13,7 +13,7 @@
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
-
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation HomeFeedViewController
@@ -24,7 +24,11 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     [self fetchPosts];
-    
+    //refresh control
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
+    [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -62,6 +66,7 @@
             NSLog(@"the posts:");
             NSLog(@"%@", self.posts);
             [self.homeFeedTableView reloadData];
+            [self.refreshControl endRefreshing];
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
