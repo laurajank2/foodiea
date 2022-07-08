@@ -67,15 +67,7 @@
     self.user[@"fav1"] = self.fav1.text;
     self.user[@"fav2"] = self.fav2.text;
     self.user[@"fav3"] = self.fav3.text;
-    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if(error){
-              NSLog(@"Error posting: %@", error.localizedDescription);
-         }
-         else{
-             NSLog(@"Successfully posted");
-
-         }
-    }];
+    [self.manager saveUserInfo:self.user];
 }
 - (IBAction)changePhoto:(id)sender {
     [self getImagePicker];
@@ -121,41 +113,15 @@
     CGFloat width = self.profileImage.bounds.size.width * 10;
     CGFloat height = self.profileImage.bounds.size.height * 10;
     CGSize newSize = CGSizeMake(width, height);
-    PFFileObject *imgFile = [self getPFFileFromImage:[self resizeImage:self.profileImage.image withSize:newSize]];
+    PFFileObject *imgFile = [self.manager getPFFileFromImage:[self resizeImage:self.profileImage.image withSize:newSize]];
     self.user[@"profileImage"] = imgFile;
-    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if(error){
-              NSLog(@"Error posting: %@", error.localizedDescription);
-         }
-         else{
-             NSLog(@"Successfully posted");
-         }
-    }];
-    
-    
-    
+    [self.manager saveUserInfo:self.user];
 
-    // Do something with the images (based on your use case)
-    
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
- 
-    // check if image is not nil
-    if (!image) {
-        return nil;
-    }
-    
-    NSData *imageData = UIImagePNGRepresentation(image);
-    // get image data and check if that is not nil
-    if (!imageData) {
-        return nil;
-    }
-    
-    return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
-}
+
 
 /*
 #pragma mark - Navigation

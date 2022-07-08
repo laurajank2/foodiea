@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)saveUserInfo: (PFUser * _Nullable) user;
 
+- (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
+
 @end
 
 NS_ASSUME_NONNULL_END
