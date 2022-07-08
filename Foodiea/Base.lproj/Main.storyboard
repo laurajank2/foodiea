@@ -170,6 +170,9 @@
                                                         <imageReference key="image" image="bookmark" catalog="system" symbolScale="large"/>
                                                         <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="default"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="didTapBookmark:" destination="YP9-lq-oyE" eventType="touchUpInside" id="fO4-Mj-Hxg"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4D-2B-QO3">
                                                     <rect key="frame" x="78" y="10" width="292" height="50"/>
@@ -660,6 +663,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rVU-Ho-nKf">
+                                <rect key="frame" x="0.0" y="56" width="390" height="734"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="ZmY-jc-G1G"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="sHk-Zf-nZZ"/>
+                            </scrollView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="w5h-mD-T8n" customClass="PFImageView">
                                 <rect key="frame" x="132.66666666666666" y="65" width="124.99999999999997" height="125"/>
                                 <constraints>
@@ -668,9 +676,9 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ekH-ew-zeq">
-                                <rect key="frame" x="138.66666666666666" y="198" width="113" height="31"/>
+                                <rect key="frame" x="120" y="198" width="150" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="113" id="Btz-tH-dgW"/>
+                                    <constraint firstAttribute="width" constant="150" id="Btz-tH-dgW"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="change photo"/>
@@ -861,6 +869,7 @@
                             <constraint firstItem="zhC-04-qMw" firstAttribute="trailing" secondItem="v6C-5V-c8F" secondAttribute="trailing" constant="15" id="0ce-rV-NFm"/>
                             <constraint firstItem="Uo3-GJ-Ydc" firstAttribute="leading" secondItem="aBs-VQ-NIW" secondAttribute="leading" id="3MM-NQ-4G9"/>
                             <constraint firstItem="pId-TI-JX9" firstAttribute="leading" secondItem="zhC-04-qMw" secondAttribute="leading" constant="17" id="3xg-3y-cfI"/>
+                            <constraint firstItem="rVU-Ho-nKf" firstAttribute="leading" secondItem="zhC-04-qMw" secondAttribute="leading" id="42g-HT-ONt"/>
                             <constraint firstItem="hg7-ZO-k5I" firstAttribute="top" secondItem="i1E-ko-6CK" secondAttribute="bottom" constant="7.5" id="6IH-kh-ZlS"/>
                             <constraint firstItem="zhC-04-qMw" firstAttribute="trailing" secondItem="gvE-B3-S6A" secondAttribute="trailing" constant="15" id="7kU-sd-NNq"/>
                             <constraint firstItem="zhC-04-qMw" firstAttribute="trailing" secondItem="MkE-js-su2" secondAttribute="trailing" constant="15" id="9VJ-p2-mKs"/>

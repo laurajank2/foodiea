@@ -51,7 +51,7 @@
     NSLog(@"%@", self.user[@"profileImage"]);
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
-    [self fetchPosts];
+    [self fetchBookmarked];
     
 }
 
@@ -72,6 +72,23 @@
             [self.profileFeed reloadData];
         } else {
             NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
+- (void)fetchBookmarked {
+    NSLog(@"%@", self.user);
+    PFRelation *relation = [self.user relationForKey:@"bookmarks"];
+    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            // There was an error
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            // objects has all the Posts the current user liked.
+            self.profilePosts = posts;
+            NSLog(@"the posts:");
+            NSLog(@"%@", posts);
+            [self.profileFeed reloadData];
         }
     }];
 }

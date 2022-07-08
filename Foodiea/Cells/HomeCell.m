@@ -20,6 +20,20 @@
 
     // Configure the view for the selected state
 }
+- (IBAction)didTapBookmark:(id)sender {
+    PFUser *user = [PFUser currentUser];
+    PFRelation *relation = [user relationForKey:@"bookmarks"];
+    [relation addObject:self.post];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            // The post has been added to the user's likes relation.
+            NSLog(@"success in making relation!");
+        } else {
+            // There was a problem, check error.description
+            NSLog(@"Error posting image: %@", error);
+        }
+    }];
+}
 
 - (void)setPost:(Post *)newPost {
     //maybe should be _post
