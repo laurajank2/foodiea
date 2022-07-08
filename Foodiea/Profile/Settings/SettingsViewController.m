@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "SceneDelegate.h"
 #import "LoginViewController.h"
+#import "APIManager.h"
 
 @interface SettingsViewController () <UITextViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet PFImageView *profileImage;
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *fav2;
 @property (weak, nonatomic) IBOutlet UITextField *fav3;
 @property (nonatomic, strong) PFUser *user;
+@property APIManager *manager;
 @end
 
 @implementation SettingsViewController
@@ -35,6 +37,7 @@
     self.user = [PFUser currentUser];
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
+    self.manager = [[APIManager alloc] init];
 }
 
 - (IBAction)logout:(id)sender {
@@ -55,14 +58,7 @@
     // Construct what the new text would be if we allowed the user's latest edit
     self.user[@"bio"] = self.bio.text;
     NSLog(@"%@", self.user);
-    [self.user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if(error){
-              NSLog(@"Error posting: %@", error.localizedDescription);
-         }
-         else{
-             NSLog(@"Successfully posted");
-         }
-    }];
+    [self.manager saveUserInfo:self.user];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{

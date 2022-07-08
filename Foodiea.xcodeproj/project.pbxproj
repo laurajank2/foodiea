@@ -24,6 +24,7 @@
 		833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833B1AA8287510A2004E9D0C /* Assets.xcassets */; };
 		833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAB28751438004E9D0C /* SettingsViewController.m */; };
 		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
+		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
 		83F55714287651E3003D4502 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F55713287651E3003D4502 /* HomeCell.m */; };
 		83F55717287750BE003D4502 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F55716287750BE003D4502 /* ProfileCell.m */; };
@@ -80,6 +81,8 @@
 		833B1AAB28751438004E9D0C /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
+		83EEF6372878D317006DAA80 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
+		83EEF6382878D317006DAA80 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		83F5570E287646E9003D4502 /* Post.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		83F5570F287646E9003D4502 /* Post.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		83F55712287651E3003D4502 /* HomeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCell.h; sourceTree = "<group>"; };
@@ -168,7 +171,11 @@
 		833B1A622874F3AC004E9D0C /* Foodiea */ = {
 			isa = PBXGroup;
 			children = (
-				83F55711287651CB003D4502 /* Cells */,
+				83EEF6362878D13D006DAA80 /* Manager */,
+				83EEF6342878D0FB006DAA80 /* Posting */,
+				83EEF6332878D0EC006DAA80 /* Login */,
+				83EEF62F2878D0A0006DAA80 /* Profile */,
+				83EEF62C2878D075006DAA80 /* HomeFeed */,
 				83F5570D287646C7003D4502 /* Models */,
 				833B1A992874F862004E9D0C /* ViewControllers */,
 				833B1A982874F84A004E9D0C /* Delegates */,
@@ -212,20 +219,110 @@
 		833B1A992874F862004E9D0C /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */,
-				833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */,
-				833B1AA628750FD0004E9D0C /* ProfileViewController.m */,
-				833B1AA528750FD0004E9D0C /* ProfileViewController.h */,
 				833B1A6A2874F3AC004E9D0C /* ViewController.m */,
 				833B1A692874F3AC004E9D0C /* ViewController.h */,
-				833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */,
-				833B1AA2287505FA004E9D0C /* HomeFeedViewController.h */,
-				833B1A9F2875037E004E9D0C /* LoginViewController.h */,
-				833B1AA02875037E004E9D0C /* LoginViewController.m */,
-				833B1AAB28751438004E9D0C /* SettingsViewController.m */,
-				833B1AAA28751438004E9D0C /* SettingsViewController.h */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		83EEF62C2878D075006DAA80 /* HomeFeed */ = {
+			isa = PBXGroup;
+			children = (
+				83EEF62E2878D088006DAA80 /* VC */,
+				83EEF62D2878D07D006DAA80 /* Cells */,
+			);
+			path = HomeFeed;
+			sourceTree = "<group>";
+		};
+		83EEF62D2878D07D006DAA80 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				83F55712287651E3003D4502 /* HomeCell.h */,
+				83F55713287651E3003D4502 /* HomeCell.m */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		83EEF62E2878D088006DAA80 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				833B1AA2287505FA004E9D0C /* HomeFeedViewController.h */,
+				833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		83EEF62F2878D0A0006DAA80 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				83EEF6322878D0E2006DAA80 /* Settings */,
+				83EEF6312878D0CB006DAA80 /* Cell */,
+				83EEF6302878D0C0006DAA80 /* VC */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		83EEF6302878D0C0006DAA80 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				833B1AA628750FD0004E9D0C /* ProfileViewController.m */,
+				833B1AA528750FD0004E9D0C /* ProfileViewController.h */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		83EEF6312878D0CB006DAA80 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				83F55715287750BE003D4502 /* ProfileCell.h */,
+				83F55716287750BE003D4502 /* ProfileCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		83EEF6322878D0E2006DAA80 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				833B1AAA28751438004E9D0C /* SettingsViewController.h */,
+				833B1AAB28751438004E9D0C /* SettingsViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		83EEF6332878D0EC006DAA80 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				833B1A9F2875037E004E9D0C /* LoginViewController.h */,
+				833B1AA02875037E004E9D0C /* LoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		83EEF6342878D0FB006DAA80 /* Posting */ = {
+			isa = PBXGroup;
+			children = (
+				83EEF6352878D11E006DAA80 /* VC */,
+				83F55711287651CB003D4502 /* Cells */,
+			);
+			path = Posting;
+			sourceTree = "<group>";
+		};
+		83EEF6352878D11E006DAA80 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */,
+				833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		83EEF6362878D13D006DAA80 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				83EEF6372878D317006DAA80 /* APIManager.h */,
+				83EEF6382878D317006DAA80 /* APIManager.m */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		83F5570D287646C7003D4502 /* Models */ = {
@@ -240,10 +337,6 @@
 		83F55711287651CB003D4502 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				83F55712287651E3003D4502 /* HomeCell.h */,
-				83F55713287651E3003D4502 /* HomeCell.m */,
-				83F55715287750BE003D4502 /* ProfileCell.h */,
-				83F55716287750BE003D4502 /* ProfileCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -495,6 +588,7 @@
 				833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */,
 				83F55710287646E9003D4502 /* Post.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
+				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,
 				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,
 				833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */,
