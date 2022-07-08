@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)saveUserInfo: (PFUser * _Nullable) user;
 
+- (NSArray *)queryPosts: (PFQuery * _Nullable)postQuery;
+
 - (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 
 @end

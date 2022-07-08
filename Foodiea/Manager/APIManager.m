@@ -21,6 +21,25 @@
     }];
 }
 
+- (NSArray *)queryPosts: (PFQuery * _Nullable)postQuery {
+    __block NSArray *profilePosts;
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery includeKey:@"author"];
+    [postQuery whereKey:@"author" equalTo:[PFUser currentUser]];
+    postQuery.limit = 20;
+
+    // fetch data asynchronously
+    [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if (posts != nil) {
+            // do something with the array of object returned by the call
+            profilePosts = posts;
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+    return profilePosts;
+}
+
 - (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image {
  
     // check if image is not nil

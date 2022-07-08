@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "Post.h"
 #import "ProfileCell.h"
+#import "APIManager.h"
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
@@ -22,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fav1;
 @property (weak, nonatomic) IBOutlet UIButton *fav2;
 @property (weak, nonatomic) IBOutlet UIButton *fav3;
+@property APIManager *manager;
 @end
 
 @implementation ProfileViewController
@@ -30,6 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _user = [PFUser currentUser];
+    self.manager = [[APIManager alloc] init];
     [self filloutUser];
     [self fetchPosts];
 }
@@ -51,8 +54,14 @@
     NSLog(@"%@", self.user[@"profileImage"]);
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
-    [self fetchBookmarked];
+    [self fetchPosts];
     
+}
+- (IBAction)didTapBookmark:(id)sender {
+    [self fetchBookmarked];
+}
+- (IBAction)didTapPencil:(id)sender {
+    [self fetchPosts];
 }
 
 - (void)fetchPosts {
@@ -70,6 +79,7 @@
             NSLog(@"the posts:");
             NSLog(@"%@", self.profilePosts);
             [self.profileFeed reloadData];
+            
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
