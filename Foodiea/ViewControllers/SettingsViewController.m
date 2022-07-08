@@ -67,7 +67,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     self.user[@"username"] = self.userName.text;
-    self.user[@"username"] = self.screenName.text;
+    self.user[@"screenname"] = self.screenName.text;
     self.user[@"fav1"] = self.fav1.text;
     self.user[@"fav2"] = self.fav2.text;
     self.user[@"fav3"] = self.fav3.text;
