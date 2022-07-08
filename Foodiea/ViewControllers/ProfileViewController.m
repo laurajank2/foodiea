@@ -44,7 +44,7 @@
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
     NSLog(@"@%@", self.user[@"fav_1"]);
-    [self.fav1 setTitle:self.user[@"fav_1"] forState:UIControlStateNormal];
+    [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
     [self.fav3 setTitle:self.user[@"fav3"] forState:UIControlStateNormal];
     NSLog(@"profileImage");

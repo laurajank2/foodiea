@@ -660,7 +660,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5h-mD-T8n">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5h-mD-T8n" customClass="PFImageView">
                                 <rect key="frame" x="133" y="65" width="125" height="125"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -669,6 +669,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="change photo"/>
+                                <connections>
+                                    <action selector="changePhoto:" destination="lhe-wC-i3p" eventType="touchUpInside" id="dwx-Ea-lRm"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6C-5V-c8F">
                                 <rect key="frame" x="16" y="237" width="358" height="1"/>
@@ -805,6 +808,9 @@
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Something about you!"/>
+                                </userDefinedRuntimeAttributes>
                             </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zhC-04-qMw"/>
@@ -823,6 +829,15 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bio" destination="Uo3-GJ-Ydc" id="5nZ-6W-pIg"/>
+                        <outlet property="fav1" destination="Rqg-sN-UWf" id="OP9-Pv-nmb"/>
+                        <outlet property="fav2" destination="hg7-ZO-k5I" id="nq1-sP-o2K"/>
+                        <outlet property="fav3" destination="EU9-nG-BUN" id="G96-b6-wS9"/>
+                        <outlet property="profileImage" destination="w5h-mD-T8n" id="qtr-9w-Uxf"/>
+                        <outlet property="screenName" destination="c3t-2y-gbg" id="BEs-kZ-Vo1"/>
+                        <outlet property="userName" destination="MkE-js-su2" id="rKx-Xz-Wir"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Yy-pX-XnW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
