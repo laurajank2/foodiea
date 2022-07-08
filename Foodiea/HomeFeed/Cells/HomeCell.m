@@ -7,12 +7,16 @@
 
 #import "HomeCell.h"
 #import "DateTools.h"
+#import "APIManager.h"
+#import <Parse/Parse.h>
 
 @implementation HomeCell
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.manager = [[APIManager alloc] init];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -24,15 +28,7 @@
     PFUser *user = [PFUser currentUser];
     PFRelation *relation = [user relationForKey:@"bookmarks"];
     [relation addObject:self.post];
-    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            // The post has been added to the user's likes relation.
-            NSLog(@"success in making relation!");
-        } else {
-            // There was a problem, check error.description
-            NSLog(@"Error posting image: %@", error);
-        }
-    }];
+    [self.manager saveUserInfo:user];
 }
 
 - (void)setPost:(Post *)newPost {
@@ -59,6 +55,36 @@
     [self.postImage loadInBackground];
     self.userImage.file = self.post.author[@"profileImage"];
     [self.userImage loadInBackground];
+    
+    //bookmark
+    //goal: see if the user has the post in their bookmark relation
+    // create a relation based on the authors key
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
+    // generate a query based on that relation
+    PFQuery *query = [relation query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if ([posts count] != 0) {
+            // do something with the array of object returned by the call
+            NSLog(@"%@", posts);
+            for (Post* potential in posts) {
+                NSLog(@"potential");
+                NSLog(@"%@", potential);
+                NSLog(@"%@", potential.objectId);
+                NSLog(@"%@", self.post.objectId);
+                if ([potential.objectId isEqualToString:self.post.objectId]) {
+                    NSLog(@"bookmarked");
+                    NSString *imageName = @"bookmark-full.png";
+                    UIImage *img = [UIImage imageNamed:imageName];
+                    [self.bookmarkView setImage:img];
+                    break;
+                }
+                // do stuff
+            }
+        } else {
+            NSLog(@"no bookmarks");
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 @end

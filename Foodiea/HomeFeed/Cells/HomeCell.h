@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Post.h"
+#import "APIManager.h"
 @import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,7 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *postCaption;
 @property (weak, nonatomic) Post *post;
+@property APIManager *manager;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *bookmarkView;
 
 @end
 
