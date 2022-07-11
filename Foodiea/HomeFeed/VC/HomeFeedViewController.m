@@ -8,6 +8,7 @@
 #import "HomeFeedViewController.h"
 #import <Parse/Parse.h>
 #import "HomeCell.h"
+#import "DetailMapViewController.h"
 
 
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -98,6 +99,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"detailMapSegue"]) {
+        HomeCell *cell = sender;
+        NSIndexPath *indexPath = [self.homeFeedTableView indexPathForCell:cell];
+        //do cell for row at index path to get the dictionary
+        Post *postToPass = self.posts[indexPath.row];
+        DetailMapViewController *detailVC = [segue destinationViewController];
+        detailVC.post = postToPass;
+    } 
 }
 
 
