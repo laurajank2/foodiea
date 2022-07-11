@@ -87,6 +87,9 @@
         restaurantPrice:selectedPrice
         withCaption: self.postCaption.text
         postDate: self.postDatePicker.date
+        postLongitude: [NSNumber numberWithFloat:self.postLocation.coordinate.longitude]
+        postLatitude: [NSNumber numberWithFloat:self.postLocation.coordinate.latitude]
+        postAddress: self.locationLabel.text
         withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
         if(succeeded) {
             NSLog(@"Successfully posted image!");
@@ -133,6 +136,8 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     NSLog(@"Place name %@", place.name);
     NSLog(@"Place ID %@", place.placeID);
     NSLog(@"Place address %@", place.formattedAddress);
+    NSLog(@"Place coordinate %f", place.coordinate.latitude);
+    NSLog(@"Place coordinate %f", place.coordinate.longitude);
     NSLog(@"Place attributions %@", place.attributions.string);
     self.locationLabel.text = place.formattedAddress;
     self.postLocation = place;

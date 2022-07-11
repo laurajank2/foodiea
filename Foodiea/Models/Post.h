@@ -6,6 +6,7 @@
 //
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
+@import GooglePlaces;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,8 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *price;
 @property (nonatomic, strong) NSString *restaurantName;
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSNumber *longitude;
+@property (nonatomic, strong) NSNumber *latitude;
+@property (nonatomic, strong) NSString *formattedAddress;
 
-+ (void) postUserImage: ( UIImage * _Nullable )image restaurantName: (NSString * _Nullable )name restaurantPrice: (NSString * _Nullable )price withCaption: ( NSString * _Nullable )caption postDate: ( NSDate * _Nullable )date withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+
++ (void) postUserImage: ( UIImage * _Nullable )image restaurantName: (NSString * _Nullable )name restaurantPrice: (NSString * _Nullable )price withCaption: ( NSString * _Nullable )caption postDate: ( NSDate * _Nullable )date postLongitude: (NSNumber * _Nullable) longitude postLatitude: (NSNumber * _Nullable) latitude postAddress: (NSString * _Nullable) address withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
 @end
 
