@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '13.0'
 
 target 'Foodiea' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -11,6 +11,7 @@ pod 'Parse/UI'
 pod 'MKDropdownMenu'
 pod 'UITextView+Placeholder'
  pod 'DateTools'
+#pod 'GoogleMaps', '7.0.0'
 
   target 'FoodieaTests' do
     inherit! :search_paths

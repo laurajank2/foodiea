@@ -25,6 +25,7 @@
 		833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAB28751438004E9D0C /* SettingsViewController.m */; };
 		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
+		83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF641287C9473006DAA80 /* DetailMapViewController.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
 		83F55714287651E3003D4502 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F55713287651E3003D4502 /* HomeCell.m */; };
 		83F55717287750BE003D4502 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F55716287750BE003D4502 /* ProfileCell.m */; };
@@ -83,6 +84,8 @@
 		833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
 		83EEF6372878D317006DAA80 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		83EEF6382878D317006DAA80 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
+		83EEF640287C9473006DAA80 /* DetailMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailMapViewController.h; sourceTree = "<group>"; };
+		83EEF641287C9473006DAA80 /* DetailMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailMapViewController.m; sourceTree = "<group>"; };
 		83F5570E287646E9003D4502 /* Post.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		83F5570F287646E9003D4502 /* Post.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		83F55712287651E3003D4502 /* HomeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeCell.h; sourceTree = "<group>"; };
@@ -171,6 +174,7 @@
 		833B1A622874F3AC004E9D0C /* Foodiea */ = {
 			isa = PBXGroup;
 			children = (
+				83EEF63E287C9461006DAA80 /* DetailMap */,
 				83EEF6362878D13D006DAA80 /* Manager */,
 				83EEF6342878D0FB006DAA80 /* Posting */,
 				83EEF6332878D0EC006DAA80 /* Login */,
@@ -323,6 +327,23 @@
 				83EEF6382878D317006DAA80 /* APIManager.m */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		83EEF63E287C9461006DAA80 /* DetailMap */ = {
+			isa = PBXGroup;
+			children = (
+				83EEF63F287C9468006DAA80 /* VC */,
+			);
+			path = DetailMap;
+			sourceTree = "<group>";
+		};
+		83EEF63F287C9468006DAA80 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				83EEF640287C9473006DAA80 /* DetailMapViewController.h */,
+				83EEF641287C9473006DAA80 /* DetailMapViewController.m */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 		83F5570D287646C7003D4502 /* Models */ = {
@@ -589,6 +610,7 @@
 				83F55710287646E9003D4502 /* Post.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
 				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,
+				83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */,
 				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,
 				833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */,

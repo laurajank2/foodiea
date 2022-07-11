@@ -46,13 +46,27 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
     Post *post = self.posts[indexPath.row];
     [cell setPost:post];
+    
     //buttons
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    [cell.pinImage addGestureRecognizer:gestureRecognizer];
+    cell.pinImage.userInteractionEnabled = YES;
+    gestureRecognizer.cancelsTouchesInView = NO;
+    gestureRecognizer.numberOfTapsRequired = 2;
 
     return cell;
 }
+
+- (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
+    //Code to handle the gesture
+    NSLog(@"tapped");
+    [self performSegueWithIdentifier:@"detailMapSegue" sender:nil];
+}
+
 -(void)fetchPosts {
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
@@ -74,19 +88,17 @@
     }];
 }
 
+#pragma mark - Navigation
+
 - (IBAction)didTapProfile:(id)sender {
     [self performSegueWithIdentifier:@"profileSegue" sender:nil];
 }
-
-
-/*
-#pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

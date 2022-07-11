@@ -208,6 +208,11 @@
                                                         <action selector="didTapBookmark:" destination="YP9-lq-oyE" eventType="touchUpInside" id="fO4-Mj-Hxg"/>
                                                     </connections>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="feed-pin" translatesAutoresizingMaskIntoConstraints="NO" id="usk-oT-hSa">
+                                                    <rect key="frame" x="304" y="422" width="29" height="36"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <gestureRecognizers/>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="p4D-2B-QO3" firstAttribute="top" secondItem="JzW-aK-gBk" secondAttribute="top" constant="10" id="1cs-BC-aUH"/>
@@ -233,6 +238,7 @@
                                         <connections>
                                             <outlet property="bookmarkView" destination="djZ-ec-YNw" id="wD0-Sc-4G9"/>
                                             <outlet property="dateLabel" destination="ASS-GJ-UGj" id="ein-21-pzn"/>
+                                            <outlet property="pinImage" destination="usk-oT-hSa" id="x5U-Hm-QN6"/>
                                             <outlet property="postCaption" destination="HJb-Mg-UWH" id="Jbo-Rl-ui2"/>
                                             <outlet property="postImage" destination="gpz-Sh-TEN" id="iwg-e4-V6n"/>
                                             <outlet property="priceLabel" destination="0sg-Ob-yj4" id="Awz-9q-tli"/>
@@ -265,11 +271,36 @@
                     </navigationItem>
                     <connections>
                         <outlet property="homeFeedTableView" destination="GuM-H4-vKP" id="GHE-oa-sEn"/>
+                        <segue destination="czA-qi-MQW" kind="presentation" identifier="detailMapSegue" id="xhn-hx-ogn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0l1-3A-DGb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2636.9230769230767" y="79.620853080568722"/>
+        </scene>
+        <!--Detail Map View Controller-->
+        <scene sceneID="ONE-So-aeK">
+            <objects>
+                <viewController id="czA-qi-MQW" customClass="DetailMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P2x-0X-YCq">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="location of restaurant in post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wap-tv-Apj">
+                                <rect key="frame" x="86" y="260" width="218" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="PVc-kB-Uoe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Si-NI-dAC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2637" y="813"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="2sl-e6-P0S">
@@ -947,6 +978,7 @@
         <image name="appstore" width="1024" height="1024"/>
         <image name="bookmark-empty" width="350" height="484"/>
         <image name="calendar" width="138" height="148"/>
+        <image name="feed-pin" width="272" height="448"/>
         <image name="gears (2)" width="100" height="100"/>
         <image name="map_pin" width="120" height="166"/>
         <image name="pencil" width="497" height="497"/>
