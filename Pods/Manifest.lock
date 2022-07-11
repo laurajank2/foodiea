@@ -1,6 +1,11 @@
 PODS:
   - Bolts/Tasks (1.9.1)
   - DateTools (2.0.0)
+  - GoogleMaps (7.0.0):
+    - GoogleMaps/Maps (= 7.0.0)
+  - GoogleMaps/Base (7.0.0)
+  - GoogleMaps/Maps (7.0.0):
+    - GoogleMaps/Base
   - MKDropdownMenu (1.4)
   - Parse (1.19.3):
     - Parse/Core (= 1.19.3)
@@ -12,6 +17,7 @@ PODS:
 
 DEPENDENCIES:
   - DateTools
+  - GoogleMaps (= 7.0.0)
   - MKDropdownMenu
   - Parse
   - Parse/UI
@@ -21,6 +27,7 @@ SPEC REPOS:
   trunk:
     - Bolts
     - DateTools
+    - GoogleMaps
     - MKDropdownMenu
     - Parse
     - "UITextView+Placeholder"
@@ -28,10 +35,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
+  GoogleMaps: 6e9c923ca035989709fcb5771544fda4cc5fa2a4
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: f0bd114387deda58844e951a30009e6991be094e
+PODFILE CHECKSUM: 5b4d752e742822982c35de6825ced5ed4ada774a
 
 COCOAPODS: 1.11.3

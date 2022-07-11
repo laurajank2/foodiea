@@ -7,7 +7,7 @@
 
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
-//@import GoogleMaps;
+@import GoogleMaps;
 
 @interface AppDelegate ()
 
@@ -27,7 +27,7 @@
     }];
 
     [Parse initializeWithConfiguration:config];
-    //[GMSServices provideAPIKey:@"AIzaSyCIRbmt85HhbGUBBsiBFVAL0PikGqPjpaA"];
+    [GMSServices provideAPIKey:@"AIzaSyCIRbmt85HhbGUBBsiBFVAL0PikGqPjpaA"];
 
     return YES;
 }
