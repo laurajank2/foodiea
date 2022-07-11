@@ -7,17 +7,21 @@
 
 #import "ComposeViewController.h"
 #import "Post.h"
+@import CoreLocation;
+@import GooglePlaces;
+@import GoogleMaps;
 
-@interface ComposeViewController ()
+@interface ComposeViewController () <CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *postImage;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceSegControl;
 @property (weak, nonatomic) IBOutlet UITextView *postCaption;
 @property (weak, nonatomic) IBOutlet UITextField *restaurantName;
 @property (weak, nonatomic) IBOutlet UIDatePicker *postDatePicker;
-
 @end
 
-@implementation ComposeViewController
+@implementation ComposeViewController {
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

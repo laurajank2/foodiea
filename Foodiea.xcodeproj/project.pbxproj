@@ -24,6 +24,8 @@
 		833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833B1AA8287510A2004E9D0C /* Assets.xcassets */; };
 		833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAB28751438004E9D0C /* SettingsViewController.m */; };
 		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
+		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
+		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
 		83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF641287C9473006DAA80 /* DetailMapViewController.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
@@ -82,6 +84,10 @@
 		833B1AAB28751438004E9D0C /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
 		833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
+		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
+		83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacesViewController.m; sourceTree = "<group>"; };
 		83EEF6372878D317006DAA80 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		83EEF6382878D317006DAA80 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		83EEF640287C9473006DAA80 /* DetailMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailMapViewController.h; sourceTree = "<group>"; };
@@ -316,6 +322,10 @@
 			children = (
 				833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */,
 				833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */,
+				83B9F248287CC78C00C05A5B /* MapViewController.h */,
+				83B9F249287CC78C00C05A5B /* MapViewController.m */,
+				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
+				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -644,10 +654,12 @@
 				833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */,
 				833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */,
 				83F55710287646E9003D4502 /* Post.m in Sources */,
+				83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
 				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,
 				83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */,
 				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
+				83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,
 				833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */,
 			);
@@ -827,6 +839,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodiea/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Foodiea needs your location to share where your favorite food spot is!";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -856,6 +869,7 @@
 				DEVELOPMENT_TEAM = 9PMPF826L8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Foodiea/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Foodiea needs your location to share where your favorite food spot is!";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

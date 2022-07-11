@@ -62,6 +62,10 @@ SOFTWARE.
 
 Copyright 2022 Google
 
+## GooglePlaces
+
+Copyright 2022 Google
+
 ## MKDropdownMenu
 
 The MIT License (MIT)

@@ -10,6 +10,7 @@
 #import "SceneDelegate.h"
 #import "LoginViewController.h"
 #import "APIManager.h"
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface SettingsViewController () <UITextViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet PFImageView *profileImage;
@@ -39,7 +40,7 @@
     [self.profileImage loadInBackground];
     self.manager = [[APIManager alloc] init];
     [self filloutUser];
-}
+    }
 
 -(void)filloutUser {
     //image
@@ -136,17 +137,5 @@
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

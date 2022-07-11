@@ -449,6 +449,15 @@
                                     <action selector="didTapPhoto:" destination="EYJ-qb-CZu" eventType="touchUpInside" id="hQf-eB-uKy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBs-zt-eA6">
+                                <rect key="frame" x="308" y="548" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <segue destination="5Sy-e4-bax" kind="presentation" id="dnA-8a-ni6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9Lb-1F-mBB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -508,6 +517,31 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xiu-IA-o1q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4355.3846153846152" y="939.09952606635068"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="saA-Re-j6e">
+            <objects>
+                <viewController id="5Sy-e4-bax" customClass="MapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wd5-xg-vWQ">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mpM-Jq-6WN" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="RqW-vM-Gcs"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="locSelectMap" destination="mpM-Jq-6WN" id="xaL-xE-9Kd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gG2-uA-crn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4353.8461538461534" y="1734.5971563981043"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="WjU-Tx-ypU">
