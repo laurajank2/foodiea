@@ -25,6 +25,7 @@
 		833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAB28751438004E9D0C /* SettingsViewController.m */; };
 		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
 		833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32D9287E309C0025C56E /* FIndUserViewController.m */; };
+		833D32DE287E33460025C56E /* FindUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32DD287E33460025C56E /* FindUserCell.m */; };
 		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
 		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
@@ -87,6 +88,8 @@
 		833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
 		833D32D8287E309C0025C56E /* FIndUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FIndUserViewController.h; sourceTree = "<group>"; };
 		833D32D9287E309C0025C56E /* FIndUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FIndUserViewController.m; sourceTree = "<group>"; };
+		833D32DC287E33460025C56E /* FindUserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindUserCell.h; sourceTree = "<group>"; };
+		833D32DD287E33460025C56E /* FindUserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FindUserCell.m; sourceTree = "<group>"; };
 		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
@@ -242,6 +245,7 @@
 		833D32D6287E30880025C56E /* FindUser */ = {
 			isa = PBXGroup;
 			children = (
+				833D32DB287E33210025C56E /* Cells */,
 				833D32D7287E30920025C56E /* VC */,
 			);
 			path = FindUser;
@@ -254,6 +258,15 @@
 				833D32D9287E309C0025C56E /* FIndUserViewController.m */,
 			);
 			path = VC;
+			sourceTree = "<group>";
+		};
+		833D32DB287E33210025C56E /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				833D32DC287E33460025C56E /* FindUserCell.h */,
+				833D32DD287E33460025C56E /* FindUserCell.m */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		83EEF62C2878D075006DAA80 /* HomeFeed */ = {
@@ -676,6 +689,7 @@
 				833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */,
 				83F55710287646E9003D4502 /* Post.m in Sources */,
 				83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */,
+				833D32DE287E33460025C56E /* FindUserCell.m in Sources */,
 				833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
 				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,

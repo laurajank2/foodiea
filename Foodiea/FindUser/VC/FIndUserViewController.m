@@ -6,8 +6,13 @@
 //
 
 #import "FIndUserViewController.h"
+#import <Parse/Parse.h>
+#import "FindUserCell.h"
 
-@interface FIndUserViewController ()
+@interface FIndUserViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property NSArray *searchedUsers;
+@property (weak, nonatomic) IBOutlet UITableView *usersTableView;
 
 @end
 
@@ -15,7 +20,51 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.usersTableView.delegate = self;
+    self.usersTableView.dataSource = self;
     // Do any additional setup after loading the view.
+    [self fetchUsers];
+}
+
+- (void)fetchUsers {
+    PFQuery *userQuery = [PFUser query];
+    [userQuery includeKey:@"author"];
+    userQuery.limit = 20;
+
+    // fetch data asynchronously
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+        if (users != nil) {
+            // do something with the array of object returned by the call
+            self.searchedUsers = users;
+            NSLog(@"the users:");
+            NSLog(@"%@", self.searchedUsers);
+            [self.usersTableView reloadData];
+            
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
+#pragma mark - Table View
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.searchedUsers.count;
+}
+
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    
+    FindUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FindUserCell"];
+    PFUser *user = self.searchedUsers[indexPath.row];
+    cell.user = user;
+    [cell fillCell];
+    
+
+    return cell;
 }
 
 /*
