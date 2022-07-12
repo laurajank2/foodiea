@@ -182,6 +182,7 @@
                                             <outlet property="screenname" destination="CjX-Dm-eQA" id="HDX-8M-A9M"/>
                                             <outlet property="userImage" destination="j23-1z-7Av" id="Tzt-5g-lAd"/>
                                             <outlet property="username" destination="U9E-GU-OQW" id="krU-Tq-xll"/>
+                                            <segue destination="sms-pQ-m5n" kind="presentation" identifier="searchProfileSegue" id="6iQ-Hm-ceQ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -197,7 +198,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSO-LY-cPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3321.5384615384614" y="836.72985781990519"/>
+            <point key="canvasLocation" x="2822" y="837"/>
         </scene>
         <!--Home Feed View Controller-->
         <scene sceneID="L38-bo-6AB">
@@ -1117,7 +1118,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ObO-rd-zjb"/>
+        <segue reference="6iQ-Hm-ceQ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="appstore" width="1024" height="1024"/>

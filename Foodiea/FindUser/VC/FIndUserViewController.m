@@ -8,6 +8,7 @@
 #import "FIndUserViewController.h"
 #import <Parse/Parse.h>
 #import "FindUserCell.h"
+#import "ProfileViewController.h"
 
 @interface FIndUserViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -67,14 +68,23 @@
     return cell;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"searchProfileSegue"]) {
+        FindUserCell *cell = sender;
+        PFUser *userToPass = cell.user;
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
+        profileVC.user = userToPass;
+    
+        
+    }
 }
-*/
+
 
 @end
