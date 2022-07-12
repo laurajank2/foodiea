@@ -65,7 +65,12 @@
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
     //Code to handle the gesture
     NSLog(@"tapped");
+    
     [self performSegueWithIdentifier:@"detailMapSegue" sender:nil];
+}
+- (IBAction)detailButton:(id)sender {
+    
+    [self performSegueWithIdentifier:@"detailMapSegue" sender:sender];
 }
 
 -(void)fetchPosts {
@@ -100,7 +105,10 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if ([[segue identifier] isEqualToString:@"detailMapSegue"]) {
-        HomeCell *cell = sender;
+        UIButton *button = sender;
+        NSLog(@"button");
+        NSLog(@"%@", [button.superview.superview class]);
+        HomeCell *cell = button.superview.superview;
         NSIndexPath *indexPath = [self.homeFeedTableView indexPathForCell:cell];
         //do cell for row at index path to get the dictionary
         Post *postToPass = self.posts[indexPath.row];
