@@ -75,6 +75,10 @@
         [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
     } else {
         NSLog(@"clicked follow");
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [user relationForKey:@"following"];
+        [relation addObject:self.user];
+        [self.manager saveUserInfo:user];
     }
     
 }
