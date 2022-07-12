@@ -68,20 +68,62 @@
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
     postQuery.limit = 20;
+    __block NSArray *allPosts;
+    __block NSSet *followedUsers;
+    __block NSMutableArray *followedPosts = [NSMutableArray new];
 
     // fetch data asynchronously
     [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            // do something with the array of object returned by the call
-            self.posts = posts;
-            NSLog(@"the posts:");
-            NSLog(@"%@", self.posts);
-            [self.homeFeedTableView reloadData];
-            [self.refreshControl endRefreshing];
+            // all posts in descending order
+            allPosts = posts;
+            NSLog(@"allposts:");
+            NSLog(@"%@", allPosts);
+            PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+            // generate a query based on that relation
+            PFQuery *query = [relation query];
+            [query findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+                if (users != nil) {
+                    // get users and make a mutable array of ids
+                    NSMutableArray *userIds = [NSMutableArray new];
+                    for (PFUser *user in users){
+                        [userIds addObject:user.objectId];
+                    }
+                    //make a set of the userids
+                    followedUsers = [NSSet setWithArray:[userIds copy]];
+                    NSLog(@"followed users:");
+                    NSLog(@"%@", followedUsers);
+                    //check if posts have an author you follow
+                    for (Post *post in allPosts) {
+                        NSLog(@"author:");
+                        NSLog(@"%@", post.author);
+                        NSLog(@"author:");
+                        //if so, add them to followed posts
+                        if([followedUsers containsObject:post.author.objectId]) {
+                            [followedPosts addObject:post];
+                        }
+                    }
+                    NSLog(@"the followed posts:");
+                    NSLog(@"%@", followedPosts);
+                    self.posts = [followedPosts copy];
+                    //self.posts = posts;
+                    NSLog(@"the final posts:");
+                    NSLog(@"%@", self.posts);
+                    [self.homeFeedTableView reloadData];
+                    [self.refreshControl endRefreshing];
+                } else {
+                    NSLog(@"%@", error.localizedDescription);
+                }
+            }];
+            
+            
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+    
+    
+   
 }
 
 #pragma mark - Navigation
