@@ -32,8 +32,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.manager = [[APIManager alloc] init];
+    
     [self filloutUser];
     [self fetchPosts];
+    [self setFollowed];
 }
 
 -(void)filloutUser {
@@ -53,20 +55,24 @@
     NSLog(@"%@", self.user[@"profileImage"]);
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
-    [self setRightNavBtn];
     [self fetchPosts];
+    
     
     
 }
 
 -(void)setRightNavBtn {
-    NSLog(@"%@", self.user.objectId);
-    NSLog(@"%@", [PFUser currentUser].objectId);
+    NSLog(@"setRight");
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self.rightNavBtn setTitle:@"Settings" forState:UIControlStateNormal];
         NSLog(@"button");
     } else {
-        [self.rightNavBtn setTitle:@"Follow" forState:UIControlStateNormal];
+        if(self.followed) {
+            [self.rightNavBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
+        } else {
+            [self.rightNavBtn setTitle:@"Follow" forState:UIControlStateNormal];
+        }
+        
     }
 }
 
@@ -75,10 +81,20 @@
         [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
     } else {
         NSLog(@"clicked follow");
-        PFUser *user = [PFUser currentUser];
-        PFRelation *relation = [user relationForKey:@"following"];
-        [relation addObject:self.user];
-        [self.manager saveUserInfo:user];
+        if (self.followed) {
+            PFUser *user = [PFUser currentUser];
+            PFRelation *relation = [user relationForKey:@"following"];
+            [relation removeObject:self.user];
+            [self.manager saveUserInfo:user];
+            [self setFollowed];
+        } else {
+            PFUser *user = [PFUser currentUser];
+            PFRelation *relation = [user relationForKey:@"following"];
+            [relation addObject:self.user];
+            [self.manager saveUserInfo:user];
+            [self setFollowed];
+        }
+        
     }
     
 }
@@ -143,6 +159,38 @@
     cell.profileCellImage.file = post[@"picture"];
     [cell.profileCellImage loadInBackground];
     return cell;
+}
+
+-(void)setFollowed {
+    self.followed = NO;
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+    // generate a query based on that relation
+    PFQuery *query = [relation query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if ([posts count] != 0) {
+            // do something with the array of object returned by the call
+            NSLog(@"%@", posts);
+            for (PFUser* potential in posts) {
+                NSLog(@"potential");
+                NSLog(@"%@", potential);
+                NSLog(@"%@", potential.objectId);
+                NSLog(@"%@", self.user.objectId);
+                if ([potential.objectId isEqualToString:self.user.objectId]) {
+                    self.followed = YES;
+                    NSLog(@"followed");
+                    NSLog(@"%i",self.followed);
+                    [self setRightNavBtn];
+                    break;
+                }
+                // do stuff
+            }
+        } else {
+            NSLog(@"not following anyone");
+            [self setRightNavBtn];
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+    NSLog(@"query");
 }
 
 /*

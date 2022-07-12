@@ -88,6 +88,7 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+    NSLog(@"bookmark query");
 }
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
@@ -114,28 +115,28 @@
     }
 }
 
--(BOOL)isBookmarked {
-    __block BOOL isBookmarked = NO;
-    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
-    // generate a query based on that relation
-    PFQuery *query = [relation query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if ([posts count] != 0) {
-            // do something with the array of object returned by the call
-            NSLog(@"%@", posts);
-            for (Post* potential in posts) {
-                if ([potential.objectId isEqualToString:self.post.objectId]) {
-                    isBookmarked = true;
-                    break;
-                }
-                // do stuff
-            }
-        } else {
-            NSLog(@"no bookmarks");
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
-    return isBookmarked;
-}
+//-(BOOL)isBookmarked {
+//    __block BOOL isBookmarked = NO;
+//    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
+//    // generate a query based on that relation
+//    PFQuery *query = [relation query];
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+//        if ([posts count] != 0) {
+//            // do something with the array of object returned by the call
+//            NSLog(@"%@", posts);
+//            for (Post* potential in posts) {
+//                if ([potential.objectId isEqualToString:self.post.objectId]) {
+//                    isBookmarked = true;
+//                    break;
+//                }
+//                // do stuff
+//            }
+//        } else {
+//            NSLog(@"no bookmarks");
+//            NSLog(@"%@", error.localizedDescription);
+//        }
+//    }];
+//    return isBookmarked;
+//}
 
 @end
