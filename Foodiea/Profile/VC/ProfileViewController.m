@@ -34,8 +34,9 @@
     self.manager = [[APIManager alloc] init];
     
     [self filloutUser];
-    [self fetchPosts];
     [self setFollowed];
+    [self fetchPosts];
+    
 }
 
 -(void)filloutUser {
@@ -184,13 +185,14 @@
                 }
                 // do stuff
             }
+            [self setRightNavBtn];
         } else {
             NSLog(@"not following anyone");
             [self setRightNavBtn];
             NSLog(@"%@", error.localizedDescription);
         }
     }];
-    NSLog(@"query");
+    NSLog(@"setFollowedquery");
 }
 
 /*
