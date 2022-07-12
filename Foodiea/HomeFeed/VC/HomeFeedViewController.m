@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "HomeCell.h"
 #import "DetailMapViewController.h"
+#import "ProfileViewController.h"
 
 
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource>
@@ -32,7 +33,6 @@
 
 }
 
-
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     [self fetchPosts];
@@ -52,22 +52,13 @@
     Post *post = self.posts[indexPath.row];
     [cell setPost:post];
     
-    //buttons
-    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
-    [cell.pinImage addGestureRecognizer:gestureRecognizer];
-    cell.pinImage.userInteractionEnabled = YES;
-    gestureRecognizer.cancelsTouchesInView = NO;
-    gestureRecognizer.numberOfTapsRequired = 2;
 
     return cell;
 }
-
-- (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
-    //Code to handle the gesture
-    NSLog(@"tapped");
-    
-    [self performSegueWithIdentifier:@"detailMapSegue" sender:nil];
+- (IBAction)didTapUserImage:(id)sender {
+    [self performSegueWithIdentifier:@"profileSegue" sender:sender];
 }
+
 - (IBAction)didTapPin:(id)sender {
     [self performSegueWithIdentifier:@"detailMapSegue" sender:sender];
 }
@@ -113,7 +104,19 @@
         Post *postToPass = self.posts[indexPath.row];
         DetailMapViewController *detailVC = [segue destinationViewController];
         detailVC.post = postToPass;
-    } 
+    }  else if ([sender isKindOfClass:[UIButton class]] && [[segue identifier] isEqualToString:@"profileSegue"]) {
+        UIButton *button = sender;
+        NSLog(@"button");
+        NSLog(@"%@", [button.superview.superview class]);
+        HomeCell *cell = button.superview.superview;
+        NSIndexPath *indexPath = [self.homeFeedTableView indexPathForCell:cell];
+        //do cell for row at index path to get the dictionary
+        Post *post = self.posts[indexPath.row];
+        PFUser *userToPass = post.author;
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
+        profileVC.user = userToPass;
+    }
 }
 
 

@@ -14,7 +14,7 @@
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
 @property (nonatomic, strong) NSArray *bookmarkPosts;
-@property (nonatomic, strong) PFUser *user;
+
 @property (weak, nonatomic) IBOutlet UICollectionView *profileFeed;
 @property (weak, nonatomic) IBOutlet PFImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *screenName;
@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _user = [PFUser currentUser];
+    //_user = [PFUser currentUser];
     self.manager = [[APIManager alloc] init];
     [self filloutUser];
     [self fetchPosts];
