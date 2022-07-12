@@ -123,6 +123,22 @@
             </objects>
             <point key="canvasLocation" x="1728" y="-848"/>
         </scene>
+        <!--Ind User View Controller-->
+        <scene sceneID="aa4-Kw-ZjU">
+            <objects>
+                <viewController id="sUZ-NT-YSe" customClass="FIndUserViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zD9-fr-2vY">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="sMw-H1-qot"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="joc-s8-rak"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uSO-LY-cPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3322" y="837"/>
+        </scene>
         <!--Home Feed View Controller-->
         <scene sceneID="L38-bo-6AB">
             <objects>
@@ -258,6 +274,17 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="48y-o2-M6q">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="5qB-Yc-xd6">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="TRV-TD-8bj">
+                                <rect key="frame" x="16" y="5" width="127" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system" title=" Find User"/>
+                                <connections>
+                                    <action selector="didTapFindUser:" destination="HsN-I0-sO6" eventType="touchUpInside" id="M16-Dc-BbA"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="Awk-cF-Pqn">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="WeT-b6-KpI">
                                 <rect key="frame" x="282" y="4.6666666666666679" width="92" height="34.666666666666657"/>
@@ -277,6 +304,7 @@
                         <outlet property="homeFeedTableView" destination="GuM-H4-vKP" id="GHE-oa-sEn"/>
                         <segue destination="czA-qi-MQW" kind="show" identifier="detailMapSegue" id="BDW-up-w2n"/>
                         <segue destination="sms-pQ-m5n" kind="presentation" identifier="feedProfileSegue" id="ObO-rd-zjb"/>
+                        <segue destination="sUZ-NT-YSe" kind="show" identifier="findUserSegue" id="ISN-bf-4r4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0l1-3A-DGb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -306,7 +334,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Si-NI-dAC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2494" y="837"/>
+            <point key="canvasLocation" x="1728" y="837"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="2sl-e6-P0S">
@@ -1037,6 +1065,7 @@
         <image name="bookmark-empty" width="350" height="484"/>
         <image name="calendar" width="138" height="148"/>
         <image name="feed-pin" width="272" height="448"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="map_pin" width="120" height="166"/>
         <image name="pencil" width="497" height="497"/>
         <image name="piggy_bank" width="154" height="152"/>

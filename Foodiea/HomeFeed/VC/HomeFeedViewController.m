@@ -131,6 +131,9 @@
 - (IBAction)didTapProfile:(id)sender {
     [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
 }
+- (IBAction)didTapFindUser:(id)sender {
+    [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -163,6 +166,8 @@
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
         profileVC.user = userToPass;
+    } else if ([[segue identifier] isEqualToString:@"findUserSegue"]) {
+        NSLog(@"find user");
     }
 }
 
