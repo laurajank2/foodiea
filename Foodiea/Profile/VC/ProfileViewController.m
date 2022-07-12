@@ -14,7 +14,7 @@
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
 @property (nonatomic, strong) NSArray *bookmarkPosts;
-
+@property (weak, nonatomic) IBOutlet UIButton *rightNavBtn;
 @property (weak, nonatomic) IBOutlet UICollectionView *profileFeed;
 @property (weak, nonatomic) IBOutlet PFImageView *profileImage;
 @property (weak, nonatomic) IBOutlet UILabel *screenName;
@@ -31,7 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //_user = [PFUser currentUser];
     self.manager = [[APIManager alloc] init];
     [self filloutUser];
     [self fetchPosts];
@@ -54,9 +53,32 @@
     NSLog(@"%@", self.user[@"profileImage"]);
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
+    [self setRightNavBtn];
     [self fetchPosts];
     
+    
 }
+
+-(void)setRightNavBtn {
+    NSLog(@"%@", self.user.objectId);
+    NSLog(@"%@", [PFUser currentUser].objectId);
+    if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
+        [self.rightNavBtn setTitle:@"Settings" forState:UIControlStateNormal];
+        NSLog(@"button");
+    } else {
+        [self.rightNavBtn setTitle:@"Follow" forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)tapTopRight:(id)sender {
+    if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
+        [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
+    } else {
+        NSLog(@"clicked follow");
+    }
+    
+}
+
 - (IBAction)didTapBookmark:(id)sender {
     [self fetchBookmarked];
 }

@@ -116,7 +116,7 @@
                     <connections>
                         <outlet property="passwordField" destination="JT6-ma-f3b" id="ln1-r2-dlk"/>
                         <outlet property="usernameField" destination="ghs-c0-ToY" id="XgJ-QB-mdZ"/>
-                        <segue destination="sCR-hT-lQh" kind="presentation" identifier="loginSegue" id="iig-Gn-4xh"/>
+                        <segue destination="sCR-hT-lQh" kind="presentation" identifier="loginSegue" modalPresentationStyle="fullScreen" id="iig-Gn-4xh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -128,7 +128,7 @@
             <objects>
                 <viewController storyboardIdentifier="HomeFeedViewController" id="HsN-I0-sO6" customClass="HomeFeedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Xee-WH-xR5">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GuM-H4-vKP">
@@ -260,7 +260,7 @@
                     <navigationItem key="navigationItem" id="48y-o2-M6q">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="Awk-cF-Pqn">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="WeT-b6-KpI">
-                                <rect key="frame" x="282" y="10.666666666666668" width="92" height="34.666666666666657"/>
+                                <rect key="frame" x="282" y="4.6666666666666679" width="92" height="34.666666666666657"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Profile"/>
@@ -269,13 +269,14 @@
                                 </connections>
                             </button>
                             <connections>
-                                <segue destination="sms-pQ-m5n" kind="presentation" identifier="profileSegue" id="xDV-z4-I4w"/>
+                                <segue destination="sms-pQ-m5n" kind="show" identifier="profileSegue" id="xDV-z4-I4w"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="homeFeedTableView" destination="GuM-H4-vKP" id="GHE-oa-sEn"/>
                         <segue destination="czA-qi-MQW" kind="show" identifier="detailMapSegue" id="BDW-up-w2n"/>
+                        <segue destination="sms-pQ-m5n" kind="presentation" identifier="feedProfileSegue" id="ObO-rd-zjb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0l1-3A-DGb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -287,7 +288,7 @@
             <objects>
                 <viewController id="czA-qi-MQW" customClass="DetailMapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P2x-0X-YCq">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="location of restaurant in post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wap-tv-Apj">
@@ -733,9 +734,9 @@
                                 <rect key="frame" x="16" y="6" width="358" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="gears (2)" title="" buttonSize="mini"/>
+                                <buttonConfiguration key="configuration" style="plain" title="" buttonSize="mini"/>
                                 <connections>
-                                    <segue destination="lhe-wC-i3p" kind="show" identifier="settingsSegue" id="dgZ-uO-8ww"/>
+                                    <action selector="tapTopRight:" destination="5rJ-G6-ujB" eventType="touchUpInside" id="ARB-an-bKY"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -747,13 +748,15 @@
                         <outlet property="fav3" destination="5qx-17-prC" id="ma9-Lr-9qy"/>
                         <outlet property="profileFeed" destination="D0v-TH-mzc" id="Bsd-aO-uzn"/>
                         <outlet property="profileImage" destination="dWg-TV-exT" id="awG-CR-Prj"/>
+                        <outlet property="rightNavBtn" destination="H8G-tM-LD1" id="uOa-uE-Rmg"/>
                         <outlet property="screenName" destination="pna-ct-A6n" id="d78-Fn-muF"/>
                         <outlet property="username" destination="Qhe-Dx-pv6" id="V8u-nt-e5o"/>
+                        <segue destination="lhe-wC-i3p" kind="show" identifier="settingsSegue" id="Cpx-EY-KhS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AKp-ov-18A" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4355.3846153846152" y="78.199052132701425"/>
+            <point key="canvasLocation" x="4354" y="77"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="olD-yz-UBX">
@@ -993,7 +996,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="6Af-3H-pLm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nqx-XY-VVw">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1010,6 +1013,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sms-pQ-m5n" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="ruv-PA-5mx"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="65M-5j-uGG">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1024,13 +1028,15 @@
             <point key="canvasLocation" x="3446.376811594203" y="78.348214285714278"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ObO-rd-zjb"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="appstore" width="1024" height="1024"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="bookmark-empty" width="350" height="484"/>
         <image name="calendar" width="138" height="148"/>
         <image name="feed-pin" width="272" height="448"/>
-        <image name="gears (2)" width="100" height="100"/>
         <image name="map_pin" width="120" height="166"/>
         <image name="pencil" width="497" height="497"/>
         <image name="piggy_bank" width="154" height="152"/>

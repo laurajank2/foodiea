@@ -87,7 +87,7 @@
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
-    [self performSegueWithIdentifier:@"profileSegue" sender:sender];
+    [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -104,7 +104,12 @@
         Post *postToPass = self.posts[indexPath.row];
         DetailMapViewController *detailVC = [segue destinationViewController];
         detailVC.post = postToPass;
-    }  else if ([sender isKindOfClass:[UIButton class]] && [[segue identifier] isEqualToString:@"profileSegue"]) {
+    }  else if ([[segue identifier] isEqualToString:@"feedProfileSegue"]) {
+        PFUser *userToPass = [PFUser currentUser];
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
+        profileVC.user = userToPass;
+    } else if ([[segue identifier] isEqualToString:@"profileSegue"]) {
         UIButton *button = sender;
         NSLog(@"button");
         NSLog(@"%@", [button.superview.superview class]);
@@ -113,12 +118,6 @@
         //do cell for row at index path to get the dictionary
         Post *post = self.posts[indexPath.row];
         PFUser *userToPass = post.author;
-        UINavigationController *navController = [segue destinationViewController];
-        ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
-        profileVC.user = userToPass;
-    } else if ([sender isKindOfClass:[UIBarButtonItem class]] && [[segue identifier] isEqualToString:@"profileSegue"]) {
-        
-        PFUser *userToPass = [PFUser currentUser];
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
         profileVC.user = userToPass;
