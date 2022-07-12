@@ -24,28 +24,6 @@
 
     // Configure the view for the selected state
 }
-- (IBAction)didTapBookmark:(id)sender {
-    if(self.bookmarked) {
-        PFUser *user = [PFUser currentUser];
-        PFRelation *relation = [user relationForKey:@"bookmarks"];
-        [relation removeObject:self.post];
-        [self.manager saveUserInfo:user];
-        NSString *imageName = @"bookmark-empty.png";
-        UIImage *img = [UIImage imageNamed:imageName];
-        [self.bookmarkView setImage:img];
-        self.bookmarked = NO;
-    } else {
-        PFUser *user = [PFUser currentUser];
-        PFRelation *relation = [user relationForKey:@"bookmarks"];
-        [relation addObject:self.post];
-        [self.manager saveUserInfo:user];
-        NSString *imageName = @"bookmark-full.png";
-        UIImage *img = [UIImage imageNamed:imageName];
-        [self.bookmarkView setImage:img];
-        self.bookmarked = YES;
-    }
-    
-}
 
 - (void)setPost:(Post *)newPost {
     //maybe should be _post
@@ -71,6 +49,14 @@
     [self.postImage loadInBackground];
     self.userImage.file = self.post.author[@"profileImage"];
     [self.userImage loadInBackground];
+    
+    //double tap bookmark
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    [self.bookmarkView addGestureRecognizer:gestureRecognizer];
+    self.bookmarkView.userInteractionEnabled = YES;
+    gestureRecognizer.cancelsTouchesInView = NO;
+    gestureRecognizer.numberOfTapsRequired = 2;
+    
     
     //bookmark
     //goal: see if the user has the post in their bookmark relation
@@ -102,6 +88,30 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+}
+
+- (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
+    //Code to handle the gesture
+    NSLog(@"tapped");
+    if(self.bookmarked) {
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [user relationForKey:@"bookmarks"];
+        [relation removeObject:self.post];
+        [self.manager saveUserInfo:user];
+        NSString *imageName = @"bookmark-empty.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = NO;
+    } else {
+        PFUser *user = [PFUser currentUser];
+        PFRelation *relation = [user relationForKey:@"bookmarks"];
+        [relation addObject:self.post];
+        [self.manager saveUserInfo:user];
+        NSString *imageName = @"bookmark-full.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = YES;
+    }
 }
 
 -(BOOL)isBookmarked {

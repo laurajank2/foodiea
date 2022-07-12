@@ -68,8 +68,7 @@
     
     [self performSegueWithIdentifier:@"detailMapSegue" sender:nil];
 }
-- (IBAction)detailButton:(id)sender {
-    
+- (IBAction)didTapPin:(id)sender {
     [self performSegueWithIdentifier:@"detailMapSegue" sender:sender];
 }
 
