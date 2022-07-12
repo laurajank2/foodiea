@@ -87,7 +87,7 @@
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
-    [self performSegueWithIdentifier:@"profileSegue" sender:nil];
+    [self performSegueWithIdentifier:@"profileSegue" sender:sender];
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -113,6 +113,12 @@
         //do cell for row at index path to get the dictionary
         Post *post = self.posts[indexPath.row];
         PFUser *userToPass = post.author;
+        UINavigationController *navController = [segue destinationViewController];
+        ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
+        profileVC.user = userToPass;
+    } else if ([sender isKindOfClass:[UIBarButtonItem class]] && [[segue identifier] isEqualToString:@"profileSegue"]) {
+        
+        PFUser *userToPass = [PFUser currentUser];
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
         profileVC.user = userToPass;
