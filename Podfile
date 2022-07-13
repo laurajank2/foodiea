@@ -13,6 +13,7 @@ pod 'UITextView+Placeholder'
  pod 'DateTools'
 pod 'GoogleMaps', '7.0.0'
 pod 'GooglePlaces', '7.0.0'
+pod 'SliderController', '~> 1.0'
 
   target 'FoodieaTests' do
     inherit! :search_paths

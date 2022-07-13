@@ -10,12 +10,15 @@
 #import "HomeCell.h"
 #import "DetailMapViewController.h"
 #import "ProfileViewController.h"
+#import "FilterViewController.h"
 
 
-@interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate>
 @property (nonatomic, strong) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property NSString *price;
+@property NSString *distance;
 @end
 
 @implementation HomeFeedViewController
@@ -25,6 +28,8 @@
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
+    self.price = @"0";
+    
     [self fetchPosts];
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -126,6 +131,13 @@
    
 }
 
+#pragma mark - delegate
+
+- (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item {
+     NSLog(@"This was returned from ViewControllerB %@", item);
+     NSLog(@"passed");
+ }
+
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
@@ -133,6 +145,9 @@
 }
 - (IBAction)didTapFindUser:(id)sender {
     [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+}
+- (IBAction)didTapFilter:(id)sender {
+    [self performSegueWithIdentifier:@"profileFilterSegue" sender:nil];
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -168,6 +183,9 @@
         profileVC.user = userToPass;
     } else if ([[segue identifier] isEqualToString:@"findUserSegue"]) {
         NSLog(@"find user");
+    } else if ([[segue identifier] isEqualToString:@"profileFilterSegue"]) {
+        FilterViewController *filterVC = [segue destinationViewController];
+        filterVC.delegate = self;
     }
 }
 
