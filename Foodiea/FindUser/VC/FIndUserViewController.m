@@ -10,10 +10,12 @@
 #import "FindUserCell.h"
 #import "ProfileViewController.h"
 
-@interface FIndUserViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface FIndUserViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property NSArray *searchedUsers;
+@property NSArray *filteredSearchedUsers;
 @property (weak, nonatomic) IBOutlet UITableView *usersTableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *userSearchBar;
 
 @end
 
@@ -23,6 +25,7 @@
     [super viewDidLoad];
     self.usersTableView.delegate = self;
     self.usersTableView.dataSource = self;
+    self.userSearchBar.delegate = self;
     // Do any additional setup after loading the view.
     [self fetchUsers];
 }
@@ -37,6 +40,7 @@
         if (users != nil) {
             // do something with the array of object returned by the call
             self.searchedUsers = users;
+            self.filteredSearchedUsers = users;
             NSLog(@"the users:");
             NSLog(@"%@", self.searchedUsers);
             [self.usersTableView reloadData];
@@ -50,7 +54,7 @@
 #pragma mark - Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.searchedUsers.count;
+    return self.filteredSearchedUsers.count;
 }
 
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
@@ -60,13 +64,34 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
     FindUserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FindUserCell"];
-    PFUser *user = self.searchedUsers[indexPath.row];
+    PFUser *user = self.filteredSearchedUsers[indexPath.row];
     cell.user = user;
     [cell fillCell];
     
 
     return cell;
 }
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(PFUser *evaluatedUser, NSDictionary *bindings) {
+            return [evaluatedUser[@"username"] containsString:searchText];
+        }];
+        self.filteredSearchedUsers = [self.searchedUsers filteredArrayUsingPredicate:predicate];
+        
+        NSLog(@"%@", self.filteredSearchedUsers);
+        
+    }
+    else {
+        self.filteredSearchedUsers = self.searchedUsers;
+    }
+    
+    [self.usersTableView reloadData];
+ 
+}
+
 
 
 #pragma mark - Navigation

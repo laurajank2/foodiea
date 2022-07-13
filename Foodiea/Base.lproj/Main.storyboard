@@ -137,7 +137,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="IWj-Ek-yxZ">
-                                <rect key="frame" x="0.0" y="132" width="390" height="712"/>
+                                <rect key="frame" x="0.0" y="145" width="390" height="699"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -193,12 +193,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="joc-s8-rak"/>
                     <connections>
+                        <outlet property="userSearchBar" destination="IEI-uL-77K" id="gLy-72-lob"/>
                         <outlet property="usersTableView" destination="IWj-Ek-yxZ" id="F5o-us-KBC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSO-LY-cPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2822" y="837"/>
+            <point key="canvasLocation" x="2821.5384615384614" y="836.72985781990519"/>
         </scene>
         <!--Home Feed View Controller-->
         <scene sceneID="L38-bo-6AB">
