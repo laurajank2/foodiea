@@ -4,6 +4,8 @@
 <dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>Allow app to use location to find nearby eats</string>
 		<key>NSCameraUsageDescription</key>
 		<string>Need camera access to take pictures</string>
 		<key>NSPhotoLibraryUsageDescription</key>

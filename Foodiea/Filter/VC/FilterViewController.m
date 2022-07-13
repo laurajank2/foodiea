@@ -11,7 +11,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceCtrl;
 @property (weak, nonatomic) IBOutlet UISlider *distanceCtrl;
 @property NSString *price;
-@property NSString *distance;
+@property double distance;
 
 @end
 
@@ -26,10 +26,14 @@
     self.price = [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex];
     
 }
+- (IBAction)onDistanceChange:(id)sender {
+    self.distance = self.distanceCtrl.value;
+}
 
 - (void)viewDidDisappear:(BOOL)animated {
-    NSString *itemToPassBack = self.price;
-    [self.delegate addItemViewController:self didFinishEnteringItem:itemToPassBack];
+    [self.delegate passPrice:self didFinishEnteringPrice:self.price];
+    [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
+    
 }
 /*
 #pragma mark - Navigation

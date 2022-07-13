@@ -7,6 +7,7 @@
 
 #import "HomeFeedViewController.h"
 #import <Parse/Parse.h>
+#import <CoreLocation/CoreLocation.h>
 #import "HomeCell.h"
 #import "DetailMapViewController.h"
 #import "ProfileViewController.h"
@@ -17,24 +18,44 @@
 @property (nonatomic, strong) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @property NSString *price;
-@property NSString *distance;
+@property CLLocation *userLocation;
+@property double distance;
 @end
 
 @implementation HomeFeedViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self locationManagement];
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
-    NSLog(@"%@", self.price);
+    NSLog(@"%f", self.distance);
     [self fetchPosts];
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
 
+}
+
+-(void)locationManagement {
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+        [self.locationManager requestWhenInUseAuthorization];
+    
+    [self.locationManager startUpdatingLocation];
+    self.userLocation = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [self.userLocation coordinate];
+    NSLog(@"%f", coordinate.latitude);
+    NSLog(@"%f", coordinate.longitude);
+    [self.locationManager stopUpdatingLocation];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -84,8 +105,6 @@
         if (posts != nil) {
             // all posts in descending order
             allPosts = posts;
-            NSLog(@"allposts:");
-            NSLog(@"%@", allPosts);
             PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
             // generate a query based on that relation
             PFQuery *query = [relation query];
@@ -98,24 +117,28 @@
                     }
                     //make a set of the userids
                     followedUsers = [NSSet setWithArray:[userIds copy]];
-                    NSLog(@"followed users:");
-                    NSLog(@"%@", followedUsers);
                     //check if posts have an author you follow
                     for (Post *post in allPosts) {
-                        NSLog(@"author:");
-                        NSLog(@"%@", post.author);
-                        NSLog(@"author:");
                         //if so, add them to followed posts
                         if([followedUsers containsObject:post.author.objectId]) {
-                            [followedPosts addObject:post];
+                            if(self.distance != 0.000000) {
+                                NSLog(@"%@", post.longitude);
+                                    CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+                                CLLocation *restaurantSecondLocation = [[CLLocation alloc] initWithLatitude:0 longitude:0];
+                                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
+                                CLLocationDistance distanceInMeters = [restaurantSecondLocation distanceFromLocation:restaurantLocation];
+
+                                NSLog(@"%f", distanceInMeters);
+                                if(distanceInMeters/1609.344 <= self.distance) {
+                                    [followedPosts addObject:post];
+                                }
+                            } else {
+                                [followedPosts addObject:post];
+                            }
+                            
                         }
                     }
-                    NSLog(@"the followed posts:");
-                    NSLog(@"%@", followedPosts);
                     self.posts = [followedPosts copy];
-                    //self.posts = posts;
-                    NSLog(@"the final posts:");
-                    NSLog(@"%@", self.posts);
                     [self.homeFeedTableView reloadData];
                     [self.refreshControl endRefreshing];
                 } else {
@@ -132,14 +155,22 @@
     
    
 }
-
 #pragma mark - delegate
 
-- (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item {
-     NSLog(@"This was returned from ViewControllerB %@", item);
-     NSLog(@"passed");
-    self.price = item;
- }
+//- (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item {
+//     NSLog(@"This was returned from ViewControllerB %@", item);
+//     NSLog(@"passed");
+//    self.price = item;
+// }
+
+- (void)passPrice:(FilterViewController *)controller didFinishEnteringPrice:(NSString *)price {
+    self.price = price;
+}
+- (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance {
+    self.distance = distance;
+    NSLog(@"This was returned from ViewControllerB %f", self.distance);
+    NSLog(@"This was returned from ViewControllerB %f", distance);
+}
 
 #pragma mark - Navigation
 
@@ -159,8 +190,6 @@
     // Pass the selected object to the new view controller.
     if ([[segue identifier] isEqualToString:@"detailMapSegue"]) {
         UIButton *button = sender;
-        NSLog(@"button");
-        NSLog(@"%@", [button.superview.superview class]);
         HomeCell *cell = button.superview.superview;
         NSIndexPath *indexPath = [self.homeFeedTableView indexPathForCell:cell];
         //do cell for row at index path to get the dictionary
@@ -174,8 +203,6 @@
         profileVC.user = userToPass;
     } else if ([[segue identifier] isEqualToString:@"profileSegue"]) {
         UIButton *button = sender;
-        NSLog(@"button");
-        NSLog(@"%@", [button.superview.superview class]);
         HomeCell *cell = button.superview.superview;
         NSIndexPath *indexPath = [self.homeFeedTableView indexPathForCell:cell];
         //do cell for row at index path to get the dictionary

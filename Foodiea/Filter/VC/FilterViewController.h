@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class FilterViewController;
 
 @protocol FilterViewControllerDelegate <NSObject>
- - (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item;
+ - (void)passPrice:(FilterViewController *)controller didFinishEnteringPrice:(NSString *)price;
+ - (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance;
  @end
 
 @interface FilterViewController : UIViewController
