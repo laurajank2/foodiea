@@ -20,7 +20,8 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property NSString *price;
-@property CLLocation *userLocation;
+@property double userLat;
+@property double userLong;
 @property double distance;
 @end
 
@@ -51,10 +52,12 @@
         [self.locationManager requestWhenInUseAuthorization];
     
     [self.locationManager startUpdatingLocation];
-    self.userLocation = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [self.userLocation coordinate];
+    CLLocation *userLocation = [self.locationManager location];
+    CLLocationCoordinate2D coordinate = [userLocation coordinate];
     NSLog(@"%f", coordinate.latitude);
     NSLog(@"%f", coordinate.longitude);
+    self.userLat = coordinate.latitude;
+    self.userLong = coordinate.longitude;
     [self.locationManager stopUpdatingLocation];
 }
 
@@ -124,7 +127,7 @@
                             if(self.distance != 0.000000) {
                                 NSLog(@"%@", post.longitude);
                                     CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
-                                CLLocation *restaurantSecondLocation = [[CLLocation alloc] initWithLatitude:0 longitude:0];
+                                CLLocation *restaurantSecondLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
                                 //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
                                 CLLocationDistance distanceInMeters = [restaurantSecondLocation distanceFromLocation:restaurantLocation];
 
