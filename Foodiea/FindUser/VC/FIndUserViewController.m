@@ -26,6 +26,7 @@
     self.usersTableView.delegate = self;
     self.usersTableView.dataSource = self;
     self.userSearchBar.delegate = self;
+    self.userSearchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     // Do any additional setup after loading the view.
     [self fetchUsers];
 }
