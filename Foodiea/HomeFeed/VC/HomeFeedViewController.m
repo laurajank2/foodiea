@@ -28,8 +28,7 @@
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
-    self.price = @"0";
-    
+    NSLog(@"%@", self.price);
     [self fetchPosts];
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -72,6 +71,9 @@
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
+    if(self.price != nil) {
+        [postQuery whereKey:@"price" equalTo:self.price];
+    }
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
@@ -136,6 +138,7 @@
 - (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item {
      NSLog(@"This was returned from ViewControllerB %@", item);
      NSLog(@"passed");
+    self.price = item;
  }
 
 #pragma mark - Navigation

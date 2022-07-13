@@ -367,7 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				83EEF6352878D11E006DAA80 /* VC */,
-				83F55711287651CB003D4502 /* Cells */,
 			);
 			path = Posting;
 			sourceTree = "<group>";
@@ -418,13 +417,6 @@
 				83F5570F287646E9003D4502 /* Post.m */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		83F55711287651CB003D4502 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -23,11 +23,12 @@
 }
 
 - (IBAction)onPriceChange:(id)sender {
+    self.price = [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    NSString *itemToPassBack = @"Pass this value back to ViewControllerA";
+    NSString *itemToPassBack = self.price;
     [self.delegate addItemViewController:self didFinishEnteringItem:itemToPassBack];
 }
 /*
