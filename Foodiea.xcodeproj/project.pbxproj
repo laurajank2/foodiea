@@ -175,6 +175,17 @@
 			path = Post;
 			sourceTree = "<group>";
 		};
+		83199EDB2880E2F3002C6850 /* Unused MapControllers */ = {
+			isa = PBXGroup;
+			children = (
+				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
+				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
+				83B9F249287CC78C00C05A5B /* MapViewController.m */,
+				83B9F248287CC78C00C05A5B /* MapViewController.h */,
+			);
+			path = "Unused MapControllers";
+			sourceTree = "<group>";
+		};
 		833B1A572874F3AC004E9D0C = {
 			isa = PBXGroup;
 			children = (
@@ -377,6 +388,7 @@
 		83EEF6342878D0FB006DAA80 /* Posting */ = {
 			isa = PBXGroup;
 			children = (
+				83199EDB2880E2F3002C6850 /* Unused MapControllers */,
 				83EEF6352878D11E006DAA80 /* VC */,
 			);
 			path = Posting;
@@ -387,10 +399,6 @@
 			children = (
 				833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */,
 				833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */,
-				83B9F248287CC78C00C05A5B /* MapViewController.h */,
-				83B9F249287CC78C00C05A5B /* MapViewController.m */,
-				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
-				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
 			);
 			path = VC;
 			sourceTree = "<group>";
