@@ -32,8 +32,6 @@
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
-    NSLog(@"%i", self.subFeed);
-    [self chooseFetch];
     
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -44,7 +42,7 @@
 }
 
 -(void)setNavBtns {
-    if(self.subFeed == 1){
+    if(self.subFeed > 0){
         [self.profileBtn setTitle:@"" forState:UIControlStateNormal];
         
         self.navigationItem.leftBarButtonItem = nil;
@@ -110,6 +108,7 @@
     }
     if(self.subFeed == 1) {
         [postQuery whereKey:@"author" equalTo:self.user];
+        NSLog(@"%@", self.user);
     }
     postQuery.limit = 20;
     __block NSArray *allPosts;
