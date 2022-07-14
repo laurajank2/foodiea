@@ -17,6 +17,8 @@
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate>
 @property (nonatomic, strong) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
+@property (weak, nonatomic) IBOutlet UIButton *searchBtn;
+@property (weak, nonatomic) IBOutlet UIButton *profileBtn;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property NSString *price;
@@ -38,7 +40,17 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
     [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
+    [self setNavBtns];
 
+}
+
+-(void)setNavBtns {
+    if(self.subFeed == 1){
+        [self.profileBtn setTitle:@"" forState:UIControlStateNormal];
+        
+        self.navigationItem.leftBarButtonItem = nil;
+        //self.navigationItem.hidesBackButton = true
+    }
 }
 
 -(void)locationManagement {
@@ -82,6 +94,7 @@
 }
 - (IBAction)didTapUserImage:(id)sender {
     [self performSegueWithIdentifier:@"profileSegue" sender:sender];
+    
 }
 
 - (IBAction)didTapPin:(id)sender {
@@ -184,10 +197,22 @@
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
-    [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
+    NSLog(@"%i",self.subFeed);
+    if(self.subFeed != 1) {
+        [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
+    }
+}
+
+-(void)findUser {
+    if(self.subFeed != 1) {
+        [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+    }
 }
 - (IBAction)didTapFindUser:(id)sender {
-    [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+    NSLog(@"%i",self.subFeed);
+    if(self.subFeed != 1) {
+        [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+    }
 }
 - (IBAction)didTapFilter:(id)sender {
     [self performSegueWithIdentifier:@"profileFilterSegue" sender:nil];

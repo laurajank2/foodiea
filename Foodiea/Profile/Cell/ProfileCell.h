@@ -6,11 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProfileViewController.h"
 @import Parse;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet PFImageView *profileCellImage;
+@property (strong, nonatomic) ProfileViewController *profileVC;
 
 @end
 

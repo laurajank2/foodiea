@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HomeFeedViewController : UIViewController <CLLocationManagerDelegate>
-
+@property int subFeed;
 @end
 
 NS_ASSUME_NONNULL_END

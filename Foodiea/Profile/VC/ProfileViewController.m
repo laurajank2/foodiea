@@ -10,6 +10,7 @@
 #import "Post.h"
 #import "ProfileCell.h"
 #import "APIManager.h"
+#import "HomeFeedViewController.h"
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
@@ -147,6 +148,7 @@
     //image
     cell.profileCellImage.file = post[@"picture"];
     [cell.profileCellImage loadInBackground];
+    cell.profileVC = self;
     return cell;
 }
 
@@ -174,14 +176,18 @@
     NSLog(@"setFollowedquery");
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"profileHomeSegue"]) {
+        HomeFeedViewController *feedVC = [segue destinationViewController];
+        feedVC.subFeed = 1;
+    }
 }
-*/
+
 
 @end
