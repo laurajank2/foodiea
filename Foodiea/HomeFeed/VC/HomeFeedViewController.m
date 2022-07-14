@@ -33,7 +33,6 @@
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
-    NSLog(@"%f", self.distance);
     [self fetchPosts];
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -54,8 +53,6 @@
     [self.locationManager startUpdatingLocation];
     CLLocation *userLocation = [self.locationManager location];
     CLLocationCoordinate2D coordinate = [userLocation coordinate];
-    NSLog(@"%f", coordinate.latitude);
-    NSLog(@"%f", coordinate.longitude);
     self.userLat = coordinate.latitude;
     self.userLong = coordinate.longitude;
     [self.locationManager stopUpdatingLocation];
@@ -170,8 +167,6 @@
 }
 - (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance {
     self.distance = distance;
-    NSLog(@"This was returned from ViewControllerB %f", self.distance);
-    NSLog(@"This was returned from ViewControllerB %f", distance);
 }
 
 - (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude {
@@ -222,7 +217,6 @@
         ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
         profileVC.user = userToPass;
     } else if ([[segue identifier] isEqualToString:@"findUserSegue"]) {
-        NSLog(@"find user");
     } else if ([[segue identifier] isEqualToString:@"profileFilterSegue"]) {
         FilterViewController *filterVC = [segue destinationViewController];
         filterVC.delegate = self;

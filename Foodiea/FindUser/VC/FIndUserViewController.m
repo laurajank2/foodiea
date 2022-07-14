@@ -27,7 +27,6 @@
     self.usersTableView.dataSource = self;
     self.userSearchBar.delegate = self;
     self.userSearchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    // Do any additional setup after loading the view.
     [self fetchUsers];
 }
 
@@ -36,14 +35,11 @@
     [userQuery includeKey:@"author"];
     userQuery.limit = 20;
 
-    // fetch data asynchronously
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
         if (users != nil) {
             // do something with the array of object returned by the call
             self.searchedUsers = users;
             self.filteredSearchedUsers = users;
-            NSLog(@"the users:");
-            NSLog(@"%@", self.searchedUsers);
             [self.usersTableView reloadData];
             
         } else {
@@ -81,8 +77,6 @@
             return [evaluatedUser[@"username"] containsString:searchText];
         }];
         self.filteredSearchedUsers = [self.searchedUsers filteredArrayUsingPredicate:predicate];
-        
-        NSLog(@"%@", self.filteredSearchedUsers);
         
     }
     else {

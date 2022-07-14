@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol FilterViewControllerDelegate <NSObject>
  - (void)passPrice:(FilterViewController *)controller didFinishEnteringPrice:(NSString *)price;
  - (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance;
-- (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude;
-- (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude;
+ - (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude;
+ - (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude;
  @end
 
 @interface FilterViewController : UIViewController

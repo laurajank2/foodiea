@@ -15,13 +15,10 @@
 @implementation DetailMapViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    // Create a GMSCameraPosition that tells the map to display the
-      // coordinate -33.86,151.20 at zoom level 6.
+      [super viewDidLoad];
       GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.post.latitude doubleValue]
                                                               longitude:[self.post.longitude doubleValue]
-                                                                   zoom:6];
+                                                                   zoom:10];
       GMSMapView *mapView = [GMSMapView mapWithFrame:self.view.frame camera:camera];
       mapView.myLocationEnabled = YES;
       [self.view addSubview:mapView];

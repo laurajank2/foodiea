@@ -132,13 +132,6 @@
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didAutocompleteWithPlace:(GMSPlace *)place {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // Do something with the selected place.
-    NSLog(@"Place name %@", place.name);
-    NSLog(@"Place ID %@", place.placeID);
-    NSLog(@"Place address %@", place.formattedAddress);
-    NSLog(@"Place coordinate %f", place.coordinate.latitude);
-    NSLog(@"Place coordinate %f", place.coordinate.longitude);
-    NSLog(@"Place attributions %@", place.attributions.string);
     self.locationLabel.text = place.formattedAddress;
     self.postLocation = place;
 }
