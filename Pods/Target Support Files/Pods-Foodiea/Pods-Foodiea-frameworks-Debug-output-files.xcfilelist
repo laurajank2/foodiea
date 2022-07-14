@@ -4,4 +4,3 @@ ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MKDropdownMenu.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parse.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StepSlider.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITextView_Placeholder.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/rubber_range_picker.framework

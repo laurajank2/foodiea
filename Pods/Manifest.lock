@@ -14,7 +14,6 @@ PODS:
     - Bolts/Tasks (= 1.9.1)
   - Parse/UI (1.19.3):
     - Parse/Core
-  - rubber-range-picker (0.8.1)
   - StepSlider (1.8.0)
   - "UITextView+Placeholder (1.4.0)"
 
@@ -25,7 +24,6 @@ DEPENDENCIES:
   - MKDropdownMenu
   - Parse
   - Parse/UI
-  - rubber-range-picker
   - StepSlider (~> 1.8.0)
   - "UITextView+Placeholder"
 
@@ -37,7 +35,6 @@ SPEC REPOS:
     - GooglePlaces
     - MKDropdownMenu
     - Parse
-    - rubber-range-picker
     - StepSlider
     - "UITextView+Placeholder"
 
@@ -48,10 +45,9 @@ SPEC CHECKSUMS:
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
-  rubber-range-picker: e9a1c4eebb783a016f62f46f056aac1cf53ae38c
   StepSlider: 890db727e779fa99cb32afffc5887c1109e151f4
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: 69200a73ac5242d61018b3150b190c88b7a49db0
+PODFILE CHECKSUM: 1fa990cf3098e989c4d917273936fca76fd5f2e2
 
 COCOAPODS: 1.11.3

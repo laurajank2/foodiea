@@ -5,4 +5,3 @@ ${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
 ${BUILT_PRODUCTS_DIR}/StepSlider/StepSlider.framework
 ${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework
-${BUILT_PRODUCTS_DIR}/rubber-range-picker/rubber_range_picker.framework
