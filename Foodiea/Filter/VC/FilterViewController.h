@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
  - (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance;
  - (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude;
  - (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude;
- @end
+ - (void)refresh;
+@end
 
 @interface FilterViewController : UIViewController
 @property (nonatomic, weak) id <FilterViewControllerDelegate> delegate;

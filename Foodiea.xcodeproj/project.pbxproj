@@ -166,6 +166,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		83199ED62880972D002C6850 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				83F5570E287646E9003D4502 /* Post.h */,
+				83F5570F287646E9003D4502 /* Post.m */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
 		833B1A572874F3AC004E9D0C = {
 			isa = PBXGroup;
 			children = (
@@ -194,7 +203,6 @@
 				833D32DF287F41E70025C56E /* Filter */,
 				833D32D6287E30880025C56E /* FindUser */,
 				83EEF63E287C9461006DAA80 /* DetailMap */,
-				83EEF6362878D13D006DAA80 /* Manager */,
 				83EEF6342878D0FB006DAA80 /* Posting */,
 				83EEF6332878D0EC006DAA80 /* Login */,
 				83EEF62F2878D0A0006DAA80 /* Profile */,
@@ -416,8 +424,8 @@
 		83F5570D287646C7003D4502 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				83F5570E287646E9003D4502 /* Post.h */,
-				83F5570F287646E9003D4502 /* Post.m */,
+				83199ED62880972D002C6850 /* Post */,
+				83EEF6362878D13D006DAA80 /* Manager */,
 			);
 			path = Models;
 			sourceTree = "<group>";

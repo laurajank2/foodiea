@@ -121,6 +121,7 @@
                     for (Post *post in allPosts) {
                         //if so, add them to followed posts
                         if([followedUsers containsObject:post.author.objectId]) {
+                            NSLog(@"%f", self.distance);
                             if(self.distance != 0.000000) {
                                 NSLog(@"%@", post.longitude);
                                     CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
@@ -175,6 +176,9 @@
 
 - (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude {
     self.userLat = latitude;
+}
+- (void) refresh {
+    [self fetchPosts];
 }
 
 #pragma mark - Navigation

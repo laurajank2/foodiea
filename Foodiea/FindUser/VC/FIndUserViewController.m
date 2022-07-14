@@ -9,6 +9,7 @@
 #import <Parse/Parse.h>
 #import "FindUserCell.h"
 #import "ProfileViewController.h"
+#import "APIManager.h"
 
 @interface FIndUserViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -16,7 +17,7 @@
 @property NSArray *filteredSearchedUsers;
 @property (weak, nonatomic) IBOutlet UITableView *usersTableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *userSearchBar;
-
+@property APIManager *manager;
 @end
 
 @implementation FIndUserViewController
@@ -27,6 +28,7 @@
     self.usersTableView.dataSource = self;
     self.userSearchBar.delegate = self;
     self.userSearchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.manager = [[APIManager alloc] init];
     [self fetchUsers];
 }
 
