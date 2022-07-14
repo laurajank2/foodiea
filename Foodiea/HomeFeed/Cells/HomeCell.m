@@ -22,10 +22,30 @@
     [super setSelected:selected animated:animated];
 }
 
+-(void)fetchUser:(NSString * _Nullable)objectId {
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:objectId];
+
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+        if (users != nil) {
+            // do something with the array of object returned by the call
+            for (PFUser *currUser in users) {
+                self.author = currUser;
+            }
+            self.usernameLabel.text = self.author.username;
+            self.userImage.file = self.author[@"profileImage"];
+            [self.userImage loadInBackground];
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
 - (void)setPost:(Post *)newPost {
     _post = newPost;
+    [self fetchUser:self.post.author.objectId];
     self.postCaption.text = self.post[@"caption"];
-    self.usernameLabel.text = self.post.author.username;
+    NSLog(@"%@", self.author);
     NSDate *dateVisited = self.post[@"date"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"EEEE, MMMM dd yyyy"];
@@ -40,8 +60,7 @@
     //image
     self.postImage.file = self.post[@"picture"];
     [self.postImage loadInBackground];
-    self.userImage.file = self.post.author[@"profileImage"];
-    [self.userImage loadInBackground];
+    
     
     //double tap bookmark
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];

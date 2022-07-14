@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fav1;
 @property (weak, nonatomic) IBOutlet UIButton *fav2;
 @property (weak, nonatomic) IBOutlet UIButton *fav3;
+@property int penOrMark;
 @property APIManager *manager;
 @end
 
@@ -53,6 +54,7 @@
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
     [self fetchPosts];
+    self.penOrMark = 0;
     
     
     
@@ -96,9 +98,11 @@
 
 - (IBAction)didTapBookmark:(id)sender {
     [self fetchBookmarked];
+    self.penOrMark = 1;
 }
 - (IBAction)didTapPencil:(id)sender {
     [self fetchPosts];
+    self.penOrMark = 0;
 }
 
 - (void)fetchPosts {
@@ -185,7 +189,9 @@
     // Pass the selected object to the new view controller.
     if ([[segue identifier] isEqualToString:@"profileHomeSegue"]) {
         HomeFeedViewController *feedVC = [segue destinationViewController];
-        feedVC.subFeed = 1;
+        feedVC.subFeed = 1 + self.penOrMark;
+        feedVC.user = self.user;
+        NSLog(@"%@", self.user.username);
     }
 }
 
