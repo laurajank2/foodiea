@@ -178,18 +178,20 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/IGLDropDownMenu/IGLDropDownMenu.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Parse/Parse.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StepSlider/StepSlider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/rubber-range-picker/rubber_range_picker.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/IGLDropDownMenu/IGLDropDownMenu.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Parse/Parse.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/StepSlider/StepSlider.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/rubber-range-picker/rubber_range_picker.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

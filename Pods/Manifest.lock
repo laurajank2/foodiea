@@ -7,7 +7,6 @@ PODS:
   - GoogleMaps/Maps (7.0.0):
     - GoogleMaps/Base
   - GooglePlaces (7.0.0)
-  - IGLDropDownMenu (1.6.2)
   - MKDropdownMenu (1.4)
   - Parse (1.19.3):
     - Parse/Core (= 1.19.3)
@@ -15,16 +14,19 @@ PODS:
     - Bolts/Tasks (= 1.9.1)
   - Parse/UI (1.19.3):
     - Parse/Core
+  - rubber-range-picker (0.8.1)
+  - StepSlider (1.8.0)
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
   - DateTools
   - GoogleMaps (= 7.0.0)
   - GooglePlaces (= 7.0.0)
-  - IGLDropDownMenu
   - MKDropdownMenu
   - Parse
   - Parse/UI
+  - rubber-range-picker
+  - StepSlider (~> 1.8.0)
   - "UITextView+Placeholder"
 
 SPEC REPOS:
@@ -33,9 +35,10 @@ SPEC REPOS:
     - DateTools
     - GoogleMaps
     - GooglePlaces
-    - IGLDropDownMenu
     - MKDropdownMenu
     - Parse
+    - rubber-range-picker
+    - StepSlider
     - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
@@ -43,11 +46,12 @@ SPEC CHECKSUMS:
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   GoogleMaps: 6e9c923ca035989709fcb5771544fda4cc5fa2a4
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
-  IGLDropDownMenu: ae118618ae858fa66ce7c2ac80ed9124a710b228
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
+  rubber-range-picker: e9a1c4eebb783a016f62f46f056aac1cf53ae38c
+  StepSlider: 890db727e779fa99cb32afffc5887c1109e151f4
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: da3ee50e45e4ad1fe4d3e5e1dd0b075ba6512c11
+PODFILE CHECKSUM: 69200a73ac5242d61018b3150b190c88b7a49db0
 
 COCOAPODS: 1.11.3

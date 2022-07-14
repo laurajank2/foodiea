@@ -127,11 +127,10 @@
                             if(self.distance != 0.000000) {
                                 NSLog(@"%@", post.longitude);
                                     CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
-                                CLLocation *restaurantSecondLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
+                                CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
                                 //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
-                                CLLocationDistance distanceInMeters = [restaurantSecondLocation distanceFromLocation:restaurantLocation];
-
-                                NSLog(@"%f", distanceInMeters);
+                                CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
+                                NSLog(@"%f", distanceInMeters/1609.344);
                                 if(distanceInMeters/1609.344 <= self.distance) {
                                     [followedPosts addObject:post];
                                 }
@@ -173,6 +172,14 @@
     self.distance = distance;
     NSLog(@"This was returned from ViewControllerB %f", self.distance);
     NSLog(@"This was returned from ViewControllerB %f", distance);
+}
+
+- (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude {
+    self.userLong = longitude;
+}
+
+- (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude {
+    self.userLat = latitude;
 }
 
 #pragma mark - Navigation

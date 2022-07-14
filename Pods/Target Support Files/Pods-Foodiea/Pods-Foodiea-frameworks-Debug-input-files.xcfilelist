@@ -1,7 +1,8 @@
 ${PODS_ROOT}/Target Support Files/Pods-Foodiea/Pods-Foodiea-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework
 ${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework
-${BUILT_PRODUCTS_DIR}/IGLDropDownMenu/IGLDropDownMenu.framework
 ${BUILT_PRODUCTS_DIR}/MKDropdownMenu/MKDropdownMenu.framework
 ${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
+${BUILT_PRODUCTS_DIR}/StepSlider/StepSlider.framework
 ${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework
+${BUILT_PRODUCTS_DIR}/rubber-range-picker/rubber_range_picker.framework
