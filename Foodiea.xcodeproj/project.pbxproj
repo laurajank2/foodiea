@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4123AEE173DACED6F6208B24 /* Pods_Foodiea_FoodieaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F861162F6636CE809A90D67C /* Pods_Foodiea_FoodieaUITests.framework */; };
 		48F4058873487FB93EB1B408 /* Pods_FoodieaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */; };
+		83199ED52880902D002C6850 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83199ED42880902D002C6850 /* Keys.plist */; };
 		833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A642874F3AC004E9D0C /* AppDelegate.m */; };
 		833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A672874F3AC004E9D0C /* SceneDelegate.m */; };
 		833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A6A2874F3AC004E9D0C /* ViewController.m */; };
@@ -60,6 +61,7 @@
 		335A887519EBDA38CC57B49A /* Pods_Foodiea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodiea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodieaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5646AF58FDF83E7A83597CC2 /* Pods-Foodiea-FoodieaUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		83199ED42880902D002C6850 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		833B1A602874F3AC004E9D0C /* Foodiea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodiea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		833B1A632874F3AC004E9D0C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		833B1A642874F3AC004E9D0C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				833B1A742874F3AD004E9D0C /* Info.plist */,
 				833B1AA8287510A2004E9D0C /* Assets.xcassets */,
 				833B1A752874F3AD004E9D0C /* main.m */,
+				83199ED42880902D002C6850 /* Keys.plist */,
 			);
 			path = Foodiea;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83199ED52880902D002C6850 /* Keys.plist in Resources */,
 				833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */,
 				833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */,
 				833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */,

@@ -17,6 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
 
+- (NSString *)getGoogleKey;
+
+- (NSString *)getAppId;
+
+- (NSString *)getClientKey;
+
 @end
 
 NS_ASSUME_NONNULL_END

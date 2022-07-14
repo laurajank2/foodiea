@@ -7,6 +7,7 @@
 
 #import "ComposeViewController.h"
 #import "Post.h"
+#import "APIManager.h"
 @import GooglePlaces;
 
 @interface ComposeViewController () <GMSAutocompleteViewControllerDelegate>

@@ -7,11 +7,12 @@
 
 #import "AppDelegate.h"
 #import "Parse/Parse.h"
+#import "APIManager.h"
 @import GoogleMaps;
 @import GooglePlaces;
 
 @interface AppDelegate ()
-
+@property APIManager *manager;
 @end
 
 @implementation AppDelegate
@@ -19,17 +20,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    self.manager = [[APIManager alloc] init];
+    NSString *appId = [self.manager getAppId];
+    NSString *cKey = [self.manager getClientKey];
     ParseClientConfiguration *config = [ParseClientConfiguration  configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-
-        configuration.applicationId = @"sZPAwUgMAFxx6C6a2GLFrLG5eFOSBw7l6IXzhoyw";
-        configuration.clientKey = @"0sg3h10p9FXbBfS4ZoJs5WxgImFVv1P5jquz95OZ";
+        
+        configuration.applicationId = appId;
+        configuration.clientKey = cKey;
         configuration.server = @"https://parseapi.back4app.com";
     }];
 
     [Parse initializeWithConfiguration:config];
-    [GMSServices provideAPIKey:@"AIzaSyCIRbmt85HhbGUBBsiBFVAL0PikGqPjpaA"];
-    [GMSPlacesClient provideAPIKey: @"AIzaSyCIRbmt85HhbGUBBsiBFVAL0PikGqPjpaA"];
+    NSString *key = [self.manager getGoogleKey];
+    [GMSServices provideAPIKey:key];
+    [GMSPlacesClient provideAPIKey:key];
     
     return YES;
 }
