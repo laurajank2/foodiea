@@ -8,7 +8,6 @@
 #import "HomeCell.h"
 #import "DateTools.h"
 #import "APIManager.h"
-#import "MotionAnimator.h"
 #import <Parse/Parse.h>
 
 @implementation HomeCell
