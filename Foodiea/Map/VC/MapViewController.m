@@ -64,6 +64,14 @@
   self.locSelectMap.hidden = YES;
 
   [self listLikelyPlaces];
+  [self makeMarkers];
+}
+
+-(void)makeMarkers {
+    CLLocationCoordinate2D position = CLLocationCoordinate2DMake(-33.869405, 151.199);
+    GMSMarker *marker = [GMSMarker markerWithPosition:position];
+    marker.title = @"Hello World";
+    marker.map = self.locSelectMap;
 }
 
 // Populate the array with the list of likely places.
