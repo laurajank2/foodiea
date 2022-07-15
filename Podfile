@@ -33,6 +33,8 @@ pod 'GooglePlaces', '7.0.0'
 pod 'StepSlider', '~> 1.8.0'
 pod 'GIFImageView'
 pod 'EnlargedThumbSlider'
+pod 'MotionAnimator'
+
 
   target 'FoodieaTests' do
     inherit! :search_paths

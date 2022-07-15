@@ -8,6 +8,7 @@
 #import "HomeCell.h"
 #import "DateTools.h"
 #import "APIManager.h"
+#import "MotionAnimator.h"
 #import <Parse/Parse.h>
 
 @implementation HomeCell
@@ -39,6 +40,53 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+}
+- (IBAction)didTouchPin:(id)sender {
+    [self animatePinSmall];
+}
+- (IBAction)didTapPin:(id)sender {
+    [UIView animateWithDuration:0.15
+        animations:^{
+            [self animatePinBig];
+        } completion:^(BOOL finished) {
+            [self.homeVC performSegueWithIdentifier:@"detailMapSegue" sender:sender];
+        }
+    ];
+}
+
+-(void) animatePinBig{
+    CABasicAnimation *big = [CABasicAnimation animationWithKeyPath: @"transform.scale.y"];
+    big.fromValue = @0.25;
+    big.toValue = @0.1;
+    self.pinImage.image = [self resizeImageWithNewHeight:self.pinImage.image newWidth:self.pinImage.image.size.width*4];
+    [self.pinImage.layer addAnimation:big forKey:@"transform.scale.y"];
+}
+
+-(void) animatePinSmall {
+    CABasicAnimation *small = [CABasicAnimation animationWithKeyPath: @"transform.scale.y"];
+    small.fromValue = @1;
+    small.toValue = @0.25;
+    small.duration = 0.15;
+    [self.pinImage.layer addAnimation:small forKey:@"transform.scale.y"];
+    self.pinImage.image = [self resizeImageWithNewHeight:self.pinImage.image newWidth:self.pinImage.image.size.width*0.25];
+}
+
+-(UIImage *)resizeImageWithNewHeight:(UIImage *)image newWidth:(CGFloat)nheight {
+
+    float scale = nheight / image.size.height;
+
+    float newWidth = image.size.width * scale;
+
+    UIGraphicsBeginImageContext(CGSizeMake(nheight, newWidth));
+
+    [image drawInRect:CGRectMake(0, 0, nheight, newWidth)];
+
+    UIImage *nImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
+
+    return nImage;
+
 }
 
 - (void)setPost:(Post *)newPost {

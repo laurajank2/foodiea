@@ -359,7 +359,8 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" title=""/>
                                                     <connections>
-                                                        <action selector="didTapPin:" destination="HsN-I0-sO6" eventType="touchUpInside" id="NaM-na-2dU"/>
+                                                        <action selector="didTapPin:" destination="YP9-lq-oyE" eventType="touchUpInside" id="Vbh-Rz-gri"/>
+                                                        <action selector="didTouchPin:" destination="YP9-lq-oyE" eventType="touchDown" id="RfA-G5-1jf"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V3F-iv-YoD">

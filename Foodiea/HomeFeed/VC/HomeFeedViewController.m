@@ -83,6 +83,7 @@
     
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
     Post *post = self.posts[indexPath.row];
+    cell.homeVC = self;
     [cell setPost:post];
     
 
@@ -95,9 +96,11 @@
     
 }
 
-- (IBAction)didTapPin:(id)sender {
-    [self performSegueWithIdentifier:@"detailMapSegue" sender:sender];
-}
+//- (void)didTapPin:(id)sender {
+//    [self performSegueWithIdentifier:@"detailMapSegue" sender:sender];
+//}
+
+
 
 -(void)fetchPosts {
     PFQuery *postQuery = [Post query];

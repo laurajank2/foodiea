@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "Post.h"
 #import "APIManager.h"
+#import "HomeFeedViewController.h"
 @import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL bookmarked;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bookmarkView;
+@property HomeFeedViewController *homeVC;
 
 @end
 
