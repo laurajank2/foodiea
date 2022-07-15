@@ -8,13 +8,15 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (7.0.0)
   - MKDropdownMenu (1.4)
+  - MotionAnimator (5.0.0):
+    - MotionInterchange (~> 4.0)
+  - MotionInterchange (4.0.1)
   - Parse (1.19.3):
     - Parse/Core (= 1.19.3)
   - Parse/Core (1.19.3):
     - Bolts/Tasks (= 1.9.1)
   - Parse/UI (1.19.3):
     - Parse/Core
-  - StepSlider (1.8.0)
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
@@ -22,9 +24,9 @@ DEPENDENCIES:
   - GoogleMaps (= 7.0.0)
   - GooglePlaces (= 7.0.0)
   - MKDropdownMenu
+  - MotionAnimator
   - Parse
   - Parse/UI
-  - StepSlider (~> 1.8.0)
   - "UITextView+Placeholder"
 
 SPEC REPOS:
@@ -34,8 +36,9 @@ SPEC REPOS:
     - GoogleMaps
     - GooglePlaces
     - MKDropdownMenu
+    - MotionAnimator
+    - MotionInterchange
     - Parse
-    - StepSlider
     - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
@@ -44,10 +47,11 @@ SPEC CHECKSUMS:
   GoogleMaps: 6e9c923ca035989709fcb5771544fda4cc5fa2a4
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
+  MotionAnimator: af4b2f0c5e55c58e2f55208c1cafed410c75afb6
+  MotionInterchange: d58704efd5dcd62c6535bc1081df832533a8e9b9
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
-  StepSlider: 890db727e779fa99cb32afffc5887c1109e151f4
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: 1fa990cf3098e989c4d917273936fca76fd5f2e2
+PODFILE CHECKSUM: 95673159b4418ff25825c02f28583cd0f49cc468
 
 COCOAPODS: 1.11.3
