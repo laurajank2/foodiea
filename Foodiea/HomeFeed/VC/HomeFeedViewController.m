@@ -32,6 +32,11 @@
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
+//    if(self.user == nil) {
+//        self.user = [PFUser currentUser];
+//    }
+//    NSLog(@"%@", self.user);
+    [self chooseFetch];
     
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -121,49 +126,56 @@
     // fetch data asynchronously
     [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            // all posts in descending order
-            allPosts = posts;
-            PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
-            // generate a query based on that relation
-            PFQuery *query = [relation query];
-            [query findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
-                if (users != nil) {
-                    // get users and make a mutable array of ids
-                    NSMutableArray *userIds = [NSMutableArray new];
-                    for (PFUser *user in users){
-                        [userIds addObject:user.objectId];
-                    }
-                    //make a set of the userids
-                    followedUsers = [NSSet setWithArray:[userIds copy]];
-                    //check if posts have an author you follow
-                    for (Post *post in allPosts) {
-                        //if so, add them to followed posts
-                        if([followedUsers containsObject:post.author.objectId]) {
-                            NSLog(@"%f", self.distance);
-                            if(self.distance != 0.000000) {
-                                NSLog(@"%@", post.longitude);
-                                    CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
-                                CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
-                                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
-                                CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
-                                NSLog(@"%f", distanceInMeters/1609.344);
-                                if(distanceInMeters/1609.344 <= self.distance) {
+            if(self.subFeed == 0) {
+                // all posts in descending order
+                allPosts = posts;
+                PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+                // generate a query based on that relation
+                PFQuery *query = [relation query];
+                [query findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+                    if (users != nil) {
+                        // get users and make a mutable array of ids
+                        NSMutableArray *userIds = [NSMutableArray new];
+                        for (PFUser *user in users){
+                            [userIds addObject:user.objectId];
+                        }
+                        //make a set of the userids
+                        followedUsers = [NSSet setWithArray:[userIds copy]];
+                        //check if posts have an author you follow
+                        for (Post *post in allPosts) {
+                            //if so, add them to followed posts
+                            if([followedUsers containsObject:post.author.objectId]) {
+                                NSLog(@"%f", self.distance);
+                                if(self.distance != 0.000000) {
+                                    NSLog(@"%@", post.longitude);
+                                        CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+                                    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
+                                    //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
+                                    CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
+                                    NSLog(@"%f", distanceInMeters/1609.344);
+                                    if(distanceInMeters/1609.344 <= self.distance) {
+                                        [followedPosts addObject:post];
+                                    }
+                                } else {
                                     [followedPosts addObject:post];
                                 }
-                            } else {
-                                [followedPosts addObject:post];
+                                
                             }
-                            
                         }
+                        self.posts = [followedPosts copy];
+                        
+                        [self.homeFeedTableView reloadData];
+                        [self.refreshControl endRefreshing];
+                    } else {
+                        NSLog(@"%@", error.localizedDescription);
                     }
-                    self.posts = [followedPosts copy];
-                    [self.homeFeedTableView reloadData];
-                    [self.refreshControl endRefreshing];
-                } else {
-                    NSLog(@"%@", error.localizedDescription);
-                }
-            }];
-            
+                }];
+            } else {
+                NSLog(@"%@", posts);
+                self.posts = posts;
+                [self.homeFeedTableView reloadData];
+                [self.refreshControl endRefreshing];
+            }
             
         } else {
             NSLog(@"%@", error.localizedDescription);
