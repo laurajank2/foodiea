@@ -6,14 +6,12 @@
 //
 
 #import "FilterViewController.h"
-#import "StepSlider.h"
 @import GooglePlaces;
 
 @interface FilterViewController () <GMSAutocompleteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceCtrl;
 @property (weak, nonatomic) IBOutlet UISlider *distanceCtrl;
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
-@property (weak, nonatomic) IBOutlet StepSlider *coolSlider;
 @property NSString *price;
 @property double distance;
 @property double startLatitude;
@@ -29,7 +27,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self makeButton];
-    [self makeSlider];
 }
 
 - (IBAction)onPriceChange:(id)sender {
@@ -47,15 +44,6 @@
     [self.delegate passLatitude:self didFinishEnteringLatitude:self.startLatitude];
     [self.delegate refresh];
     
-}
-
--(void) makeSlider {
-    [self.coolSlider setMaxCount:10];
-    [self.coolSlider setIndex:10];
-    self.coolSlider.labels = @[@"0 miles", @"25 miles", @"50 miles"];
-    UIColor* const lightBlue = [[UIColor alloc] initWithRed:21.0f/255 green:180.0f/255  blue:1 alpha:1];//;#15B4FF
-    self.coolSlider.sliderCircleColor = lightBlue;
-    [self.view addSubview:self.coolSlider];
 }
 
 // Add a button to the view.

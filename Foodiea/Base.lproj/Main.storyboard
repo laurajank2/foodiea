@@ -260,16 +260,6 @@
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q3E-Ni-kvB" customClass="StepSlider">
-                                <rect key="frame" x="45" y="430" width="310" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ca8-ix-dga" customClass="JellySlider" customModule="JellySlider">
-                                <rect key="frame" x="45" y="496" width="310" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fIf-47-ntZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -277,7 +267,6 @@
                     <navigationItem key="navigationItem" id="Xx5-wJ-yJR"/>
                     <connections>
                         <outlet property="btnLaunchAc" destination="pHU-hr-A1s" id="HKm-jW-T7a"/>
-                        <outlet property="coolSlider" destination="q3E-Ni-kvB" id="bk5-oG-Wwh"/>
                         <outlet property="distanceCtrl" destination="e0F-eS-uea" id="WJu-nz-MJB"/>
                         <outlet property="priceCtrl" destination="caN-hB-IPV" id="u59-HV-fvI"/>
                     </connections>
