@@ -7,6 +7,7 @@
 
 #import "ComposeViewController.h"
 #import "Post.h"
+#import "APIManager.h"
 @import GooglePlaces;
 
 @interface ComposeViewController () <GMSAutocompleteViewControllerDelegate>
@@ -78,27 +79,57 @@
 }
 
 - (IBAction)didTapShare:(id)sender {
-    CGFloat width = self.postImage.bounds.size.width * 10;
-    CGFloat height = self.postImage.bounds.size.height * 10;
-    CGSize newSize = CGSizeMake(width, height);
-    NSString *selectedPrice = [self.priceSegControl titleForSegmentAtIndex:self.priceSegControl.selectedSegmentIndex];
-    [Post postUserImage:[self resizeImage:self.postImage.image withSize:newSize]
-        restaurantName: self.restaurantName.text
-        restaurantPrice:selectedPrice
-        withCaption: self.postCaption.text
-        postDate: self.postDatePicker.date
-        postLongitude: [NSNumber numberWithFloat:self.postLocation.coordinate.longitude]
-        postLatitude: [NSNumber numberWithFloat:self.postLocation.coordinate.latitude]
-        postAddress: self.locationLabel.text
-        withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
-        if(succeeded) {
-            NSLog(@"Successfully posted image!");
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        } else {
-            NSLog(@"Error posting image: %@", error);
-        }
-    }];
+    if(![self checkCompletion]) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Incomplete Information"
+                                                                                 message:@"Please fill out all fields before posting."
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        //We add buttons to the alert controller by creating UIAlertActions:
+        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil]; //You can use a block here to handle a press on this button
+        [alertController addAction:actionOk];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        CGFloat width = self.postImage.bounds.size.width * 10;
+        CGFloat height = self.postImage.bounds.size.height * 10;
+        CGSize newSize = CGSizeMake(width, height);
+        NSString *selectedPrice = [self.priceSegControl titleForSegmentAtIndex:self.priceSegControl.selectedSegmentIndex];
+        [Post postUserImage:[self resizeImage:self.postImage.image withSize:newSize]
+            restaurantName: self.restaurantName.text
+            restaurantPrice:selectedPrice
+            withCaption: self.postCaption.text
+            postDate: self.postDatePicker.date
+            postLongitude: [NSNumber numberWithFloat:self.postLocation.coordinate.longitude]
+            postLatitude: [NSNumber numberWithFloat:self.postLocation.coordinate.latitude]
+            postAddress: self.locationLabel.text
+            withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
+            if(succeeded) {
+                NSLog(@"Successfully posted image!");
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            } else {
+                NSLog(@"Error posting image: %@", error);
+            }
+        }];
+    }
+    
+}
+
+-(BOOL)checkCompletion {
+    
+    if(self.postImage.image == nil) {
+        return NO;
+    }
+    if([self.restaurantName.text isEqualToString: @""]){
+        return NO;
+    }
+    if([self.postCaption.text isEqualToString: @""]){
+        return NO;
+    }
+    if([self.locationLabel.text isEqualToString: @""]){
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - Loc Picker
@@ -132,13 +163,6 @@
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didAutocompleteWithPlace:(GMSPlace *)place {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // Do something with the selected place.
-    NSLog(@"Place name %@", place.name);
-    NSLog(@"Place ID %@", place.placeID);
-    NSLog(@"Place address %@", place.formattedAddress);
-    NSLog(@"Place coordinate %f", place.coordinate.latitude);
-    NSLog(@"Place coordinate %f", place.coordinate.longitude);
-    NSLog(@"Place attributions %@", place.attributions.string);
     self.locationLabel.text = place.formattedAddress;
     self.postLocation = place;
 }

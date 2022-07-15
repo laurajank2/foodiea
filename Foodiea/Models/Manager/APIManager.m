@@ -21,6 +21,23 @@
     }];
 }
 
+#pragma mark - Parse Queries
+
+- (void)fetchUsers:(void (^)(id, int))gotUsersBlock {
+    PFQuery *userQuery = [PFUser query];
+    [userQuery includeKey:@"author"];
+    userQuery.limit = 20;
+
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+        if (users != nil) {
+            // do something with the array of object returned by the call
+            gotUsersBlock;
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
 - (NSArray *)queryPosts: (PFQuery * _Nullable)postQuery {
     __block NSArray *profilePosts;
     [postQuery orderByDescending:@"createdAt"];
@@ -54,6 +71,32 @@
     }
     
     return [PFFileObject fileObjectWithName:@"image.png" data:imageData];
+}
+
+#pragma mark - keys
+
+- (NSString *)getGoogleKey{
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSString *key = [dict objectForKey: @"GOOGLE_API_KEY"];
+    
+    return key;
+}
+
+- (NSString *)getAppId{
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSString *appId = [dict objectForKey: @"app_id"];
+    
+    return appId;
+}
+
+- (NSString *)getClientKey{
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSString *cKey = [dict objectForKey: @"client_key"];
+    
+    return cKey;
 }
 
 @end

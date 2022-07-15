@@ -8,5 +8,8 @@
 #import "ProfileCell.h"
 
 @implementation ProfileCell
+- (IBAction)getUserFeed:(id)sender {
+    [self.profileVC performSegueWithIdentifier:@"profileHomeSegue" sender:sender];
+}
 
 @end

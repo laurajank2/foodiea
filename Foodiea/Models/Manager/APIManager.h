@@ -13,9 +13,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)saveUserInfo: (PFUser * _Nullable) user;
 
+- (void)fetchUsers:(void (^)(id, int))gotUsersBlock;
+
 - (NSArray *)queryPosts: (PFQuery * _Nullable)postQuery;
 
 - (PFFileObject *)getPFFileFromImage: (UIImage * _Nullable)image;
+
+- (NSString *)getGoogleKey;
+
+- (NSString *)getAppId;
+
+- (NSString *)getClientKey;
 
 @end
 

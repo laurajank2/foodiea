@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4123AEE173DACED6F6208B24 /* Pods_Foodiea_FoodieaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F861162F6636CE809A90D67C /* Pods_Foodiea_FoodieaUITests.framework */; };
 		48F4058873487FB93EB1B408 /* Pods_FoodieaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */; };
+		83199ED52880902D002C6850 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83199ED42880902D002C6850 /* Keys.plist */; };
 		833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A642874F3AC004E9D0C /* AppDelegate.m */; };
 		833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A672874F3AC004E9D0C /* SceneDelegate.m */; };
 		833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A6A2874F3AC004E9D0C /* ViewController.m */; };
@@ -60,6 +61,7 @@
 		335A887519EBDA38CC57B49A /* Pods_Foodiea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodiea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodieaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5646AF58FDF83E7A83597CC2 /* Pods-Foodiea-FoodieaUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		83199ED42880902D002C6850 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		833B1A602874F3AC004E9D0C /* Foodiea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodiea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		833B1A632874F3AC004E9D0C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		833B1A642874F3AC004E9D0C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -164,6 +166,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		83199ED62880972D002C6850 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				83F5570E287646E9003D4502 /* Post.h */,
+				83F5570F287646E9003D4502 /* Post.m */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		83199EDB2880E2F3002C6850 /* Unused MapControllers */ = {
+			isa = PBXGroup;
+			children = (
+				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
+				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
+				83B9F249287CC78C00C05A5B /* MapViewController.m */,
+				83B9F248287CC78C00C05A5B /* MapViewController.h */,
+			);
+			path = "Unused MapControllers";
+			sourceTree = "<group>";
+		};
 		833B1A572874F3AC004E9D0C = {
 			isa = PBXGroup;
 			children = (
@@ -192,7 +214,6 @@
 				833D32DF287F41E70025C56E /* Filter */,
 				833D32D6287E30880025C56E /* FindUser */,
 				83EEF63E287C9461006DAA80 /* DetailMap */,
-				83EEF6362878D13D006DAA80 /* Manager */,
 				83EEF6342878D0FB006DAA80 /* Posting */,
 				83EEF6332878D0EC006DAA80 /* Login */,
 				83EEF62F2878D0A0006DAA80 /* Profile */,
@@ -205,6 +226,7 @@
 				833B1A742874F3AD004E9D0C /* Info.plist */,
 				833B1AA8287510A2004E9D0C /* Assets.xcassets */,
 				833B1A752874F3AD004E9D0C /* main.m */,
+				83199ED42880902D002C6850 /* Keys.plist */,
 			);
 			path = Foodiea;
 			sourceTree = "<group>";
@@ -366,6 +388,7 @@
 		83EEF6342878D0FB006DAA80 /* Posting */ = {
 			isa = PBXGroup;
 			children = (
+				83199EDB2880E2F3002C6850 /* Unused MapControllers */,
 				83EEF6352878D11E006DAA80 /* VC */,
 			);
 			path = Posting;
@@ -376,10 +399,6 @@
 			children = (
 				833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */,
 				833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */,
-				83B9F248287CC78C00C05A5B /* MapViewController.h */,
-				83B9F249287CC78C00C05A5B /* MapViewController.m */,
-				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
-				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
 			);
 			path = VC;
 			sourceTree = "<group>";
@@ -413,8 +432,8 @@
 		83F5570D287646C7003D4502 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				83F5570E287646E9003D4502 /* Post.h */,
-				83F5570F287646E9003D4502 /* Post.m */,
+				83199ED62880972D002C6850 /* Post */,
+				83EEF6362878D13D006DAA80 /* Manager */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -529,6 +548,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83199ED52880902D002C6850 /* Keys.plist in Resources */,
 				833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */,
 				833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */,
 				833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */,

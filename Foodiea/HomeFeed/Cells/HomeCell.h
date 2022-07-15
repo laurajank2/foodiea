@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *postCaption;
 @property (weak, nonatomic) IBOutlet UIImageView *pinImage;
 @property (weak, nonatomic) Post *post;
+@property (weak, nonatomic) PFUser *author;
 @property APIManager *manager;
 @property BOOL bookmarked;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;

@@ -15,28 +15,41 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
     self.manager = [[APIManager alloc] init];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+}
 
-    // Configure the view for the selected state
+-(void)fetchUser:(NSString * _Nullable)objectId {
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:objectId];
+
+    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+        if (users != nil) {
+            // do something with the array of object returned by the call
+            for (PFUser *currUser in users) {
+                self.author = currUser;
+            }
+            self.usernameLabel.text = self.author.username;
+            self.userImage.file = self.author[@"profileImage"];
+            [self.userImage loadInBackground];
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)setPost:(Post *)newPost {
-    //maybe should be _post
     _post = newPost;
-    //self.postImage.file = post[@"image"];
-    //[self.postImage loadInBackground];
+    [self fetchUser:self.post.author.objectId];
     self.postCaption.text = self.post[@"caption"];
-    self.usernameLabel.text = self.post.author.username;
+    NSLog(@"%@", self.author);
     NSDate *dateVisited = self.post[@"date"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"EEEE, MMMM dd yyyy"];
 
-    //Optionally for time zone conversions
     [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
 
     NSString *dateString = [formatter stringFromDate:dateVisited];
@@ -47,8 +60,7 @@
     //image
     self.postImage.file = self.post[@"picture"];
     [self.postImage loadInBackground];
-    self.userImage.file = self.post.author[@"profileImage"];
-    [self.userImage loadInBackground];
+    
     
     //double tap bookmark
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
@@ -66,13 +78,7 @@
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if ([posts count] != 0) {
-            // do something with the array of object returned by the call
-            NSLog(@"%@", posts);
             for (Post* potential in posts) {
-                NSLog(@"potential");
-                NSLog(@"%@", potential);
-                NSLog(@"%@", potential.objectId);
-                NSLog(@"%@", self.post.objectId);
                 if ([potential.objectId isEqualToString:self.post.objectId]) {
                     NSLog(@"bookmarked");
                     NSString *imageName = @"bookmark-full.png";
@@ -88,12 +94,9 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
-    NSLog(@"bookmark query");
 }
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
-    //Code to handle the gesture
-    NSLog(@"tapped");
     if(self.bookmarked) {
         PFUser *user = [PFUser currentUser];
         PFRelation *relation = [user relationForKey:@"bookmarks"];
@@ -114,29 +117,5 @@
         self.bookmarked = YES;
     }
 }
-
-//-(BOOL)isBookmarked {
-//    __block BOOL isBookmarked = NO;
-//    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
-//    // generate a query based on that relation
-//    PFQuery *query = [relation query];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-//        if ([posts count] != 0) {
-//            // do something with the array of object returned by the call
-//            NSLog(@"%@", posts);
-//            for (Post* potential in posts) {
-//                if ([potential.objectId isEqualToString:self.post.objectId]) {
-//                    isBookmarked = true;
-//                    break;
-//                }
-//                // do stuff
-//            }
-//        } else {
-//            NSLog(@"no bookmarks");
-//            NSLog(@"%@", error.localizedDescription);
-//        }
-//    }];
-//    return isBookmarked;
-//}
 
 @end

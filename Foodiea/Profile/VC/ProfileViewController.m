@@ -10,6 +10,7 @@
 #import "Post.h"
 #import "ProfileCell.h"
 #import "APIManager.h"
+#import "HomeFeedViewController.h"
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
@@ -23,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fav1;
 @property (weak, nonatomic) IBOutlet UIButton *fav2;
 @property (weak, nonatomic) IBOutlet UIButton *fav3;
+@property int penOrMark;
 @property APIManager *manager;
 @end
 
@@ -30,7 +32,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.manager = [[APIManager alloc] init];
     
     [self filloutUser];
@@ -42,21 +43,18 @@
 -(void)filloutUser {
     [self.profileImage.layer setBorderColor: [[UIColor blackColor] CGColor]];
     [self.profileImage.layer setBorderWidth: 1.5];
-    // Do any additional setup after loading the view.
     self.profileFeed.dataSource = self;
     self.profileFeed.delegate = self;
     self.username.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
-    NSLog(@"@%@", self.user[@"fav_1"]);
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
     [self.fav3 setTitle:self.user[@"fav3"] forState:UIControlStateNormal];
-    NSLog(@"profileImage");
-    NSLog(@"%@", self.user[@"profileImage"]);
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
     [self fetchPosts];
+    self.penOrMark = 0;
     
     
     
@@ -66,7 +64,6 @@
     NSLog(@"setRight");
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self.rightNavBtn setTitle:@"Settings" forState:UIControlStateNormal];
-        NSLog(@"button");
     } else {
         if(self.followed) {
             [self.rightNavBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
@@ -81,7 +78,6 @@
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
     } else {
-        NSLog(@"clicked follow");
         if (self.followed) {
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
@@ -102,9 +98,11 @@
 
 - (IBAction)didTapBookmark:(id)sender {
     [self fetchBookmarked];
+    self.penOrMark = 1;
 }
 - (IBAction)didTapPencil:(id)sender {
     [self fetchPosts];
+    self.penOrMark = 0;
 }
 
 - (void)fetchPosts {
@@ -119,8 +117,6 @@
         if (posts != nil) {
             // do something with the array of object returned by the call
             self.profilePosts = posts;
-            NSLog(@"the posts:");
-            NSLog(@"%@", self.profilePosts);
             [self.profileFeed reloadData];
             
         } else {
@@ -130,7 +126,6 @@
 }
 
 - (void)fetchBookmarked {
-    NSLog(@"%@", self.user);
     PFRelation *relation = [self.user relationForKey:@"bookmarks"];
     [[relation query] findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
         if (error) {
@@ -139,8 +134,6 @@
         } else {
             // objects has all the Posts the current user liked.
             self.profilePosts = posts;
-            NSLog(@"the posts:");
-            NSLog(@"%@", posts);
             [self.profileFeed reloadData];
         }
     }];
@@ -159,6 +152,7 @@
     //image
     cell.profileCellImage.file = post[@"picture"];
     [cell.profileCellImage loadInBackground];
+    cell.profileVC = self;
     return cell;
 }
 
@@ -169,21 +163,12 @@
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if ([posts count] != 0) {
-            // do something with the array of object returned by the call
-            NSLog(@"%@", posts);
             for (PFUser* potential in posts) {
-                NSLog(@"potential");
-                NSLog(@"%@", potential);
-                NSLog(@"%@", potential.objectId);
-                NSLog(@"%@", self.user.objectId);
                 if ([potential.objectId isEqualToString:self.user.objectId]) {
                     self.followed = YES;
-                    NSLog(@"followed");
-                    NSLog(@"%i",self.followed);
                     [self setRightNavBtn];
                     break;
                 }
-                // do stuff
             }
             [self setRightNavBtn];
         } else {
@@ -195,14 +180,20 @@
     NSLog(@"setFollowedquery");
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"profileHomeSegue"]) {
+        HomeFeedViewController *feedVC = [segue destinationViewController];
+        feedVC.subFeed = 1 + self.penOrMark;
+        feedVC.user = self.user;
+        NSLog(@"%@", self.user.username);
+    }
 }
-*/
+
 
 @end

@@ -13,12 +13,12 @@
 #import "ProfileViewController.h"
 #import "FilterViewController.h"
 
-
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate>
 @property (nonatomic, strong) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
+@property (weak, nonatomic) IBOutlet UIButton *searchBtn;
+@property (weak, nonatomic) IBOutlet UIButton *profileBtn;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) CLLocationManager *locationManager;
 @property NSString *price;
 @property double userLat;
 @property double userLong;
@@ -29,41 +29,46 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self locationManagement];
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
-    NSLog(@"%f", self.distance);
-    [self fetchPosts];
+    
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(fetchPosts) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(chooseFetch) forControlEvents:UIControlEventValueChanged];
     [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
+    [self setNavBtns];
 
 }
 
--(void)locationManagement {
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-        [self.locationManager requestWhenInUseAuthorization];
-    
-    [self.locationManager startUpdatingLocation];
-    CLLocation *userLocation = [self.locationManager location];
-    CLLocationCoordinate2D coordinate = [userLocation coordinate];
-    NSLog(@"%f", coordinate.latitude);
-    NSLog(@"%f", coordinate.longitude);
-    self.userLat = coordinate.latitude;
-    self.userLong = coordinate.longitude;
-    [self.locationManager stopUpdatingLocation];
+-(void)setNavBtns {
+    if(self.subFeed > 0){
+        [self.profileBtn setTitle:@"" forState:UIControlStateNormal];
+        
+        self.navigationItem.leftBarButtonItem = nil;
+        //self.navigationItem.hidesBackButton = true
+    }
+}
+
+- (void)fetchBookmarked {
+    NSLog(@"%@",self.user.username);
+    PFRelation *relation = [self.user relationForKey:@"bookmarks"];
+    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
+        if (error) {
+            // There was an error
+            NSLog(@"%@", error.localizedDescription);
+        } else {
+            // objects has all the Posts the current user liked.
+            self.posts = posts;
+            NSLog(@"%@",posts);
+            [self.homeFeedTableView reloadData];
+        }
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    [self fetchPosts];
+    [self chooseFetch];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -83,8 +88,11 @@
 
     return cell;
 }
+
+
 - (IBAction)didTapUserImage:(id)sender {
     [self performSegueWithIdentifier:@"profileSegue" sender:sender];
+    
 }
 
 - (IBAction)didTapPin:(id)sender {
@@ -97,6 +105,10 @@
     [postQuery includeKey:@"author"];
     if(self.price != nil) {
         [postQuery whereKey:@"price" equalTo:self.price];
+    }
+    if(self.subFeed == 1) {
+        [postQuery whereKey:@"author" equalTo:self.user];
+        NSLog(@"%@", self.user);
     }
     postQuery.limit = 20;
     __block NSArray *allPosts;
@@ -124,6 +136,7 @@
                     for (Post *post in allPosts) {
                         //if so, add them to followed posts
                         if([followedUsers containsObject:post.author.objectId]) {
+                            NSLog(@"%f", self.distance);
                             if(self.distance != 0.000000) {
                                 NSLog(@"%@", post.longitude);
                                     CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
@@ -157,6 +170,14 @@
     
    
 }
+
+-(void)chooseFetch {
+    if(self.subFeed < 2) {
+        [self fetchPosts];
+    } else {
+        [self fetchBookmarked];
+    }
+}
 #pragma mark - delegate
 
 //- (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item {
@@ -170,8 +191,6 @@
 }
 - (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance {
     self.distance = distance;
-    NSLog(@"This was returned from ViewControllerB %f", self.distance);
-    NSLog(@"This was returned from ViewControllerB %f", distance);
 }
 
 - (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude {
@@ -181,14 +200,29 @@
 - (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude {
     self.userLat = latitude;
 }
+- (void) refresh {
+    [self chooseFetch];
+}
 
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
-    [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
+    NSLog(@"%i",self.subFeed);
+    if(self.subFeed != 1) {
+        [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
+    }
+}
+
+-(void)findUser {
+    if(self.subFeed != 1) {
+        [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+    }
 }
 - (IBAction)didTapFindUser:(id)sender {
-    [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+    NSLog(@"%i",self.subFeed);
+    if(self.subFeed != 1) {
+        [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
+    }
 }
 - (IBAction)didTapFilter:(id)sender {
     [self performSegueWithIdentifier:@"profileFilterSegue" sender:nil];
@@ -222,7 +256,6 @@
         ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
         profileVC.user = userToPass;
     } else if ([[segue identifier] isEqualToString:@"findUserSegue"]) {
-        NSLog(@"find user");
     } else if ([[segue identifier] isEqualToString:@"profileFilterSegue"]) {
         FilterViewController *filterVC = [segue destinationViewController];
         filterVC.delegate = self;
