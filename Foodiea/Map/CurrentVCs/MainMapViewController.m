@@ -14,6 +14,7 @@
 @property GMSMapView *mapView;
 @property (nonatomic, strong) NSArray *posts;
 @property GMSCameraPosition *camera;
+@property GMSVisibleRegion visible;
 
 @end
 
@@ -22,14 +23,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [super viewDidLoad];
-    [self fetchPosts];
+    [self setUpMap];
 }
 
 -(void)fetchPosts {
+    int minLat = MIN(self.visible.nearRight.latitude, self.visible.farLeft.latitude);
+    int maxLat = MAX(self.visible.nearRight.latitude, self.visible.farLeft.latitude);
+    int minLong = MIN(self.visible.nearRight.longitude, self.visible.farLeft.longitude);
+    int maxLong = MAX(self.visible.nearRight.longitude, self.visible.farLeft.longitude);
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
+    NSLog(@"%i", minLat);
+    NSLog(@"%i", minLong);
+    NSLog(@"%i", maxLat);
+    NSLog(@"%i", maxLong);
+    [postQuery whereKey:@"latitude" greaterThan:[NSNumber numberWithInt:minLat]];
+    [postQuery whereKey:@"latitude" lessThan:[NSNumber numberWithInt:maxLat]];
+    [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithInt:minLong]];
+    [postQuery whereKey:@"longitude" lessThan:[NSNumber numberWithInt:maxLong]];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
@@ -40,6 +52,7 @@
         if (posts != nil) {
                 // all posts in descending order
                 allPosts = posts;
+                NSLog(@"%@", posts);
                 PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
                 // generate a query based on that relation
                 PFQuery *query = [relation query];
@@ -53,21 +66,14 @@
                         //make a set of the userids
                         followedUsers = [NSSet setWithArray:[userIds copy]];
                         //check if posts have an author you follow
-                        BOOL first = YES;
                         for (Post *post in allPosts) {
                             //if so, add them to followed posts
                             if([followedUsers containsObject:post.author.objectId]) {
                                 [followedPosts addObject:post];
-                                if (first) {
-                                    self.camera = [GMSCameraPosition cameraWithLatitude:[post.latitude doubleValue]
-                                                                                            longitude:[post.latitude doubleValue]
-                                                                                                 zoom:3];
-                                    first = NO;
-                                }
                             }
                         }
                         self.posts = [followedPosts copy];
-                        [self setUpMap];
+                        [self makeMarkers];
                     } else {
                         NSLog(@"%@", error.localizedDescription);
                     }
@@ -91,10 +97,11 @@
 }
 
 -(void)setUpMap{
+    self.camera = [GMSCameraPosition cameraWithLatitude:37.7749 longitude:-122.4194 zoom:3];
     self.mapView = [GMSMapView mapWithFrame:self.view.frame camera:self.camera];
-    self.mapView.myLocationEnabled = YES;
     [self.view addSubview:self.mapView];
-    [self makeMarkers];
+    self.visible = [self.mapView.projection visibleRegion];
+    [self fetchPosts];
 }
 
 
