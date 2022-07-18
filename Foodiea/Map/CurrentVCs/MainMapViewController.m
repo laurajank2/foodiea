@@ -47,7 +47,6 @@
         if (posts != nil) {
                 // all posts in descending order
                 allPosts = posts;
-                NSLog(@"%@", posts);
                 PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
                 // generate a query based on that relation
                 PFQuery *query = [relation query];
@@ -107,7 +106,6 @@
         if (posts != nil) {
                 // all posts in descending order
                 allPosts = posts;
-                NSLog(@"%@", posts);
                 PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
                 // generate a query based on that relation
                 PFQuery *query = [relation query];
