@@ -177,7 +177,7 @@
 didAutocompleteWithPlace:(GMSPlace *)place {
     [self dismissViewControllerAnimated:YES completion:nil];
     self.locationLabel.text = place.name;
-    self.user[@"expertiseLoc"] = place.name;
+    self.user[@"location"] = place.name;
     self.user[@"expertiseLat"] = [NSNumber numberWithDouble:place.coordinate.latitude];
     self.user[@"expertiseLong"] = [NSNumber numberWithDouble:place.coordinate.longitude];
     [self.manager saveUserInfo:self.user];

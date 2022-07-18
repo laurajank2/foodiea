@@ -49,7 +49,7 @@
     self.username.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
-    self.expertLoc.text = self.user[@"expertiseLoc"];
+    self.expertLoc.text = self.user[@"location"];
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
     [self.fav3 setTitle:self.user[@"fav3"] forState:UIControlStateNormal];

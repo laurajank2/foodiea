@@ -10,14 +10,18 @@
 #import "FindUserCell.h"
 #import "ProfileViewController.h"
 #import "APIManager.h"
+#import "SearchFilterViewController.h"
 
-@interface FIndUserViewController ()<UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface FIndUserViewController ()<SearchFilterViewControllerDelegate, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property NSArray *searchedUsers;
 @property NSArray *filteredSearchedUsers;
 @property (weak, nonatomic) IBOutlet UITableView *usersTableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *userSearchBar;
 @property APIManager *manager;
+@property NSString *price;
+@property NSString *searchBy;
+
 @end
 
 @implementation FIndUserViewController
@@ -32,6 +36,9 @@
     [self fetchUsers];
 }
 
+- (IBAction)didTapFilter:(id)sender {
+    [self performSegueWithIdentifier:@"searchFilterSegue" sender:sender];
+}
 
 - (void)fetchUsers {
     PFQuery *userQuery = [PFUser query];
@@ -73,11 +80,11 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
+    NSLog(@"%@", self.searchBy);
     if (searchText.length != 0) {
         
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(PFUser *evaluatedUser, NSDictionary *bindings) {
-            return [evaluatedUser[@"username"] containsString:searchText];
+            return [evaluatedUser[self.searchBy] containsString:searchText];
         }];
         self.filteredSearchedUsers = [self.searchedUsers filteredArrayUsingPredicate:predicate];
         
@@ -88,6 +95,18 @@
     
     [self.usersTableView reloadData];
  
+}
+
+#pragma mark - delegate
+
+- (void)passPrice:(SearchFilterViewController *)controller didFinishEnteringPrice:(NSString *)price {
+    self.price = price;
+}
+- (void)passSearch:(SearchFilterViewController *)controller didFinishEnteringSearch:(NSString *)searchBy {
+    self.searchBy = searchBy;
+}
+- (void) refresh {
+    [self fetchUsers];
 }
 
 
@@ -104,6 +123,11 @@
         UINavigationController *navController = [segue destinationViewController];
         ProfileViewController *profileVC = (ProfileViewController  *)navController.topViewController;
         profileVC.user = userToPass;
+    
+        
+    } else if ([[segue identifier] isEqualToString:@"searchFilterSegue"]) {
+        SearchFilterViewController *searchFilterVC = [segue destinationViewController];
+        searchFilterVC.delegate = self;
     
         
     }
