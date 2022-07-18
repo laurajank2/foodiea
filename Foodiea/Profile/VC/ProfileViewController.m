@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fav1;
 @property (weak, nonatomic) IBOutlet UIButton *fav2;
 @property (weak, nonatomic) IBOutlet UIButton *fav3;
+@property (weak, nonatomic) IBOutlet UILabel *expertLoc;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -48,6 +49,7 @@
     self.username.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
+    self.expertLoc.text = self.user[@"expertiseLoc"];
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
     [self.fav3 setTitle:self.user[@"fav3"] forState:UIControlStateNormal];
