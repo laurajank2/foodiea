@@ -15,6 +15,9 @@
 @property (nonatomic, strong) NSArray *posts;
 @property GMSCameraPosition *camera;
 @property GMSVisibleRegion visible;
+@property NSTimer *timer;
+@property double prevLongitude;
+@property double prevLatitude;
 
 @end
 
@@ -24,6 +27,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setUpMap];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                  target:self
+                                                  selector:@selector(updateMap)
+                                                  userInfo:nil
+                                                  repeats:YES];
 }
 
 -(void)fetchPosts {
@@ -98,12 +106,26 @@
 
 -(void)setUpMap{
     self.camera = [GMSCameraPosition cameraWithLatitude:37.7749 longitude:-122.4194 zoom:3];
+    self.prevLatitude = self.visible.nearRight.latitude;
+    self.prevLongitude = self.visible.nearRight.longitude;
     self.mapView = [GMSMapView mapWithFrame:self.view.frame camera:self.camera];
     [self.view addSubview:self.mapView];
     self.visible = [self.mapView.projection visibleRegion];
     [self fetchPosts];
 }
 
+
+- (void)updateMap {
+    self.visible = [self.mapView.projection visibleRegion];
+    NSLog(@"%f", self.visible.nearRight.longitude);
+    NSLog(@"%f", self.visible.nearRight.latitude);
+    if(self.prevLongitude != self.visible.nearRight.longitude || self.prevLatitude != self.visible.nearRight.latitude) {
+        [self fetchPosts];
+    }
+    self.prevLongitude = self.visible.nearRight.longitude;
+    self.prevLatitude = self.visible.nearRight.latitude;
+    
+}
 
 /*
 #pragma mark - Navigation
