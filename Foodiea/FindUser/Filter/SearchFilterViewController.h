@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol SearchFilterViewControllerDelegate <NSObject>
  - (void)passPrice:(SearchFilterViewController *)controller didFinishEnteringPrice:(NSString *)price;
  - (void)passSearch:(SearchFilterViewController *)controller didFinishEnteringSearch:(NSString *)searchBy;
+ - (void)passLocation:(SearchFilterViewController *)controller didFinishEnteringLocation:(NSString *)location;
+ - (void)passFav:(SearchFilterViewController *)controller didFinishEnteringFav:(NSString *)fav;
  - (void)refresh;
 @end
 @interface SearchFilterViewController : UIViewController

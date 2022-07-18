@@ -21,6 +21,8 @@
 @property APIManager *manager;
 @property NSString *price;
 @property NSString *searchBy;
+@property NSString *location;
+@property NSString *fav;
 
 @end
 
@@ -84,7 +86,16 @@
     if (searchText.length != 0) {
         
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(PFUser *evaluatedUser, NSDictionary *bindings) {
-            return [evaluatedUser[self.searchBy] containsString:searchText];
+            BOOL fitsSearch;
+            if (self.searchBy == nil) {
+                fitsSearch = [evaluatedUser[@"username"] containsString:searchText];
+            } else {
+                fitsSearch = [evaluatedUser[self.searchBy] containsString:searchText];
+                if(self.location != nil) {
+                    fitsSearch = fitsSearch && [evaluatedUser[@"location"] containsString:self.location];
+                }
+            }
+            return fitsSearch;
         }];
         self.filteredSearchedUsers = [self.searchedUsers filteredArrayUsingPredicate:predicate];
         
@@ -104,6 +115,12 @@
 }
 - (void)passSearch:(SearchFilterViewController *)controller didFinishEnteringSearch:(NSString *)searchBy {
     self.searchBy = searchBy;
+}
+- (void)passFav:(SearchFilterViewController *)controller didFinishEnteringFav:(NSString *)fav {
+    self.fav = fav;
+}
+- (void)passLocation:(SearchFilterViewController *)controller didFinishEnteringLocation:(NSString *)location {
+    self.location = location;
 }
 - (void) refresh {
     [self fetchUsers];

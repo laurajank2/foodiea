@@ -6,6 +6,7 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -156,29 +157,38 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9E-GU-OQW">
-                                                    <rect key="frame" x="103" y="13" width="76" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="103" y="13" width="79.333333333333314" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybV-dY-hqa">
+                                                    <rect key="frame" x="103.00000000000001" y="71" width="50.666666666666671" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="screenname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjX-Dm-eQA">
-                                                    <rect key="frame" x="103" y="67" width="94" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="103" y="42" width="79" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="CjX-Dm-eQA" firstAttribute="centerY" secondItem="j23-1z-7Av" secondAttribute="centerY" id="5QS-Ke-wal"/>
                                                 <constraint firstItem="j23-1z-7Av" firstAttribute="top" secondItem="EZF-dh-Eoi" secondAttribute="top" constant="13" id="OF4-rq-mUk"/>
                                                 <constraint firstItem="U9E-GU-OQW" firstAttribute="top" secondItem="j23-1z-7Av" secondAttribute="top" id="RBk-oo-d5u"/>
                                                 <constraint firstItem="j23-1z-7Av" firstAttribute="leading" secondItem="EZF-dh-Eoi" secondAttribute="leading" constant="20" symbolic="YES" id="WTm-02-jQQ"/>
                                                 <constraint firstItem="U9E-GU-OQW" firstAttribute="leading" secondItem="j23-1z-7Av" secondAttribute="trailing" constant="8" symbolic="YES" id="cfy-WI-DMh"/>
-                                                <constraint firstItem="j23-1z-7Av" firstAttribute="bottom" secondItem="CjX-Dm-eQA" secondAttribute="bottom" id="jot-is-hfq"/>
                                                 <constraint firstAttribute="bottom" secondItem="j23-1z-7Av" secondAttribute="bottom" constant="16" id="uMu-2M-RmG"/>
+                                                <constraint firstItem="ybV-dY-hqa" firstAttribute="leading" secondItem="j23-1z-7Av" secondAttribute="trailing" constant="8" symbolic="YES" id="yTL-Bu-21c"/>
+                                                <constraint firstItem="ybV-dY-hqa" firstAttribute="bottom" secondItem="j23-1z-7Av" secondAttribute="bottom" id="yqy-Fv-gSn"/>
                                                 <constraint firstItem="CjX-Dm-eQA" firstAttribute="leading" secondItem="j23-1z-7Av" secondAttribute="trailing" constant="8" symbolic="YES" id="zzh-PE-IWy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="location" destination="ybV-dY-hqa" id="n4u-FR-rXG"/>
                                             <outlet property="screenname" destination="CjX-Dm-eQA" id="HDX-8M-A9M"/>
                                             <outlet property="userImage" destination="j23-1z-7Av" id="Tzt-5g-lAd"/>
                                             <outlet property="username" destination="U9E-GU-OQW" id="krU-Tq-xll"/>
@@ -235,7 +245,6 @@
                                 <segments>
                                     <segment title="username"/>
                                     <segment title="screenname"/>
-                                    <segment title="location"/>
                                 </segments>
                                 <connections>
                                     <action selector="onSearchChange:" destination="SYc-Xa-DWO" eventType="valueChanged" id="E0I-hP-r4x"/>
@@ -262,11 +271,69 @@
                                     <action selector="onPriceChange:" destination="SYc-Xa-DWO" eventType="valueChanged" id="htU-hm-YUy"/>
                                 </connections>
                             </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Located At:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kha-da-JQO">
+                                <rect key="frame" x="18" y="202" width="87" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H8e-Wi-K1O">
+                                <rect key="frame" x="113" y="202" width="227" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVh-wp-JB0">
+                                <rect key="frame" x="345" y="202" width="29" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.forward" catalog="system" title=""/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Favs Include:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EWv-zQ-D0c">
+                                <rect key="frame" x="18" y="242" width="99" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Popular Cuisine: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WLQ-RZ-OKT">
+                                <rect key="frame" x="18" y="292" width="128" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDG-RB-nfH">
+                                <rect key="frame" x="313" y="292" width="41" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <menu key="menu" id="UCc-BM-jZg">
+                                    <children>
+                                        <command title="Italian" id="Ap8-ya-1OD"/>
+                                        <command title="Chinese" id="cRw-YV-XmY"/>
+                                        <command title="Vietnamese" id="Hqn-IM-6uh"/>
+                                        <command title="Japanese" id="jeY-Rw-rtf"/>
+                                        <command title="Nigerian" id="qxE-NJ-6qI"/>
+                                        <command title="Tex-Mex" id="FCs-Ss-5TW"/>
+                                    </children>
+                                </menu>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="otk-93-xJH">
+                                <rect key="frame" x="125" y="235" width="249" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GrI-8m-pfq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="favField" destination="otk-93-xJH" id="ahi-am-Tw1"/>
+                        <outlet property="locationBtn" destination="hVh-wp-JB0" id="JY7-pW-hPJ"/>
+                        <outlet property="locationLabel" destination="H8e-Wi-K1O" id="vsY-Pb-t8H"/>
                         <outlet property="priceCtrl" destination="Ozn-bU-NcB" id="qVY-kL-ro6"/>
                         <outlet property="searchCtrl" destination="Ozn-bU-NcB" id="hZB-C2-XZg"/>
                     </connections>
@@ -1400,6 +1467,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="appstore" width="1024" height="1024"/>
+        <image name="arrow.forward" catalog="system" width="128" height="98"/>
         <image name="arrow.forward.circle" catalog="system" width="128" height="121"/>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="bookmark-empty" width="350" height="484"/>
