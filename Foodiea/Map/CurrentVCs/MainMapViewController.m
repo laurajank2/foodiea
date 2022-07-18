@@ -88,10 +88,6 @@
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
-    NSLog(@"%i", minLat);
-    NSLog(@"%i", minLong);
-    NSLog(@"%i", maxLat);
-    NSLog(@"%i", maxLong);
     [postQuery whereKey:@"latitude" greaterThan:[NSNumber numberWithInt:minLat]];
     [postQuery whereKey:@"latitude" lessThan:[NSNumber numberWithInt:maxLat]];
     [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithInt:minLong]];
@@ -162,8 +158,6 @@
 
 - (void)updateMap {
     self.visible = [self.mapView.projection visibleRegion];
-    NSLog(@"%f", self.visible.nearRight.longitude);
-    NSLog(@"%f", self.visible.nearRight.latitude);
     if(self.prevLongitude != self.visible.nearRight.longitude || self.prevLatitude != self.visible.nearRight.latitude) {
         [self fetchPosts];
     }
