@@ -152,7 +152,17 @@
 - (void)filterCallback:(NSArray *)users errorMessage:(NSError *)error{
     __block NSSet *followedUsers;
     __block NSMutableArray *followedPosts = [NSMutableArray new];
-    if (users != nil) {
+    if (users.count == 0) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Find Foodies!"
+                                                                                 message:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration"
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        //We add buttons to the alert controller by creating UIAlertActions:
+        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:nil]; //You can use a block here to handle a press on this button
+        [alertController addAction:actionOk];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else if (users != nil) {
         // get users and make a mutable array of ids
         NSMutableArray *userIds = [NSMutableArray new];
         for (PFUser *user in users){

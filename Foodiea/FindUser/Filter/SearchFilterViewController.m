@@ -31,19 +31,15 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [self.delegate passSearch:self didFinishEnteringSearch:self.searchBy];
+    [self.delegate passSearch:self didFinishEnteringSearch:[self.searchCtrl titleForSegmentAtIndex:self.searchCtrl.selectedSegmentIndex]];
     NSLog(@"%@", self.favField.text);
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
+    NSLog(@"filter price");
+    NSLog(@"%@", [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]);
+    [self.delegate passPrice:self didFinishEnteringPrice:[self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]];
     [self.delegate refresh];
     NSLog(@"%@", self.searchBy);
-}
-
-- (IBAction)onPriceChange:(id)sender {
-    self.price = [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex];
-}
-- (IBAction)onSearchChange:(id)sender {
-    self.searchBy = [self.searchCtrl titleForSegmentAtIndex:self.searchCtrl.selectedSegmentIndex];
 }
 
 #pragma mark - Location autocomplete

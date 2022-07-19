@@ -133,7 +133,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IEI-uL-77K">
-                                <rect key="frame" x="-3" y="88" width="391" height="44"/>
+                                <rect key="frame" x="-3" y="88" width="390" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
@@ -246,9 +246,6 @@
                                     <segment title="username"/>
                                     <segment title="screenname"/>
                                 </segments>
-                                <connections>
-                                    <action selector="onSearchChange:" destination="SYc-Xa-DWO" eventType="valueChanged" id="E0I-hP-r4x"/>
-                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flY-c3-XyL">
                                 <rect key="frame" x="16" y="154" width="44" height="21"/>
@@ -266,10 +263,6 @@
                                     <segment title="$$$"/>
                                     <segment title="$$$$"/>
                                 </segments>
-                                <connections>
-                                    <action selector="onPriceChange:" destination="1Sf-Wm-egE" eventType="valueChanged" id="Ged-Ux-JSW"/>
-                                    <action selector="onPriceChange:" destination="SYc-Xa-DWO" eventType="valueChanged" id="htU-hm-YUy"/>
-                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Located At:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kha-da-JQO">
                                 <rect key="frame" x="18" y="202" width="87" height="21"/>
@@ -334,7 +327,7 @@
                         <outlet property="favField" destination="otk-93-xJH" id="ahi-am-Tw1"/>
                         <outlet property="locationBtn" destination="hVh-wp-JB0" id="JY7-pW-hPJ"/>
                         <outlet property="locationLabel" destination="H8e-Wi-K1O" id="vsY-Pb-t8H"/>
-                        <outlet property="priceCtrl" destination="Ozn-bU-NcB" id="qVY-kL-ro6"/>
+                        <outlet property="priceCtrl" destination="SDS-Z8-KdN" id="3AX-Uw-mcr"/>
                         <outlet property="searchCtrl" destination="Ozn-bU-NcB" id="hZB-C2-XZg"/>
                     </connections>
                 </viewController>
