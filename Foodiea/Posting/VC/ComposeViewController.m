@@ -130,7 +130,7 @@
     void (^callbackForPrice)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
             [self priceCallback:posts errorMessage:error];
         };
-    [self.manager queryPosts:postQuery getPosts:callbackForPrice];
+    [self.manager query:postQuery getObjects:callbackForPrice];
    
 }
 
@@ -248,6 +248,13 @@ didFailAutocompleteWithError:(NSError *)error {
 -(void)didUpdateAutocompletePredictions:(GMSAutocompleteViewController *)viewController {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
+
+#pragma mark - Tags
+
+- (IBAction)didTapTagsArrow:(id)sender {
+    [self performSegueWithIdentifier:@"composeTagsSegue" sender:self];
+}
+
 
 /*
 #pragma mark - Navigation

@@ -29,7 +29,7 @@
     void (^callbackForUse)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
             [self callback:users errorMessage:error];
         };
-    [self.manager userQuery:userQuery getUsers:callbackForUse];
+    [self.manager query:userQuery getObjects:callbackForUse];
 }
 
 - (void)callback:(NSArray *)users errorMessage:(NSError *)error{

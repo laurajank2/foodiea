@@ -13,9 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)saveUserInfo: (PFUser * _Nullable) user;
 
-- (void)userQuery:(PFQuery * _Nullable)userQuery getUsers:(void (^)(NSArray *objects, NSError *error))callback;
-
-- (void)queryPosts: (PFQuery * _Nullable)postQuery getPosts:(void (^)(NSArray *objects, NSError *error))callback;
+- (void)query:(PFQuery * _Nullable)userQuery getObjects:(void (^)(NSArray *objects, NSError *error))callback;
 
 - (void)relationQuery: (PFRelation * _Nullable)relation getRelationInfo:(void (^)(NSArray *objects, NSError *error))callback;
 
