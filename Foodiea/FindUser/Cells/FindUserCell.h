@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet PFImageView *userImage;
 @property (weak, nonatomic) IBOutlet UILabel *username;
 @property (weak, nonatomic) IBOutlet UILabel *screenname;
+@property (weak, nonatomic) IBOutlet UILabel *location;
 @property PFUser *user;
 
 - (void)fillCell;

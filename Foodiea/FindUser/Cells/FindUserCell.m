@@ -24,6 +24,7 @@
     [self.userImage loadInBackground];
     self.username.text = self.user[@"username"];
     self.screenname.text = self.user[@"screenname"];
+    self.location.text = self.user[@"location"];
 }
 
 @end

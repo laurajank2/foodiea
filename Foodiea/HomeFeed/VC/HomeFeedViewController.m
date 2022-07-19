@@ -101,12 +101,6 @@
     
 }
 
-//- (void)didTapPin:(id)sender {
-//    [self performSegueWithIdentifier:@"detailMapSegue" sender:sender];
-//}
-
-
-
 -(void)fetchPosts {
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
@@ -194,12 +188,6 @@
     }
 }
 #pragma mark - delegate
-
-//- (void)addItemViewController:(FilterViewController *)controller didFinishEnteringItem:(NSString *)item {
-//     NSLog(@"This was returned from ViewControllerB %@", item);
-//     NSLog(@"passed");
-//    self.price = item;
-// }
 
 - (void)passPrice:(FilterViewController *)controller didFinishEnteringPrice:(NSString *)price {
     self.price = price;

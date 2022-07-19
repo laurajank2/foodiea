@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 #import <GoogleMaps/GoogleMaps.h>
+@import GooglePlaces;
 
 @interface SettingsViewController () <UITextViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet PFImageView *profileImage;
@@ -20,11 +21,16 @@
 @property (weak, nonatomic) IBOutlet UITextField *fav1;
 @property (weak, nonatomic) IBOutlet UITextField *fav2;
 @property (weak, nonatomic) IBOutlet UITextField *fav3;
+@property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (nonatomic, strong) PFUser *user;
 @property APIManager *manager;
+@property GMSPlace *postLocation;
 @end
 
-@implementation SettingsViewController
+@implementation SettingsViewController {
+    GMSAutocompleteFilter *_filter;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +46,8 @@
     [self.profileImage loadInBackground];
     self.manager = [[APIManager alloc] init];
     [self filloutUser];
-    }
+    [self makeButton];
+}
 
 -(void)filloutUser {
     //image
@@ -136,6 +143,65 @@
 
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Loc Picker
+
+// Present the autocomplete view controller when the button is pressed.
+- (void)autocompleteClicked {
+  GMSAutocompleteViewController *acController = [[GMSAutocompleteViewController alloc] init];
+  acController.delegate = self;
+
+  // Specify the place data types to return.
+  GMSPlaceField fields = (GMSPlaceFieldName | GMSPlaceFieldPlaceID | GMSPlaceFieldFormattedAddress | GMSPlaceFieldCoordinate);
+  acController.placeFields = fields;
+
+  // Specify a filter.
+  _filter = [[GMSAutocompleteFilter alloc] init];
+  _filter.type = kGMSPlacesAutocompleteTypeFilterAddress;
+  acController.autocompleteFilter = _filter;
+
+  // Display the autocomplete view controller.
+  [self presentViewController:acController animated:YES completion:nil];
+}
+
+// Add a button to the view.
+- (void)makeButton{
+    [self.btnLaunchAc addTarget:self
+               action:NSSelectorFromString(@"autocompleteClicked") forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+// Handle the user's selection.
+- (void)viewController:(GMSAutocompleteViewController *)viewController
+didAutocompleteWithPlace:(GMSPlace *)place {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.locationLabel.text = place.name;
+    self.user[@"location"] = place.name;
+    self.user[@"expertiseLat"] = [NSNumber numberWithDouble:place.coordinate.latitude];
+    self.user[@"expertiseLong"] = [NSNumber numberWithDouble:place.coordinate.longitude];
+    [self.manager saveUserInfo:self.user];
+}
+
+- (void)viewController:(GMSAutocompleteViewController *)viewController
+didFailAutocompleteWithError:(NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    // TODO: handle the error.
+    NSLog(@"Error: %@", [error description]);
+    }
+
+    // User canceled the operation.
+    - (void)wasCancelled:(GMSAutocompleteViewController *)viewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// Turn the network activity indicator on and off again.
+-(void)didRequestAutocompletePredictions:(GMSAutocompleteViewController *)viewController {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
+-(void)didUpdateAutocompletePredictions:(GMSAutocompleteViewController *)viewController {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 @end
