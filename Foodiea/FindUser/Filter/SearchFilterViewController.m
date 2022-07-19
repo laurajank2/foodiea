@@ -27,6 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self makeButton];
+    self.locationLabel.text = @"";
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -34,6 +35,7 @@
     NSLog(@"%@", self.favField.text);
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
+    [self.delegate refresh];
     NSLog(@"%@", self.searchBy);
 }
 

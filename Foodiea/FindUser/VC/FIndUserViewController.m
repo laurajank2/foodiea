@@ -30,6 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.location = @"";
+    self.fav = @"";
     self.usersTableView.delegate = self;
     self.usersTableView.dataSource = self;
     self.userSearchBar.delegate = self;
@@ -46,18 +48,37 @@
     PFQuery *userQuery = [PFUser query];
     [userQuery includeKey:@"author"];
     userQuery.limit = 20;
+    if(![self.location isEqualToString: @""]) {
+        [userQuery whereKey:@"location" equalTo:self.location];
+    }
+    if(![self.fav isEqualToString: @""]) {
+        [userQuery whereKey:@"fav1" equalTo:self.fav];
+    }
 
     [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
         if (users != nil) {
             // do something with the array of object returned by the call
-            self.searchedUsers = users;
-            self.filteredSearchedUsers = users;
+            self.searchedUsers = [self shuffle:users];
+            self.filteredSearchedUsers = self.searchedUsers;
             [self.usersTableView reloadData];
             
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+}
+
+- (NSArray *) shuffle: (NSArray * _Nullable)array{
+    // create temporary autoreleased mutable array
+    NSMutableArray *tmpArray = [NSMutableArray arrayWithCapacity:[array count]];
+ 
+    for (id anObject in array)
+    {
+        NSUInteger randomPos = arc4random()%([tmpArray count]+1);
+        [tmpArray insertObject:anObject atIndex:randomPos];
+    }
+ 
+    return [NSArray arrayWithArray:tmpArray];  // non-mutable autoreleased copy
 }
 
 #pragma mark - Table View
@@ -91,9 +112,6 @@
                 fitsSearch = [evaluatedUser[@"username"] containsString:searchText];
             } else {
                 fitsSearch = [evaluatedUser[self.searchBy] containsString:searchText];
-                if(self.location != nil) {
-                    fitsSearch = fitsSearch && [evaluatedUser[@"location"] containsString:self.location];
-                }
             }
             return fitsSearch;
         }];
