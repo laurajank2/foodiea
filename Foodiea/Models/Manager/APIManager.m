@@ -23,22 +23,19 @@
 
 #pragma mark - Parse Queries
 
-- (void)fetchUsers:(void (^)(id, int))gotUsersBlock {
-    PFQuery *userQuery = [PFUser query];
-    [userQuery includeKey:@"author"];
-    userQuery.limit = 20;
-
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
-        if (users != nil) {
-            // do something with the array of object returned by the call
-            gotUsersBlock;
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
+- (void)userQuery:(PFQuery * _Nullable)userQuery getUsers:(void (^)(NSArray *objects, NSError *error))callback {
+    [userQuery findObjectsInBackgroundWithBlock:callback];
 }
 
-- (NSArray *)queryPosts: (PFQuery * _Nullable)postQuery {
+- (void)queryPosts: (PFQuery * _Nullable)postQuery getPosts:(void (^)(NSArray *objects, NSError *error))callback {
+    [postQuery findObjectsInBackgroundWithBlock:callback];
+}
+
+- (void)relationQuery: (PFRelation * _Nullable)relation getRelationInfo:(void (^)(NSArray *objects, NSError *error))callback {
+    [[relation query] findObjectsInBackgroundWithBlock:callback];
+}
+
+- (NSArray *)queryCurrentUserPosts: (PFQuery * _Nullable)postQuery {
     __block NSArray *profilePosts;
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];

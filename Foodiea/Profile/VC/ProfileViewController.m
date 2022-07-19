@@ -114,31 +114,42 @@
     [postQuery whereKey:@"author" equalTo:self.user];
     postQuery.limit = 20;
 
+    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+            [self postCallback:posts errorMessage:error];
+        };
+    [self.manager queryPosts:postQuery getPosts:callbackForUse];
     // fetch data asynchronously
-    [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if (posts != nil) {
-            // do something with the array of object returned by the call
-            self.profilePosts = posts;
-            [self.profileFeed reloadData];
-            
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
+    
+}
+
+- (void)postCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    if (posts != nil) {
+        // do something with the array of object returned by the call
+        self.profilePosts = posts;
+        [self.profileFeed reloadData];
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
 }
 
 - (void)fetchBookmarked {
     PFRelation *relation = [self.user relationForKey:@"bookmarks"];
-    [[relation query] findObjectsInBackgroundWithBlock:^(NSArray * _Nullable posts, NSError * _Nullable error) {
-        if (error) {
-            // There was an error
-            NSLog(@"%@", error.localizedDescription);
-        } else {
-            // objects has all the Posts the current user liked.
-            self.profilePosts = posts;
-            [self.profileFeed reloadData];
-        }
-    }];
+    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+            [self bookmarkCallback:posts errorMessage:error];
+        };
+    [self.manager relationQuery:relation getRelationInfo:callbackForUse];
+}
+
+- (void)bookmarkCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    if (error) {
+        // There was an error
+        NSLog(@"%@", error.localizedDescription);
+    } else {
+        // objects has all the Posts the current user liked.
+        self.profilePosts = posts;
+        [self.profileFeed reloadData];
+    }
 }
 
 #pragma mark - Collection View Requirements
