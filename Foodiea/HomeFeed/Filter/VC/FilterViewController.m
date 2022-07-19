@@ -87,6 +87,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     [self dismissViewControllerAnimated:YES completion:nil];
     self.startLatitude = place.coordinate.latitude;
     self.startLongitude = place.coordinate.longitude;
+    self.locationLabel.text = place.formattedAddress;
 }
 
 - (void)viewController:(GMSAutocompleteViewController *)viewController
