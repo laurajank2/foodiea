@@ -10,6 +10,7 @@
 		4123AEE173DACED6F6208B24 /* Pods_Foodiea_FoodieaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F861162F6636CE809A90D67C /* Pods_Foodiea_FoodieaUITests.framework */; };
 		48F4058873487FB93EB1B408 /* Pods_FoodieaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */; };
 		83199ED52880902D002C6850 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83199ED42880902D002C6850 /* Keys.plist */; };
+		8319AC78288737D500CDEF97 /* OBSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC77288737D500CDEF97 /* OBSlider.m */; };
 		832D11DA288226F800D0188F /* MainMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D11D9288226F800D0188F /* MainMapViewController.m */; };
 		832D11DE2886045D00D0188F /* SearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D11DD2886045D00D0188F /* SearchFilterViewController.m */; };
 		833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A642874F3AC004E9D0C /* AppDelegate.m */; };
@@ -64,6 +65,8 @@
 		3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodieaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5646AF58FDF83E7A83597CC2 /* Pods-Foodiea-FoodieaUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		83199ED42880902D002C6850 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		8319AC76288737D500CDEF97 /* OBSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBSlider.h; sourceTree = "<group>"; };
+		8319AC77288737D500CDEF97 /* OBSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBSlider.m; sourceTree = "<group>"; };
 		832D11D8288226F800D0188F /* MainMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainMapViewController.h; sourceTree = "<group>"; };
 		832D11D9288226F800D0188F /* MainMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainMapViewController.m; sourceTree = "<group>"; };
 		832D11DC2886045D00D0188F /* SearchFilterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchFilterViewController.h; sourceTree = "<group>"; };
@@ -179,6 +182,15 @@
 				83F5570F287646E9003D4502 /* Post.m */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		8319AC752887379B00CDEF97 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				8319AC76288737D500CDEF97 /* OBSlider.h */,
+				8319AC77288737D500CDEF97 /* OBSlider.m */,
+			);
+			path = Slider;
 			sourceTree = "<group>";
 		};
 		832D11D5288224D000D0188F /* Map */ = {
@@ -466,6 +478,7 @@
 		83F5570D287646C7003D4502 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8319AC752887379B00CDEF97 /* Slider */,
 				83199ED62880972D002C6850 /* Post */,
 				83EEF6362878D13D006DAA80 /* Manager */,
 			);
@@ -758,6 +771,7 @@
 				832D11DE2886045D00D0188F /* SearchFilterViewController.m in Sources */,
 				832D11DA288226F800D0188F /* MainMapViewController.m in Sources */,
 				83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */,
+				8319AC78288737D500CDEF97 /* OBSlider.m in Sources */,
 				833D32DE287E33460025C56E /* FindUserCell.m in Sources */,
 				833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */,
 				833D32E3287F420D0025C56E /* FilterViewController.m in Sources */,

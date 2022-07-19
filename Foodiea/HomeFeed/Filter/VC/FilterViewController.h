@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class FilterViewController;
+@class OBSlider;
 
 @protocol FilterViewControllerDelegate <NSObject>
  - (void)passPrice:(FilterViewController *)controller didFinishEnteringPrice:(NSString *)price;
