@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property GMSPlace *postLocation;
+@property APIManager *manager;
+@property NSString *userPrice;
 @end
 
 @implementation ComposeViewController {
@@ -28,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.manager = [[APIManager alloc] init];
     [self makeButton];
 }
 - (IBAction)didTapPhoto:(id)sender {
@@ -105,6 +108,7 @@
             withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
             if(succeeded) {
                 NSLog(@"Successfully posted image!");
+                [self setPrice];
                 [self dismissViewControllerAnimated:YES completion:nil];
                 
             } else {
@@ -113,6 +117,63 @@
         }];
     }
     
+}
+
+-(void)setPrice {
+    
+    PFQuery *postQuery = [Post query];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery includeKey:@"author"];
+    [postQuery whereKey:@"author" equalTo:[PFUser currentUser]];
+    postQuery.limit = 20;
+
+    void (^callbackForPrice)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+            [self priceCallback:posts errorMessage:error];
+        };
+    [self.manager queryPosts:postQuery getPosts:callbackForPrice];
+   
+}
+
+- (void)priceCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    NSLog(@"price call back");
+    if (posts != nil) {
+        int $ = 0;
+        int $$ = 0;
+        int $$$ = 0;
+        int $$$$ = 0;
+        for(Post *post in posts) {
+            if([post.price isEqualToString:@"$"]) {
+                $++;
+            }
+            if([post.price isEqualToString:@"$$"]) {
+                $$++;
+            }
+            if([post.price isEqualToString:@"$$$"]) {
+                $$$++;
+            }
+            if([post.price isEqualToString:@"$$$$"]) {
+                $$$$++;
+            }
+        }
+        
+        if($ > $$ && $ > $$$ && $ > $$$$) {
+            self.userPrice = @"$";
+        } else if($$ > $ && $$ > $$$ && $$ > $$$$) {
+            self.userPrice = @"$$";
+        } else if($$$ > $ && $$$ > $$ && $$$ > $$$$) {
+            self.userPrice = @"$$$";
+        } else if ($$$$ > $ && $$$$ > $$ && $$$$ > $$$) {
+            self.userPrice = @"$$$$";
+        } else {
+            self.userPrice = @"$$";
+        }
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"price"] = self.userPrice;
+        [self.manager saveUserInfo:currentUser];
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
 }
 
 -(BOOL)checkCompletion {
