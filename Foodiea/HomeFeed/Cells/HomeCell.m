@@ -26,20 +26,26 @@
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"objectId" equalTo:objectId];
 
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
-        if (users != nil) {
-            // do something with the array of object returned by the call
-            for (PFUser *currUser in users) {
-                self.author = currUser;
-            }
-            self.usernameLabel.text = self.author.username;
-            self.userImage.file = self.author[@"profileImage"];
-            [self.userImage loadInBackground];
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
+    void (^callbackForUse)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+            [self callback:users errorMessage:error];
+        };
+    [self.manager userQuery:userQuery getUsers:callbackForUse];
 }
+
+- (void)callback:(NSArray *)users errorMessage:(NSError *)error{
+    if (users != nil) {
+        // do something with the array of object returned by the call
+        for (PFUser *currUser in users) {
+            self.author = currUser;
+        }
+        self.usernameLabel.text = self.author.username;
+        self.userImage.file = self.author[@"profileImage"];
+        [self.userImage loadInBackground];
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
+}
+
 - (IBAction)didTouchPin:(id)sender {
     [self animatePinSmall];
 }

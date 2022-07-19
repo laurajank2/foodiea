@@ -55,17 +55,22 @@
         [userQuery whereKey:@"fav1" equalTo:self.fav];
     }
 
-    [userQuery findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
-        if (users != nil) {
-            // do something with the array of object returned by the call
-            self.searchedUsers = [self shuffle:users];
-            self.filteredSearchedUsers = self.searchedUsers;
-            [self.usersTableView reloadData];
-            
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
+    void (^callbackForUse)(NSArray *objects, NSError *error) = ^(NSArray *objects, NSError *error){
+            [self callback:objects errorMessage:error];
+    };
+    [self.manager userQuery:userQuery getUsers:callbackForUse];
+}
+
+- (void)callback:(NSArray *)users errorMessage:(NSError *)error{
+    if (users != nil) {
+        // do something with the array of object returned by the call
+        self.searchedUsers = [self shuffle:users];
+        self.filteredSearchedUsers = self.searchedUsers;
+        [self.usersTableView reloadData];
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
 }
 
 - (NSArray *) shuffle: (NSArray * _Nullable)array{
