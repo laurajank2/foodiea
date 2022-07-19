@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
 @property APIManager *manager;
 @property NSArray *tags;
+@property NSMutableArray *colors;
+@property NSUInteger colorIndex;
 
 @end
 
@@ -25,6 +27,9 @@
     self.manager = [[APIManager alloc] init];
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
+    self.colors = [NSMutableArray array];
+    self.colorIndex = 0;
+    [self colorMaker];
     [self fetchTags];
 }
 
@@ -65,8 +70,29 @@
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
     Tag *tag = self.tags[indexPath.row];
     //image
-    cell.titleLabel.text = tag[@"title"];
+    NSLog(@"%@", tag[@"title"]);
+    if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
+        cell.titleLabel.text = @"";
+        cell.spacingLabel.text = @"Write your tag";
+        cell.titleLabel.userInteractionEnabled = true;
+    } else {
+        cell.titleLabel.text = tag[@"title"];
+        cell.spacingLabel.text = tag[@"title"];
+    }
+    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
+    self.colorIndex++;
     return cell;
+}
+
+- (void)colorMaker {
+    float INCREMENT = 0.05;
+    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
+        UIColor *color = [UIColor colorWithHue:hue
+                                    saturation:0.75
+                                    brightness:1.0
+                                         alpha:1.0];
+        [self.colors addObject:color];
+    }
 }
 
 /*

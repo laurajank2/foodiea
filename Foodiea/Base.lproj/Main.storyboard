@@ -935,41 +935,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ElQ-qz-niO">
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ElQ-qz-niO">
                                 <rect key="frame" x="0.0" y="64" width="390" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g8z-Ow-NQT">
-                                <rect key="frame" x="16" y="115" width="358" height="675"/>
+                                <rect key="frame" x="16" y="127" width="358" height="663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8Di-Kh-SBu">
-                                    <size key="itemSize" width="143" height="51"/>
+                                    <size key="itemSize" width="112" height="36"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TagsCell" id="2ox-QH-4nm" customClass="TagsCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="70" height="18.666666666666668"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="112" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="I6C-Q1-4Pi">
-                                            <rect key="frame" x="0.0" y="0.0" width="70" height="18.666666666666668"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="112" height="36"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Vegetarian" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N77-zp-tc8">
-                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="51"/>
+                                                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Vegetarian" placeholder="Write your tag" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N77-zp-tc8">
+                                                    <rect key="frame" x="0.0" y="11" width="112" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vegetarian" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixO-05-PFv">
+                                                    <rect key="frame" x="0.0" y="0.0" width="112" height="36"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                                    <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="leading" secondItem="I6C-Q1-4Pi" secondAttribute="leading" id="4Td-IK-ls9"/>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerX" secondItem="I6C-Q1-4Pi" secondAttribute="centerX" id="SzT-LI-oDX"/>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="top" secondItem="I6C-Q1-4Pi" secondAttribute="top" id="ZH3-gV-V3h"/>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerY" secondItem="I6C-Q1-4Pi" secondAttribute="centerY" id="uKw-Kb-dX9"/>
+                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerY" secondItem="ixO-05-PFv" secondAttribute="centerY" id="99t-I2-vhd"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="leading" secondItem="I6C-Q1-4Pi" secondAttribute="leading" id="GB5-0Q-PMp"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="leading" secondItem="N77-zp-tc8" secondAttribute="leading" id="Md4-Pj-r6a"/>
+                                                <constraint firstItem="N77-zp-tc8" firstAttribute="top" secondItem="I6C-Q1-4Pi" secondAttribute="top" constant="11" id="Pyh-Z2-nJ2"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="top" secondItem="I6C-Q1-4Pi" secondAttribute="top" id="YnE-AB-bga"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="centerX" secondItem="I6C-Q1-4Pi" secondAttribute="centerX" id="gmh-vU-guu"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="trailing" secondItem="N77-zp-tc8" secondAttribute="trailing" id="pw5-55-coM"/>
+                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerY" secondItem="I6C-Q1-4Pi" secondAttribute="centerY" id="tgd-nX-bJD"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <size key="customSize" width="112" height="36"/>
                                         <connections>
+                                            <outlet property="spacingLabel" destination="ixO-05-PFv" id="PBa-Ms-dkN"/>
                                             <outlet property="titleLabel" destination="N77-zp-tc8" id="wsZ-q0-C35"/>
                                         </connections>
                                     </collectionViewCell>
@@ -979,14 +991,13 @@
                         <viewLayoutGuide key="safeArea" id="eOm-4k-Knt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ElQ-qz-niO" firstAttribute="top" secondItem="eOm-4k-Knt" secondAttribute="top" constant="8" id="2tP-TO-JQh"/>
-                            <constraint firstItem="ElQ-qz-niO" firstAttribute="centerX" secondItem="g8z-Ow-NQT" secondAttribute="centerX" id="5eO-Mt-vJ4"/>
-                            <constraint firstItem="g8z-Ow-NQT" firstAttribute="trailing" secondItem="f9Y-rX-PiK" secondAttribute="trailingMargin" id="DQ0-C4-RYC"/>
-                            <constraint firstItem="ElQ-qz-niO" firstAttribute="leading" secondItem="eOm-4k-Knt" secondAttribute="leading" id="HDm-jT-cXw"/>
-                            <constraint firstItem="eOm-4k-Knt" firstAttribute="bottom" secondItem="ElQ-qz-niO" secondAttribute="bottom" constant="641" id="Kke-KK-SSu"/>
-                            <constraint firstItem="g8z-Ow-NQT" firstAttribute="leading" secondItem="f9Y-rX-PiK" secondAttribute="leadingMargin" id="gG6-Lu-xdE"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="g8z-Ow-NQT" secondAttribute="bottom" constant="-34" id="gtP-nE-hSy"/>
-                            <constraint firstItem="g8z-Ow-NQT" firstAttribute="top" secondItem="eOm-4k-Knt" secondAttribute="top" constant="52" id="pim-pi-KeB"/>
+                            <constraint firstItem="g8z-Ow-NQT" firstAttribute="top" secondItem="ElQ-qz-niO" secondAttribute="bottom" constant="12" id="2Pu-bv-yf9"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="g8z-Ow-NQT" secondAttribute="bottom" constant="-34" id="3xA-pJ-cSM"/>
+                            <constraint firstItem="ElQ-qz-niO" firstAttribute="top" secondItem="eOm-4k-Knt" secondAttribute="top" constant="8" id="Dqj-ok-Xhh"/>
+                            <constraint firstItem="g8z-Ow-NQT" firstAttribute="trailing" secondItem="f9Y-rX-PiK" secondAttribute="trailingMargin" id="U2p-cu-DzD"/>
+                            <constraint firstItem="g8z-Ow-NQT" firstAttribute="leading" secondItem="f9Y-rX-PiK" secondAttribute="leadingMargin" id="jFy-nk-f4f"/>
+                            <constraint firstItem="ElQ-qz-niO" firstAttribute="leading" secondItem="eOm-4k-Knt" secondAttribute="leading" id="pk7-7o-tmb"/>
+                            <constraint firstItem="ElQ-qz-niO" firstAttribute="centerX" secondItem="g8z-Ow-NQT" secondAttribute="centerX" id="xMd-52-MKI"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XgM-k8-jac"/>

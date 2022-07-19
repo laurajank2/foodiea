@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TagsCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UITextField *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *spacingLabel;
 @end
 
 NS_ASSUME_NONNULL_END
