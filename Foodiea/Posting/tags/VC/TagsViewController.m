@@ -69,6 +69,7 @@
 - (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
     Tag *tag = self.tags[indexPath.row];
+    cell.parentVC = self;
     //image
     NSLog(@"%@", tag[@"title"]);
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
