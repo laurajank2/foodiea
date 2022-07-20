@@ -8,10 +8,17 @@
 #import "HomeCell.h"
 #import "DateTools.h"
 #import "APIManager.h"
+#import "TagsCell.h"
+#import "Tag.h"
 #import <Parse/Parse.h>
+@interface HomeCell() <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (strong, nonatomic) NSArray *tagsArray;
+@property NSMutableArray *colors;
+@property NSUInteger colorIndex;
+
+@end
 @implementation HomeCell
-
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -147,6 +154,7 @@
             NSLog(@"%@", error.localizedDescription);
         }
     }];
+    [self fetchTags];
 }
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
@@ -168,6 +176,67 @@
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
         self.bookmarked = YES;
+    }
+}
+
+#pragma mark - Tag Collection View
+
+-(void) fetchTags {
+    PFRelation *relation = [self.post relationForKey:@"tags"];
+    // generate a query based on that relation
+    PFQuery *tagsQuery = [relation query];
+    void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+            [self tagsCallback:tags errorMessage:error];
+        };
+    [self.manager query:tagsQuery getObjects:callbackForTags];
+}
+
+- (void)tagsCallback:(NSArray *)tags errorMessage:(NSError *)error{
+    if (tags != nil) {
+        self.tagsArray = tags;
+        self.colors = [NSMutableArray array];
+        self.colorIndex = 0;
+        [self colorMaker];
+        [_tagsView setDataSource:self];
+        [_tagsView setDelegate:self];
+        [_tagsView reloadData];
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
+    
+}
+
+
+- (void)initalTagSetup {
+    self.tagsView.dataSource = self;
+    self.tagsView.delegate = self;
+    
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+    return self.tagsArray.count;
+}
+
+- (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
+    Tag *tag = self.tagsArray[indexPath.row];
+    cell.tag = tag;
+    cell.writeYourTag = 0;
+    [cell setUp];
+    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
+    self.colorIndex++;
+    return cell;
+}
+
+- (void)colorMaker {
+    float INCREMENT = 0.05;
+    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
+        UIColor *color = [UIColor colorWithHue:hue
+                                    saturation:0.75
+                                    brightness:1.0
+                                         alpha:1.0];
+        [self.colors addObject:color];
     }
 }
 

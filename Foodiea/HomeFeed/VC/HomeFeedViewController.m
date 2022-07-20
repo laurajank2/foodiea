@@ -90,9 +90,10 @@
     
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
     Post *post = self.posts[indexPath.row];
+    NSArray *tags;
+    
     cell.homeVC = self;
     [cell setPost:post];
-    
 
     return cell;
 }
