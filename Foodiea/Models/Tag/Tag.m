@@ -2,7 +2,7 @@
 //  Tag.m
 //  Foodiea
 //
-//  Created by Laura Jankowski on 7/19/22.
+//  Created by Laura Jankowski on 7/20/22.
 //
 
 #import "Tag.h"
@@ -10,6 +10,8 @@
 @implementation Tag
 
 @dynamic title;
+@dynamic createdAt;
+@dynamic tagID;
 
 + (nonnull NSString *)parseClassName {
     return @"Tag";

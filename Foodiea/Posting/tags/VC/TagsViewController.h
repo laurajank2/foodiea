@@ -6,10 +6,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tag.h"
+@import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class TagsViewController;
+
+@protocol TagsViewControllerDelegate <NSObject>
+ - (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag;
+@end
+
 @interface TagsViewController : UIViewController
+
+@property (atomic, strong) id <TagsViewControllerDelegate> delegate;
 
 @end
 

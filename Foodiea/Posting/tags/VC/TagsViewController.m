@@ -70,15 +70,14 @@
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
     Tag *tag = self.tags[indexPath.row];
     cell.parentVC = self;
-    //image
-    NSLog(@"%@", tag[@"title"]);
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
-        cell.titleLabel.text = @"";
-        cell.spacingLabel.text = @"Write your tag";
-        cell.titleLabel.userInteractionEnabled = true;
+        cell.tag = tag;
+        cell.writeYourTag = 1;
+        [cell setUp];
     } else {
-        cell.titleLabel.text = tag[@"title"];
-        cell.spacingLabel.text = tag[@"title"];
+        cell.tag = tag;
+        cell.writeYourTag = 0;
+        [cell setUp];
     }
     cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
     self.colorIndex++;
