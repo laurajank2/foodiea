@@ -117,7 +117,7 @@
     void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
             [self postCallback:posts errorMessage:error];
         };
-    [self.manager queryPosts:postQuery getPosts:callbackForUse];
+    [self.manager query:postQuery getObjects:callbackForUse];
     // fetch data asynchronously
     
 }

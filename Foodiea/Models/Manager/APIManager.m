@@ -23,12 +23,8 @@
 
 #pragma mark - Parse Queries
 
-- (void)userQuery:(PFQuery * _Nullable)userQuery getUsers:(void (^)(NSArray *objects, NSError *error))callback {
+- (void)query:(PFQuery * _Nullable)userQuery getObjects:(void (^)(NSArray *objects, NSError *error))callback {
     [userQuery findObjectsInBackgroundWithBlock:callback];
-}
-
-- (void)queryPosts: (PFQuery * _Nullable)postQuery getPosts:(void (^)(NSArray *objects, NSError *error))callback {
-    [postQuery findObjectsInBackgroundWithBlock:callback];
 }
 
 - (void)relationQuery: (PFRelation * _Nullable)relation getRelationInfo:(void (^)(NSArray *objects, NSError *error))callback {

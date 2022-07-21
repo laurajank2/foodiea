@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (weak, nonatomic) IBOutlet UILabel *postCaption;
 @property (weak, nonatomic) IBOutlet UIImageView *pinImage;
+@property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
 @property (weak, nonatomic) Post *post;
 @property (weak, nonatomic) PFUser *author;
 @property APIManager *manager;
@@ -29,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bookmarkView;
 @property HomeFeedViewController *homeVC;
+
+-(void)setTags:(NSArray*)images;
 
 @end
 

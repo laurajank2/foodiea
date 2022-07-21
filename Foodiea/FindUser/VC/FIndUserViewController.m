@@ -32,6 +32,7 @@
     [super viewDidLoad];
     self.location = @"";
     self.fav = @"";
+    self.price = @"";
     self.usersTableView.delegate = self;
     self.usersTableView.dataSource = self;
     self.userSearchBar.delegate = self;
@@ -47,18 +48,27 @@
 - (void)fetchUsers {
     PFQuery *userQuery = [PFUser query];
     [userQuery includeKey:@"author"];
+    NSLog(@"%@", self.location);
+    NSLog(@"%@", self.fav);
+    NSLog(@"%@", self.price);
     userQuery.limit = 20;
     if(![self.location isEqualToString: @""]) {
+        NSLog(@"location");
         [userQuery whereKey:@"location" equalTo:self.location];
     }
     if(![self.fav isEqualToString: @""]) {
+        NSLog(@"fav");
         [userQuery whereKey:@"fav1" equalTo:self.fav];
+    }
+    if(![self.price isEqualToString: @""]) {
+        NSLog(@"price");
+        [userQuery whereKey:@"price" equalTo:self.price];
     }
 
     void (^callbackForUse)(NSArray *objects, NSError *error) = ^(NSArray *objects, NSError *error){
             [self callback:objects errorMessage:error];
     };
-    [self.manager userQuery:userQuery getUsers:callbackForUse];
+    [self.manager query:userQuery getObjects:callbackForUse];
 }
 
 - (void)callback:(NSArray *)users errorMessage:(NSError *)error{

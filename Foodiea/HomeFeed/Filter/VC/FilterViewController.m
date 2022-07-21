@@ -6,12 +6,18 @@
 //
 
 #import "FilterViewController.h"
+#import <math.h>
+#import "OBSlider.h"
 @import GooglePlaces;
 
 @interface FilterViewController () <GMSAutocompleteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceCtrl;
-@property (weak, nonatomic) IBOutlet UISlider *distanceCtrl;
+@property (weak, nonatomic) IBOutlet OBSlider *distanceCtrl;
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *min;
+@property (weak, nonatomic) IBOutlet UILabel *max;
+@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property NSString *price;
 @property double distance;
 @property double startLatitude;
@@ -34,7 +40,12 @@
     
 }
 - (IBAction)onDistanceChange:(id)sender {
-    self.distance = self.distanceCtrl.value;
+    NSNumberFormatter *twoDecimalPlacesFormatter = [[NSNumberFormatter alloc] init];
+    [twoDecimalPlacesFormatter setMaximumFractionDigits:2];
+    [twoDecimalPlacesFormatter setMinimumFractionDigits:0];
+    NSString *distanceString = [twoDecimalPlacesFormatter stringFromNumber:[NSNumber numberWithFloat: self.distanceCtrl.value]];
+    self.distance = [distanceString doubleValue];
+    self.distanceLabel.text = [NSString stringWithFormat:@"%@%@", distanceString, @" miles"];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -76,6 +87,7 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     [self dismissViewControllerAnimated:YES completion:nil];
     self.startLatitude = place.coordinate.latitude;
     self.startLongitude = place.coordinate.longitude;
+    self.locationLabel.text = place.formattedAddress;
 }
 
 - (void)viewController:(GMSAutocompleteViewController *)viewController

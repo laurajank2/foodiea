@@ -7,10 +7,12 @@
 
 #import "ComposeViewController.h"
 #import "Post.h"
+#import "Tag.h"
+#import "TagsCell.h"
 #import "APIManager.h"
 @import GooglePlaces;
 
-@interface ComposeViewController () <GMSAutocompleteViewControllerDelegate>
+@interface ComposeViewController () <TagsViewControllerDelegate ,UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *postImage;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceSegControl;
 @property (weak, nonatomic) IBOutlet UITextView *postCaption;
@@ -18,7 +20,13 @@
 @property (weak, nonatomic) IBOutlet UIDatePicker *postDatePicker;
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
 @property GMSPlace *postLocation;
+@property APIManager *manager;
+@property NSString *userPrice;
+@property NSArray *tags;
+@property NSMutableArray *colors;
+@property NSUInteger colorIndex;
 @end
 
 @implementation ComposeViewController {
@@ -28,8 +36,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.manager = [[APIManager alloc] init];
+    [self initalTagSetup];
     [self makeButton];
 }
+
+#pragma mark - Image
 - (IBAction)didTapPhoto:(id)sender {
     [self getImagePicker];
 }
@@ -78,6 +90,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - share
+
 - (IBAction)didTapShare:(id)sender {
     if(![self checkCompletion]) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Incomplete Information"
@@ -102,9 +116,11 @@
             postLongitude: [NSNumber numberWithFloat:self.postLocation.coordinate.longitude]
             postLatitude: [NSNumber numberWithFloat:self.postLocation.coordinate.latitude]
             postAddress: self.locationLabel.text
+            postTags: self.tags
             withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
             if(succeeded) {
                 NSLog(@"Successfully posted image!");
+                [self setPrice];
                 [self dismissViewControllerAnimated:YES completion:nil];
                 
             } else {
@@ -113,6 +129,65 @@
         }];
     }
     
+}
+
+#pragma mark - Price
+
+-(void)setPrice {
+    
+    PFQuery *postQuery = [Post query];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery includeKey:@"author"];
+    [postQuery whereKey:@"author" equalTo:[PFUser currentUser]];
+    postQuery.limit = 20;
+
+    void (^callbackForPrice)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+            [self priceCallback:posts errorMessage:error];
+        };
+    [self.manager query:postQuery getObjects:callbackForPrice];
+   
+}
+
+- (void)priceCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    NSLog(@"price call back");
+    if (posts != nil) {
+        int $ = 0;
+        int $$ = 0;
+        int $$$ = 0;
+        int $$$$ = 0;
+        for(Post *post in posts) {
+            if([post.price isEqualToString:@"$"]) {
+                $++;
+            }
+            if([post.price isEqualToString:@"$$"]) {
+                $$++;
+            }
+            if([post.price isEqualToString:@"$$$"]) {
+                $$$++;
+            }
+            if([post.price isEqualToString:@"$$$$"]) {
+                $$$$++;
+            }
+        }
+        
+        if($ > $$ && $ > $$$ && $ > $$$$) {
+            self.userPrice = @"$";
+        } else if($$ > $ && $$ > $$$ && $$ > $$$$) {
+            self.userPrice = @"$$";
+        } else if($$$ > $ && $$$ > $$ && $$$ > $$$$) {
+            self.userPrice = @"$$$";
+        } else if ($$$$ > $ && $$$$ > $$ && $$$$ > $$$) {
+            self.userPrice = @"$$$$";
+        } else {
+            self.userPrice = @"$$";
+        }
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"price"] = self.userPrice;
+        [self.manager saveUserInfo:currentUser];
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
 }
 
 -(BOOL)checkCompletion {
@@ -188,14 +263,72 @@ didFailAutocompleteWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-/*
+#pragma mark - Tags
+
+- (IBAction)didTapTagsArrow:(id)sender {
+    [self performSegueWithIdentifier:@"composeTagsSegue" sender:self];
+}
+- (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag {
+    NSLog(@"tag");
+    NSLog(@"%@", tag);
+    NSMutableArray *temp = [NSMutableArray new];
+    if (self.tags.count >= 1) {
+        for(Tag *oldTag in self.tags) {
+            [temp addObject:oldTag];
+        }
+    }
+    [temp addObject:tag];
+    NSLog(@"%@", temp);
+    self.tags = [temp copy];
+    NSLog(@"%@", self.tags);
+    [self.tagsView reloadData];
+}
+
+- (void)initalTagSetup {
+    self.tagsView.dataSource = self;
+    self.tagsView.delegate = self;
+    self.colors = [NSMutableArray array];
+    self.colorIndex = 0;
+    [self colorMaker];
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+    return self.tags.count;
+}
+
+- (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
+    Tag *tag = self.tags[indexPath.row];
+    cell.tag = tag;
+    cell.writeYourTag = 0;
+    [cell setUp];
+    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
+    self.colorIndex++;
+    return cell;
+}
+
+- (void)colorMaker {
+    float INCREMENT = 0.05;
+    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
+        UIColor *color = [UIColor colorWithHue:hue
+                                    saturation:0.75
+                                    brightness:1.0
+                                         alpha:1.0];
+        [self.colors addObject:color];
+    }
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"composeTagsSegue"]) {
+        TagsViewController *tagsVC = [segue destinationViewController];
+        tagsVC.delegate = self;
+    }
 }
-*/
+
 
 @end
