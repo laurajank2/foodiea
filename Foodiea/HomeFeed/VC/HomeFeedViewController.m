@@ -35,6 +35,7 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     self.manager = [[APIManager alloc] init];
+    [self paginationSetUp];
     [self chooseFetch];
     
     //refresh control
@@ -43,6 +44,11 @@
     [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
     [self setNavBtns];
 
+}
+
+-(void) paginationSetUp {
+    self.noMoreResultsAvail = NO;
+    self.homeFeedTableView.backgroundColor = [UIColor lightTextColor];
 }
 
 -(void)setNavBtns {
@@ -78,24 +84,83 @@
     [self chooseFetch];
 }
 
+#pragma UITableView DataSource Method ::
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.posts.count;
 }
 
--(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    if([ self.dataArray count] ==0){
+            return 0;
+    }
+    else {
+        return [self.dataArray count]+1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
-    Post *post = self.posts[indexPath.row];
-    NSArray *tags;
+    if(cell == nil){
+            cell = [[HomeCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"HomeCell"];
+        }
+    if (self.dataArray.count != 0) {
+            if(indexPath.row < [self.dataArray count]){
+                Post *post = self.posts[indexPath.row];
+                cell.homeVC = self;
+                [cell setPost:post];
+            } else {
+                 if (!self.noMoreResultsAvail) {
+                        spinner.hidden =NO;
+                        spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+                        spinner.frame = CGRectMake(150, 10, 24, 50);
+                        [cell addSubview:spinner];
+                        if ([self.dataArray count] >= 10) {
+                            [spinner startAnimating];
+                        }
+                 } else {
+                        [spinner stopAnimating];
+                        spinner.hidden=YES;
+                        
+                        UILabel* loadingLabel = [[UILabel alloc]init];
+                        loadingLabel.font=[UIFont boldSystemFontOfSize:14.0f];
+                        loadingLabel.textAlignment = UITextAlignmentLeft;
+                        loadingLabel.textColor = [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0];
+                        loadingLabel.numberOfLines = 0;
+                        loadingLabel.text=@"No More Video Available";
+                        loadingLabel.frame=CGRectMake(85,20, 302,25);
+                        [cell addSubview:loadingLabel];
+                    }
+                }
+    }
+
     
-    cell.homeVC = self;
-    [cell setPost:post];
+    
+    
+    
+//    Post *post = self.posts[indexPath.row];
+//    cell.homeVC = self;
+//    [cell setPost:post];
 
     return cell;
+}
+
+#pragma UIScrollView Method::
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (!self.loading) {
+        float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
+        if (endScrolling >= scrollView.contentSize.height) {
+            [self performSelector:@selector(loadDataDelayed) withObject:nil afterDelay:1];
+        }
+    }
+}
+
+#pragma UserDefined Method for generating data which are show in Table :::
+-(void)loadDataDelayed{
+    
+    [self chooseFetch];
+    [self.homeFeedTableView reloadData];
 }
 
 
@@ -115,7 +180,7 @@
         [postQuery whereKey:@"author" equalTo:self.user];
         NSLog(@"%@", self.user);
     }
-    postQuery.limit = 20;
+    postQuery.limit = 10;
     
     
     void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
@@ -193,8 +258,9 @@
             }
         }
         self.posts = [followedPosts copy];
+        self.dataArray =self.posts;
         
-        [self.homeFeedTableView reloadData];
+        //[self.homeFeedTableView reloadData];
         [self.refreshControl endRefreshing];
     } else {
         NSLog(@"%@", error.localizedDescription);

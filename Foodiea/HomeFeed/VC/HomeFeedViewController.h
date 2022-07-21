@@ -10,7 +10,12 @@
 @import Parse;
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HomeFeedViewController : UIViewController <CLLocationManagerDelegate>
+@interface HomeFeedViewController : UIViewController <CLLocationManagerDelegate>{
+    UIActivityIndicatorView *spinner;
+}
+@property (strong, nonatomic) NSMutableArray *dataArray;
+@property (nonatomic) BOOL noMoreResultsAvail;
+@property (nonatomic) BOOL loading;
 @property int subFeed;
 @property PFUser *user;
 @end
