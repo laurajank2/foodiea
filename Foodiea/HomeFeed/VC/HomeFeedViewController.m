@@ -55,8 +55,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    [self fetchFollowerPosts];
     self.screenPosts += 4;
+    [self fetchFollowerPosts];
+    
     //[self chooseFetch];
 }
 
@@ -174,6 +175,7 @@
     }
     if(self.followerPagesLoaded[follower.objectId] != nil) {
         //might need to mess with types
+        NSLog(@"%li", [self.followerPagesLoaded[follower.objectId] integerValue]);
         postQuery.skip = [self.followerPagesLoaded[follower.objectId] integerValue];
     } else {
         NSString *followerId = follower.objectId;
@@ -191,7 +193,7 @@
     if (posts != nil) {
         // all posts in descending order
         for(Post *post in posts) {
-            NSLog(@"%@", post.objectId);
+            NSLog(@"%@", post.caption);
             if(self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
@@ -216,11 +218,14 @@
                                                   ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
+    
+    NSArray *smallArray = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
     if(self.posts != nil) {
-        self.posts = [self.posts arrayByAddingObjectsFromArray:[sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))]];
+        self.posts = [self.posts arrayByAddingObjectsFromArray:smallArray];
     } else {
         self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
     }
+    _postBox = [NSMutableArray new];
     [self.homeFeedTableView reloadData];
 }
 
@@ -263,7 +268,6 @@
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
-    NSLog(@"%i",self.subFeed);
     if(self.subFeed != 1) {
         [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
     }
@@ -275,7 +279,6 @@
     }
 }
 - (IBAction)didTapFindUser:(id)sender {
-    NSLog(@"%i",self.subFeed);
     if(self.subFeed != 1) {
         [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
     }
