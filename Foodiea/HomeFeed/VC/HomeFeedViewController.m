@@ -27,8 +27,7 @@
 @property APIManager *manager;
 //pagination
 @property NSMutableDictionary<NSString*, NSNumber*> *followerPagesLoaded;
-@property (nonatomic, assign) NSInteger pagesLoaded;
-@property (nonatomic, assign) NSInteger totalPages;
+@property (nonatomic, assign) NSInteger screenPosts;
 @end
 
 @implementation HomeFeedViewController
@@ -39,10 +38,9 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     self.manager = [[APIManager alloc] init];
-    self.pagesLoaded = 0;
+    self.screenPosts = 0;
     self.followerPagesLoaded = [NSMutableDictionary dictionary];
     _postBox = [NSMutableArray new];
-    [self fetchFollowerPosts];
     //[self chooseFetch];
     
     //refresh control
@@ -52,6 +50,13 @@
     [self setNavBtns];
 
 }
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    [self fetchFollowerPosts];
+    //[self chooseFetch];
+}
+
 
 -(void)setNavBtns {
     if(self.subFeed > 0){
@@ -81,11 +86,6 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear: animated];
-    //[self chooseFetch];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.posts.count;
 }
@@ -111,6 +111,8 @@
     
 }
 
+#pragma mark - Get home posts by query
+
 
 -(void)fetchFollowerPosts {
     PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
@@ -120,7 +122,6 @@
             [self followerCountCallback:users errorMessage:error];
         };
     [self.manager query:usersQuery getObjects:callbackForUsers];
-    
 }
 
 - (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
@@ -135,14 +136,20 @@
         [alertController addAction:actionOk];
         [self presentViewController:alertController animated:YES completion:nil];
     } else if(users != nil) {
+        int counter = 0;
         for (PFUser *user in users){
-            [self fetchPosts:user];
+            counter++;
+            if(counter != users.count) {
+                [self fetchPosts:user isLast:false];
+            } else {
+                [self fetchPosts:user isLast:true];
+            }
         }
     }
     
 }
 
--(void)fetchPosts:(PFUser *)follower {
+-(void)fetchPosts:(PFUser *)follower isLast:(BOOL)last{
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
@@ -160,53 +167,51 @@
     }
     postQuery.limit = 4;
     void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-        [self postCallback:posts follower:follower errorMessage:error];
+        [self postCallback:posts follower:follower isLast:last errorMessage:error];
         };
     [self.manager query:postQuery getObjects:callbackForUse];
 }
 
-- (void)postCallback:(NSArray *)posts follower:(PFUser *)follower errorMessage:(NSError *)error{
+- (void)postCallback:(NSArray *)posts follower:(PFUser *)follower isLast:(BOOL)last errorMessage:(NSError *)error{
     if (posts != nil) {
         // all posts in descending order
         for(Post *post in posts) {
             if(self.distance != 0.000000) {
-                NSLog(@"%@", post.longitude);
-                    CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+                CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
                 //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
                 CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
-                NSLog(@"%f", distanceInMeters/1609.344);
                 if(distanceInMeters/1609.344 <= self.distance) {
                     [self.postBox addObject:post];
-                    int numLoaded = [self.followerPagesLoaded[follower.objectId] integerValue] +1;
-                    self.followerPagesLoaded[follower.objectId] = [NSNumber numberWithInt:numLoaded];
                 }
             } else {
-                NSLog(@"postBox");
-                NSLog(@"%@", self.postBox);
                 [self.postBox addObject:post];
-                int numLoaded = [self.followerPagesLoaded[follower.objectId] integerValue] +1;
-                self.followerPagesLoaded[follower.objectId] = [NSNumber numberWithInt:numLoaded];
             }
         }
-        [self sortUserPosts];
+        if(last) {
+            [self sortUserPosts];
+            [self updateViewedPosts];
+        }
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
 }
 
 -(void)sortUserPosts {
-    NSLog(@"sort postBox");
-    NSLog(@"%@", self.postBox);
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
                                                   ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
-    NSLog(@"sortedArray");
-    NSLog(@"%@", sortedArray);
-    self.posts = sortedArray;
+    self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
     [self.homeFeedTableView reloadData];
+}
+
+-(void)updateViewedPosts{
+    for(Post *chosenPost in self.posts) {
+        int numLoaded = [self.followerPagesLoaded[chosenPost.author.objectId] integerValue] +1;
+        self.followerPagesLoaded[chosenPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
+    }
 }
 
 //-(void)fetchPostsOLD {
