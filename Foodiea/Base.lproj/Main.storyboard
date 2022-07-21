@@ -553,10 +553,10 @@
                                                                     </label>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="vXk-48-qoL" firstAttribute="leading" secondItem="2OF-hc-Bzk" secondAttribute="leading" id="AHs-vi-MSY"/>
-                                                                    <constraint firstItem="vXk-48-qoL" firstAttribute="top" secondItem="2OF-hc-Bzk" secondAttribute="top" id="XJs-Tl-Eax"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="vXk-48-qoL" secondAttribute="bottom" id="eUP-as-PUk"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="vXk-48-qoL" secondAttribute="trailing" id="qWa-ic-Gr6"/>
+                                                                    <constraint firstItem="vXk-48-qoL" firstAttribute="leading" secondItem="2OF-hc-Bzk" secondAttribute="leading" constant="5" id="AHs-vi-MSY"/>
+                                                                    <constraint firstItem="vXk-48-qoL" firstAttribute="top" secondItem="2OF-hc-Bzk" secondAttribute="top" constant="5" id="XJs-Tl-Eax"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="vXk-48-qoL" secondAttribute="bottom" constant="5" id="eUP-as-PUk"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="vXk-48-qoL" secondAttribute="trailing" constant="5" id="qWa-ic-Gr6"/>
                                                                 </constraints>
                                                             </collectionViewCellContentView>
                                                             <size key="customSize" width="128" height="43"/>
@@ -934,16 +934,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MeU-Ey-wc8">
-                                                    <rect key="frame" x="21" y="7" width="80" height="21"/>
+                                                    <rect key="frame" x="7.6666666666666643" y="5" width="110" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="MeU-Ey-wc8" firstAttribute="top" secondItem="PRY-DC-Be2" secondAttribute="top" constant="7" id="XhW-ug-Ik6"/>
-                                                <constraint firstAttribute="trailing" secondItem="MeU-Ey-wc8" secondAttribute="trailing" constant="24" id="lba-XI-FOg"/>
-                                                <constraint firstItem="MeU-Ey-wc8" firstAttribute="leading" secondItem="PRY-DC-Be2" secondAttribute="leading" constant="21" id="p6Q-7Q-2Fj"/>
+                                                <constraint firstItem="MeU-Ey-wc8" firstAttribute="top" secondItem="PRY-DC-Be2" secondAttribute="top" constant="5" id="XhW-ug-Ik6"/>
+                                                <constraint firstAttribute="bottom" secondItem="MeU-Ey-wc8" secondAttribute="bottom" constant="5" id="gT7-xL-ihx"/>
+                                                <constraint firstAttribute="trailing" secondItem="MeU-Ey-wc8" secondAttribute="trailing" constant="7.5" id="lba-XI-FOg"/>
+                                                <constraint firstItem="MeU-Ey-wc8" firstAttribute="leading" secondItem="PRY-DC-Be2" secondAttribute="leading" constant="7.5" id="p6Q-7Q-2Fj"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="125" height="32"/>
@@ -1076,28 +1077,26 @@
                                             <subviews>
                                                 <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Vegetarian" placeholder="Write your tag" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N77-zp-tc8">
                                                     <rect key="frame" x="0.0" y="11" width="112" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
                                                         <action selector="madeTag:" destination="2ox-QH-4nm" eventType="editingDidEnd" id="WBJ-u3-Dms"/>
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vegetarian" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixO-05-PFv">
-                                                    <rect key="frame" x="0.0" y="0.0" width="112" height="36"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                                    <rect key="frame" x="7.6666666666666643" y="5" width="97" height="26"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                     <color key="textColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerY" secondItem="ixO-05-PFv" secondAttribute="centerY" id="99t-I2-vhd"/>
-                                                <constraint firstItem="ixO-05-PFv" firstAttribute="leading" secondItem="I6C-Q1-4Pi" secondAttribute="leading" id="GB5-0Q-PMp"/>
-                                                <constraint firstItem="ixO-05-PFv" firstAttribute="leading" secondItem="N77-zp-tc8" secondAttribute="leading" id="Md4-Pj-r6a"/>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="top" secondItem="I6C-Q1-4Pi" secondAttribute="top" constant="11" id="Pyh-Z2-nJ2"/>
-                                                <constraint firstItem="ixO-05-PFv" firstAttribute="top" secondItem="I6C-Q1-4Pi" secondAttribute="top" id="YnE-AB-bga"/>
-                                                <constraint firstItem="ixO-05-PFv" firstAttribute="centerX" secondItem="I6C-Q1-4Pi" secondAttribute="centerX" id="gmh-vU-guu"/>
-                                                <constraint firstItem="ixO-05-PFv" firstAttribute="trailing" secondItem="N77-zp-tc8" secondAttribute="trailing" id="pw5-55-coM"/>
-                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerY" secondItem="I6C-Q1-4Pi" secondAttribute="centerY" id="tgd-nX-bJD"/>
+                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerY" secondItem="I6C-Q1-4Pi" secondAttribute="centerY" id="2LI-63-xTj"/>
+                                                <constraint firstAttribute="bottom" secondItem="ixO-05-PFv" secondAttribute="bottom" constant="5" id="57K-r2-q3Z"/>
+                                                <constraint firstItem="N77-zp-tc8" firstAttribute="centerX" secondItem="I6C-Q1-4Pi" secondAttribute="centerX" id="FQ2-GN-cBn"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="leading" secondItem="I6C-Q1-4Pi" secondAttribute="leading" constant="7.5" id="GB5-0Q-PMp"/>
+                                                <constraint firstItem="ixO-05-PFv" firstAttribute="top" secondItem="I6C-Q1-4Pi" secondAttribute="top" constant="5" id="YnE-AB-bga"/>
+                                                <constraint firstAttribute="trailing" secondItem="ixO-05-PFv" secondAttribute="trailing" constant="7.5" id="vbf-wl-1WO"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="112" height="36"/>
