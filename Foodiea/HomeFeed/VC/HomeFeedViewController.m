@@ -19,12 +19,16 @@
 @property (weak, nonatomic) IBOutlet UIButton *profileBtn;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSArray *posts;
-@property (nonatomic, strong) NSArray *allPosts;
+@property (nonatomic, strong) NSMutableArray *postBox;
 @property NSString *price;
 @property double userLat;
 @property double userLong;
 @property double distance;
 @property APIManager *manager;
+//pagination
+@property NSMutableDictionary<NSString*, NSNumber*> *followerPagesLoaded;
+@property (nonatomic, assign) NSInteger pagesLoaded;
+@property (nonatomic, assign) NSInteger totalPages;
 @end
 
 @implementation HomeFeedViewController
@@ -35,7 +39,11 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     self.manager = [[APIManager alloc] init];
-    [self chooseFetch];
+    self.pagesLoaded = 0;
+    self.followerPagesLoaded = [NSMutableDictionary dictionary];
+    _postBox = [NSMutableArray new];
+    [self fetchFollowerPosts];
+    //[self chooseFetch];
     
     //refresh control
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -75,7 +83,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    [self chooseFetch];
+    //[self chooseFetch];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -90,7 +98,6 @@
     
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
     Post *post = self.posts[indexPath.row];
-    NSArray *tags;
     
     cell.homeVC = self;
     [cell setPost:post];
@@ -104,55 +111,19 @@
     
 }
 
--(void)fetchPosts {
-    PFQuery *postQuery = [Post query];
-    [postQuery orderByDescending:@"createdAt"];
-    [postQuery includeKey:@"author"];
-    if(self.price != nil) {
-        [postQuery whereKey:@"price" equalTo:self.price];
-    }
-    if(self.subFeed == 1) {
-        [postQuery whereKey:@"author" equalTo:self.user];
-        NSLog(@"%@", self.user);
-    }
-    postQuery.limit = 20;
-    
-    
-    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-            [self postCallback:posts errorMessage:error];
+
+-(void)fetchFollowerPosts {
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+    // generate a query based on that relation
+    PFQuery *usersQuery = [relation query];
+    void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+            [self followerCountCallback:users errorMessage:error];
         };
-    [self.manager query:postQuery getObjects:callbackForUse];
-    // fetch data asynchronously
+    [self.manager query:usersQuery getObjects:callbackForUsers];
     
 }
 
-- (void)postCallback:(NSArray *)posts errorMessage:(NSError *)error{
-    if (posts != nil) {
-        if(self.subFeed == 0) {
-            // all posts in descending order
-            self.allPosts = posts;
-            PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
-            // generate a query based on that relation
-            PFQuery *filterQuery = [relation query];
-            void (^callbackForFiltering)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-                    [self filterCallback:posts errorMessage:error];
-                };
-            [self.manager query:filterQuery getObjects:callbackForFiltering];
-        } else {
-            NSLog(@"%@", posts);
-            self.posts = posts;
-            [self.homeFeedTableView reloadData];
-            [self.refreshControl endRefreshing];
-        }
-        
-    } else {
-        NSLog(@"%@", error.localizedDescription);
-    }
-}
-
-- (void)filterCallback:(NSArray *)users errorMessage:(NSError *)error{
-    __block NSSet *followedUsers;
-    __block NSMutableArray *followedPosts = [NSMutableArray new];
+- (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
     if (users.count == 0) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Find Foodies!"
                                                                                  message:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration"
@@ -163,47 +134,172 @@
                                                          handler:nil]; //You can use a block here to handle a press on this button
         [alertController addAction:actionOk];
         [self presentViewController:alertController animated:YES completion:nil];
-    } else if (users != nil) {
-        // get users and make a mutable array of ids
-        NSMutableArray *userIds = [NSMutableArray new];
+    } else if(users != nil) {
         for (PFUser *user in users){
-            [userIds addObject:user.objectId];
+            [self fetchPosts:user];
         }
-        //make a set of the userids
-        followedUsers = [NSSet setWithArray:[userIds copy]];
-        //check if posts have an author you follow
-        for (Post *post in self.allPosts) {
-            //if so, add them to followed posts
-            if([followedUsers containsObject:post.author.objectId]) {
-                NSLog(@"%f", self.distance);
-                if(self.distance != 0.000000) {
-                    NSLog(@"%@", post.longitude);
-                        CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
-                    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
-                    //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
-                    CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
-                    NSLog(@"%f", distanceInMeters/1609.344);
-                    if(distanceInMeters/1609.344 <= self.distance) {
-                        [followedPosts addObject:post];
-                    }
-                } else {
-                    [followedPosts addObject:post];
+    }
+    
+}
+
+-(void)fetchPosts:(PFUser *)follower {
+    PFQuery *postQuery = [Post query];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery includeKey:@"author"];
+    [postQuery whereKey:@"author" equalTo:follower];
+    if(self.price != nil) {
+        [postQuery whereKey:@"price" equalTo:self.price];
+    }
+    if(self.followerPagesLoaded[follower.objectId] != nil) {
+        //might need to mess with types
+        postQuery.skip = [self.followerPagesLoaded[follower.objectId] integerValue];
+    } else {
+        NSString *followerId = follower.objectId;
+        NSNumber *zero = @0;
+        [self.followerPagesLoaded setObject:zero forKey:followerId];
+    }
+    postQuery.limit = 4;
+    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+        [self postCallback:posts follower:follower errorMessage:error];
+        };
+    [self.manager query:postQuery getObjects:callbackForUse];
+}
+
+- (void)postCallback:(NSArray *)posts follower:(PFUser *)follower errorMessage:(NSError *)error{
+    if (posts != nil) {
+        // all posts in descending order
+        for(Post *post in posts) {
+            if(self.distance != 0.000000) {
+                NSLog(@"%@", post.longitude);
+                    CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+                CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
+                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
+                CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
+                NSLog(@"%f", distanceInMeters/1609.344);
+                if(distanceInMeters/1609.344 <= self.distance) {
+                    [self.postBox addObject:post];
+                    int numLoaded = [self.followerPagesLoaded[follower.objectId] integerValue] +1;
+                    self.followerPagesLoaded[follower.objectId] = [NSNumber numberWithInt:numLoaded];
                 }
-                
+            } else {
+                NSLog(@"postBox");
+                NSLog(@"%@", self.postBox);
+                [self.postBox addObject:post];
+                int numLoaded = [self.followerPagesLoaded[follower.objectId] integerValue] +1;
+                self.followerPagesLoaded[follower.objectId] = [NSNumber numberWithInt:numLoaded];
             }
         }
-        self.posts = [followedPosts copy];
-        
-        [self.homeFeedTableView reloadData];
-        [self.refreshControl endRefreshing];
+        [self sortUserPosts];
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
 }
 
+-(void)sortUserPosts {
+    NSLog(@"sort postBox");
+    NSLog(@"%@", self.postBox);
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
+                                                  ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
+    NSLog(@"sortedArray");
+    NSLog(@"%@", sortedArray);
+    self.posts = sortedArray;
+    [self.homeFeedTableView reloadData];
+}
+
+//-(void)fetchPostsOLD {
+//    PFQuery *postQuery = [Post query];
+//    [postQuery orderByDescending:@"createdAt"];
+//    [postQuery includeKey:@"author"];
+//    if(self.price != nil) {
+//        [postQuery whereKey:@"price" equalTo:self.price];
+//    }
+//    if(self.subFeed == 1) {
+//        [postQuery whereKey:@"author" equalTo:self.user];
+//        NSLog(@"%@", self.user);
+//    }
+//    postQuery.skip = self.pagesLoaded;
+//    postQuery.limit = 5;
+//
+//
+//    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+//            [self postCallback:posts errorMessage:error];
+//        };
+//    [self.manager query:postQuery getObjects:callbackForUse];
+//    // fetch data asynchronously
+//
+//}
+
+//- (void)postCallbackOLD:(NSArray *)posts errorMessage:(NSError *)error{
+//    if (posts != nil) {
+//        if(self.subFeed == 0) {
+//            // all posts in descending order
+//            self.allPosts = posts;
+//            PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+//            // generate a query based on that relation
+//            PFQuery *filterQuery = [relation query];
+//            void (^callbackForFiltering)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+//                    [self filterCallback:posts errorMessage:error];
+//                };
+//            [self.manager query:filterQuery getObjects:callbackForFiltering];
+//        } else {
+//            NSLog(@"%@", posts);
+//            self.posts = posts;
+//            [self.homeFeedTableView reloadData];
+//            [self.refreshControl endRefreshing];
+//        }
+//
+//    } else {
+//        NSLog(@"%@", error.localizedDescription);
+//    }
+//}
+
+//- (void)filterCallbackOLD:(NSArray *)users errorMessage:(NSError *)error{
+//    __block NSSet *followedUsers;
+//    __block NSMutableArray *followedPosts = [NSMutableArray new];
+//    if (users != nil) {
+//        // get users and make a mutable array of ids
+//        NSMutableArray *userIds = [NSMutableArray new];
+//        for (PFUser *user in users){
+//            [userIds addObject:user.objectId];
+//        }
+//        //make a set of the userids
+//        followedUsers = [NSSet setWithArray:[userIds copy]];
+//        //check if posts have an author you follow
+//        for (Post *post in self.allPosts) {
+//            //if so, add them to followed posts
+//            if([followedUsers containsObject:post.author.objectId]) {
+//                NSLog(@"%f", self.distance);
+//                if(self.distance != 0.000000) {
+//                    NSLog(@"%@", post.longitude);
+//                        CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+//                    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
+//                    //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
+//                    CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
+//                    NSLog(@"%f", distanceInMeters/1609.344);
+//                    if(distanceInMeters/1609.344 <= self.distance) {
+//                        [followedPosts addObject:post];
+//                    }
+//                } else {
+//                    [followedPosts addObject:post];
+//                }
+//
+//            }
+//        }
+//        self.posts = [followedPosts copy];
+//
+//        [self.homeFeedTableView reloadData];
+//        [self.refreshControl endRefreshing];
+//    } else {
+//        NSLog(@"%@", error.localizedDescription);
+//    }
+//}
+
 -(void)chooseFetch {
     if(self.subFeed < 2) {
-        [self fetchPosts];
+        [self fetchFollowerPosts];
     } else {
         [self fetchBookmarked];
     }
