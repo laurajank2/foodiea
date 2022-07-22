@@ -40,10 +40,6 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     self.manager = [[APIManager alloc] init];
-    //pagination
-    self.screenPosts = 0;
-    self.followerPagesLoaded = [NSMutableDictionary dictionary];
-    _postBox = [NSMutableArray new];
     //[self chooseFetch];
     
     //refresh control
@@ -56,8 +52,13 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
-    self.screenPosts += 4;
+    //pagination
+    self.screenPosts = 4;
+    self.followerPagesLoaded = [NSMutableDictionary dictionary];
+    _postBox = [NSMutableArray new];
+    self.posts = nil;
     [self fetchFollowerPosts];
+    NSLog(@"%@", self.posts);
     
     //[self chooseFetch];
 }
