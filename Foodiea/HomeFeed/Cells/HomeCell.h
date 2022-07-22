@@ -31,8 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *bookmarkView;
 @property HomeFeedViewController *homeVC;
 
--(void)setTags:(NSArray*)images;
-
 @end
 
 NS_ASSUME_NONNULL_END
