@@ -22,6 +22,7 @@
 @dynamic latitude;
 @dynamic longitude;
 @dynamic formattedAddress;
+@dynamic currUserMarked;
 
 + (nonnull NSString *)parseClassName {
     return @"Post";

@@ -25,7 +25,7 @@
     [super awakeFromNib];
     self.manager = [[APIManager alloc] init];
 }
-
+//forgot what this does
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -131,39 +131,23 @@
     gestureRecognizer.numberOfTapsRequired = 2;
     
     
-    
+    if(self.post.currUserMarked == YES) {
+        NSLog(@"YES");
+        NSString *imageName = @"bookmark-full.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = YES;
+    } else {
+        NSString *imageName = @"bookmark-empty.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = NO;
+    }
     //bookmark
     //goal: see if the user has the post in their bookmark relation
     //make sure asyncrhronous part doesn't get messed up
-    dispatch_group_t cellGroup = dispatch_group_create();
-    dispatch_group_enter(cellGroup);
     // create a relation based on the authors key
-    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
-    // generate a query based on that relation
-    PFQuery *query = [relation query];
-//    NSLog(@"start");
-//    NSLog(@"%@", self.post.caption);
-//    NSLog(@"%@", self.objectId);
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if ([posts count] != 0) {
-            for (Post* potential in posts) {
-                if ([potential.objectId isEqualToString:self.objectId]) {
-//                    NSLog(@"%@", potential.objectId);
-//                    NSLog(@"%@", self.objectId);
-//                    NSLog(@"%@", self.postCaption.text);
-                    NSString *imageName = @"bookmark-full.png";
-                    UIImage *img = [UIImage imageNamed:imageName];
-                    [self.bookmarkView setImage:img];
-                    self.bookmarked = YES;
-                    break;
-                }
-                // do stuff
-            }
-        } else {
-            NSLog(@"%@", error.localizedDescription);
-        }
-        dispatch_group_leave(cellGroup);
-    }];
+    
     [self fetchTags];
 }
 
@@ -177,6 +161,7 @@
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
         self.bookmarked = NO;
+        self.post.currUserMarked = NO;
     } else {
         PFUser *user = [PFUser currentUser];
         PFRelation *relation = [user relationForKey:@"bookmarks"];
@@ -186,6 +171,7 @@
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
         self.bookmarked = YES;
+        self.post.currUserMarked = YES;
     }
 }
 

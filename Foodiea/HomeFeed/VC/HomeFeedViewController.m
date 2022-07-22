@@ -26,7 +26,8 @@
 @property double distance;
 @property APIManager *manager;
 //pagination
-@property dispatch_group_t group;
+@property dispatch_group_t postGroup;
+@property dispatch_group_t bookmarkGroup;
 @property NSMutableDictionary<NSString*, NSNumber*> *followerPagesLoaded;
 @property (nonatomic, assign) NSInteger screenPosts;
 @property NSArray *lastAdded;
@@ -43,9 +44,9 @@
     //[self chooseFetch];
     
     //refresh control
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(chooseFetch) forControlEvents:UIControlEventValueChanged];
-    [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
+//    self.refreshControl = [[UIRefreshControl alloc] init];
+//    [self.refreshControl addTarget:self action:@selector(chooseFetch) forControlEvents:UIControlEventValueChanged];
+//    [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
     [self setNavBtns];
 
 }
@@ -178,9 +179,9 @@
         [self presentViewController:alertController animated:YES completion:nil];
     } else if(users != nil) {
         int counter = 0;
-        self.group = dispatch_group_create();
+        self.postGroup = dispatch_group_create();
         for (PFUser *user in users){
-            dispatch_group_enter(self.group);
+            dispatch_group_enter(self.postGroup);
             counter++;
             if(counter != users.count) {
                 [self fetchPosts:user];
@@ -189,7 +190,7 @@
             }
         }
         
-        dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
+        dispatch_group_notify(self.postGroup, dispatch_get_main_queue(), ^{
             [self sortUserPosts];
             [self updateViewedPosts];
         });
@@ -239,7 +240,29 @@
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
-    dispatch_group_leave(self.group);
+    dispatch_group_leave(self.postGroup);
+}
+
+-(void)setPostBookMark:(Post * _Nullable)post {
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
+    // generate a query based on that relation
+    PFQuery *query = [relation query];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if ([posts count] != 0) {
+//            NSLog(@"%@", post.objectId);
+//            NSLog(@"%@", posts);
+            for (Post* potential in posts) {
+                if ([potential.objectId isEqualToString:post.objectId]) {
+                    post.currUserMarked = YES;
+                    break;
+                }
+            }
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+        dispatch_group_leave(self.bookmarkGroup);
+    }];
 }
 
 -(void)sortUserPosts {
@@ -257,19 +280,26 @@
     }
     _postBox = [NSMutableArray new];
     _lastAdded = smallArray;
-    NSLog(@"count");
-    NSLog(@"%i", smallArray.count);
-    if(self.screenPosts != 4) {
-        NSMutableArray *indiciesToAdd = [NSMutableArray new];
-        for(int i = 0; i< MIN(4, smallArray.count); i++) {
-            [indiciesToAdd addObject: [NSIndexPath indexPathForRow: self.screenPosts-4-1+i inSection: 0]];
-        }
-        [self.homeFeedTableView beginUpdates];
-        [self.homeFeedTableView insertRowsAtIndexPaths:[indiciesToAdd copy] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.homeFeedTableView endUpdates];
-    } else {
-        [self.homeFeedTableView reloadData];
+    
+    self.bookmarkGroup = dispatch_group_create();
+    for(Post *post in smallArray) {
+        dispatch_group_enter(self.bookmarkGroup);
+        [self setPostBookMark:post];
     }
+    
+    dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
+        if(self.screenPosts != 4) {
+            NSMutableArray *indiciesToAdd = [NSMutableArray new];
+            for(int i = 0; i< MIN(4, smallArray.count); i++) {
+                [indiciesToAdd addObject: [NSIndexPath indexPathForRow: self.screenPosts-4-1+i inSection: 0]];
+            }
+            [self.homeFeedTableView beginUpdates];
+            [self.homeFeedTableView insertRowsAtIndexPaths:[indiciesToAdd copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.homeFeedTableView endUpdates];
+        } else {
+            [self.homeFeedTableView reloadData];
+        }
+    });
     
 }
 
