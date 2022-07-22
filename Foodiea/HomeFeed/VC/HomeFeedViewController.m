@@ -19,12 +19,18 @@
 @property (weak, nonatomic) IBOutlet UIButton *profileBtn;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSArray *posts;
-@property (nonatomic, strong) NSArray *allPosts;
+@property (nonatomic, strong) NSMutableArray *postBox;
 @property NSString *price;
 @property double userLat;
 @property double userLong;
 @property double distance;
 @property APIManager *manager;
+//pagination
+@property dispatch_group_t postGroup;
+@property dispatch_group_t bookmarkGroup;
+@property NSMutableDictionary<NSString*, NSNumber*> *followerPagesLoaded;
+@property (nonatomic, assign) NSInteger screenPosts;
+@property NSArray *lastAdded;
 @end
 
 @implementation HomeFeedViewController
@@ -35,12 +41,12 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     self.manager = [[APIManager alloc] init];
-    [self chooseFetch];
+    //[self chooseFetch];
     
     //refresh control
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(chooseFetch) forControlEvents:UIControlEventValueChanged];
-    [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
+//    self.refreshControl = [[UIRefreshControl alloc] init];
+//    [self.refreshControl addTarget:self action:@selector(chooseFetch) forControlEvents:UIControlEventValueChanged];
+//    [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
     [self setNavBtns];
 
 }
@@ -54,29 +60,28 @@
     }
 }
 
-- (void)fetchBookmarked {
-    PFRelation *relation = [self.user relationForKey:@"bookmarks"];
-    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-            [self bookmarkCallback:posts errorMessage:error];
-        };
-    [self.manager relationQuery:relation getRelationInfo:callbackForUse];
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    //pagination
+    
+    [self chooseFetch];
 }
 
-- (void)bookmarkCallback:(NSArray *)posts errorMessage:(NSError *)error{
-    if (error) {
-        // There was an error
-        NSLog(@"%@", error.localizedDescription);
+-(void)chooseFetch {
+    self.posts = nil;
+    if(self.subFeed < 2) {
+        self.screenPosts = 4;
+        self.followerPagesLoaded = [NSMutableDictionary dictionary];
+        _postBox = [NSMutableArray new];
+        
+        [self fetchFollowerPosts];
     } else {
-        // objects has all the Posts the current user liked.
-        self.posts = posts;
-        [self.homeFeedTableView reloadData];
+        self.screenPosts = 0;
+        [self fetchBookmarked];
     }
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear: animated];
-    [self chooseFetch];
-}
+#pragma mark - set up table
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.posts.count;
@@ -89,9 +94,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
+    if(indexPath.row == self.screenPosts-1) {
+        if(self.subFeed < 2) {
+            self.screenPosts += 4;
+            [self fetchFollowerPosts];
+        } else {
+            [self fetchBookmarked];
+        }
+        
+    }
     Post *post = self.posts[indexPath.row];
-    NSArray *tags;
-    
+    NSLog(@"%li", indexPath.row);
+    NSLog(@"%@", post.caption);
     cell.homeVC = self;
     [cell setPost:post];
 
@@ -104,55 +118,67 @@
     
 }
 
--(void)fetchPosts {
-    PFQuery *postQuery = [Post query];
-    [postQuery orderByDescending:@"createdAt"];
-    [postQuery includeKey:@"author"];
-    if(self.price != nil) {
-        [postQuery whereKey:@"price" equalTo:self.price];
-    }
-    if(self.subFeed == 1) {
-        [postQuery whereKey:@"author" equalTo:self.user];
-        NSLog(@"%@", self.user);
-    }
-    postQuery.limit = 20;
-    
-    
+#pragma mark - Get home posts by query
+
+
+
+- (void)fetchBookmarked {
+    PFRelation *relation = [self.user relationForKey:@"bookmarks"];
+    PFQuery *bookmarksQuery = [relation query];
+    [bookmarksQuery orderByDescending:@"date"];
+    bookmarksQuery.skip = self.screenPosts;
+    bookmarksQuery.limit = 4;
     void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-            [self postCallback:posts errorMessage:error];
+            [self bookmarkCallback:posts errorMessage:error];
         };
-    [self.manager query:postQuery getObjects:callbackForUse];
-    // fetch data asynchronously
+    [self.manager query:bookmarksQuery getObjects:callbackForUse];
     
 }
 
-- (void)postCallback:(NSArray *)posts errorMessage:(NSError *)error{
-    if (posts != nil) {
-        if(self.subFeed == 0) {
-            // all posts in descending order
-            self.allPosts = posts;
-            PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
-            // generate a query based on that relation
-            PFQuery *filterQuery = [relation query];
-            void (^callbackForFiltering)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-                    [self filterCallback:posts errorMessage:error];
-                };
-            [self.manager query:filterQuery getObjects:callbackForFiltering];
-        } else {
-            NSLog(@"%@", posts);
-            self.posts = posts;
-            [self.homeFeedTableView reloadData];
-            [self.refreshControl endRefreshing];
-        }
-        
-    } else {
+- (void)bookmarkCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    if (error) {
+        // There was an error
         NSLog(@"%@", error.localizedDescription);
+    } else {
+        // objects has all the Posts the current user liked.
+        if(self.posts != nil) {
+            self.posts = [self.posts arrayByAddingObjectsFromArray:posts];
+        } else {
+            self.posts = posts;
+        }
+        self.screenPosts += self.posts.count;
     }
+    self.bookmarkGroup = dispatch_group_create();
+    for(Post *post in self.posts) {
+        dispatch_group_enter(self.bookmarkGroup);
+        [self setPostBookMark:post];
+    }
+    dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
+        [self.homeFeedTableView reloadData];
+    });
 }
 
-- (void)filterCallback:(NSArray *)users errorMessage:(NSError *)error{
-    __block NSSet *followedUsers;
-    __block NSMutableArray *followedPosts = [NSMutableArray new];
+-(void)fetchFollowerPosts {
+    if(self.subFeed == 0) {
+        PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+        // generate a query based on that relation
+        PFQuery *usersQuery = [relation query];
+        void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+                [self followerCountCallback:users errorMessage:error];
+            };
+        [self.manager query:usersQuery getObjects:callbackForUsers];
+    } else if (self.subFeed == 1) {
+        PFQuery *userQuery = [PFUser query];
+        [userQuery whereKey:@"objectId" equalTo:self.user.objectId];
+        void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+                [self followerCountCallback:users errorMessage:error];
+            };
+        [self.manager query:userQuery getObjects:callbackForUsers];
+    }
+    
+}
+
+- (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
     if (users.count == 0) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Find Foodies!"
                                                                                  message:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration"
@@ -163,49 +189,136 @@
                                                          handler:nil]; //You can use a block here to handle a press on this button
         [alertController addAction:actionOk];
         [self presentViewController:alertController animated:YES completion:nil];
-    } else if (users != nil) {
-        // get users and make a mutable array of ids
-        NSMutableArray *userIds = [NSMutableArray new];
+    } else if(users != nil) {
+        int counter = 0;
+        self.postGroup = dispatch_group_create();
         for (PFUser *user in users){
-            [userIds addObject:user.objectId];
-        }
-        //make a set of the userids
-        followedUsers = [NSSet setWithArray:[userIds copy]];
-        //check if posts have an author you follow
-        for (Post *post in self.allPosts) {
-            //if so, add them to followed posts
-            if([followedUsers containsObject:post.author.objectId]) {
-                NSLog(@"%f", self.distance);
-                if(self.distance != 0.000000) {
-                    NSLog(@"%@", post.longitude);
-                        CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
-                    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
-                    //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
-                    CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
-                    NSLog(@"%f", distanceInMeters/1609.344);
-                    if(distanceInMeters/1609.344 <= self.distance) {
-                        [followedPosts addObject:post];
-                    }
-                } else {
-                    [followedPosts addObject:post];
-                }
-                
+            dispatch_group_enter(self.postGroup);
+            counter++;
+            if(counter != users.count) {
+                [self fetchPosts:user];
+            } else {
+                [self fetchPosts:user];
             }
         }
-        self.posts = [followedPosts copy];
         
-        [self.homeFeedTableView reloadData];
-        [self.refreshControl endRefreshing];
+        dispatch_group_notify(self.postGroup, dispatch_get_main_queue(), ^{
+            [self sortUserPosts];
+            [self updateViewedPosts];
+        });
+    }
+    
+}
+
+-(void)fetchPosts:(PFUser *)follower {
+    PFQuery *postQuery = [Post query];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery includeKey:@"author"];
+    [postQuery whereKey:@"author" equalTo:follower];
+    if(self.price != nil) {
+        [postQuery whereKey:@"price" equalTo:self.price];
+    }
+    if(self.followerPagesLoaded[follower.objectId] != nil) {
+        //might need to mess with types
+        postQuery.skip = [self.followerPagesLoaded[follower.objectId] integerValue];
+    } else {
+        NSString *followerId = follower.objectId;
+        NSNumber *zero = @0;
+        [self.followerPagesLoaded setObject:zero forKey:followerId];
+    }
+    postQuery.limit = 4;
+    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+        [self postCallback:posts follower:follower errorMessage:error];
+        };
+    [self.manager query:postQuery getObjects:callbackForUse];
+}
+
+- (void)postCallback:(NSArray *)posts follower:(PFUser *)follower errorMessage:(NSError *)error{
+    if (posts != nil) {
+        // all posts in descending order
+        for(Post *post in posts) {
+            if(self.distance != 0.000000) {
+                CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+                CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
+                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
+                CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
+                if(distanceInMeters/1609.344 <= self.distance) {
+                    [self.postBox addObject:post];
+                }
+            } else {
+                [self.postBox addObject:post];
+            }
+        }
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
+    dispatch_group_leave(self.postGroup);
 }
 
--(void)chooseFetch {
-    if(self.subFeed < 2) {
-        [self fetchPosts];
+-(void)setPostBookMark:(Post * _Nullable)post {
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
+    // generate a query based on that relation
+    PFQuery *query = [relation query];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if ([posts count] != 0) {
+//            NSLog(@"%@", post.objectId);
+//            NSLog(@"%@", posts);
+            for (Post* potential in posts) {
+                if ([potential.objectId isEqualToString:post.objectId]) {
+                    post.currUserMarked = YES;
+                    break;
+                }
+            }
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+        dispatch_group_leave(self.bookmarkGroup);
+    }];
+}
+
+-(void)sortUserPosts {
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
+                                                  ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
+    
+    NSArray *smallArray = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
+    if(self.posts != nil) {
+        self.posts = [self.posts arrayByAddingObjectsFromArray:smallArray];
     } else {
-        [self fetchBookmarked];
+        self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
+    }
+    _postBox = [NSMutableArray new];
+    _lastAdded = smallArray;
+    
+    self.bookmarkGroup = dispatch_group_create();
+    for(Post *post in smallArray) {
+        dispatch_group_enter(self.bookmarkGroup);
+        [self setPostBookMark:post];
+    }
+    
+    dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
+        if(self.screenPosts != 4) {
+            NSMutableArray *indiciesToAdd = [NSMutableArray new];
+            for(int i = 0; i< MIN(4, smallArray.count); i++) {
+                [indiciesToAdd addObject: [NSIndexPath indexPathForRow: self.screenPosts-4-1+i inSection: 0]];
+            }
+            [self.homeFeedTableView beginUpdates];
+            [self.homeFeedTableView insertRowsAtIndexPaths:[indiciesToAdd copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.homeFeedTableView endUpdates];
+        } else {
+            [self.homeFeedTableView reloadData];
+        }
+    });
+    
+}
+
+-(void)updateViewedPosts{
+    for(Post *chosenPost in self.lastAdded) {
+        int numLoaded = [self.followerPagesLoaded[chosenPost.author.objectId] integerValue] +1;
+        self.followerPagesLoaded[chosenPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
     }
 }
 #pragma mark - delegate
@@ -231,7 +344,6 @@
 #pragma mark - Navigation
 
 - (IBAction)didTapProfile:(id)sender {
-    NSLog(@"%i",self.subFeed);
     if(self.subFeed != 1) {
         [self performSegueWithIdentifier:@"feedProfileSegue" sender:nil];
     }
@@ -243,7 +355,6 @@
     }
 }
 - (IBAction)didTapFindUser:(id)sender {
-    NSLog(@"%i",self.subFeed);
     if(self.subFeed != 1) {
         [self performSegueWithIdentifier:@"findUserSegue" sender:nil];
     }

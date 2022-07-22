@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSArray *tagsArray;
 @property NSMutableArray *colors;
 @property NSUInteger colorIndex;
+@property NSString *objectId;
 
 @end
 @implementation HomeCell
@@ -24,7 +25,7 @@
     [super awakeFromNib];
     self.manager = [[APIManager alloc] init];
 }
-
+//forgot what this does
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -104,8 +105,8 @@
 - (void)setPost:(Post *)newPost {
     _post = newPost;
     [self fetchUser:self.post.author.objectId];
+    self.objectId = self.post.objectId;
     self.postCaption.text = self.post[@"caption"];
-    NSLog(@"%@", self.author);
     NSDate *dateVisited = self.post[@"date"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"EEEE, MMMM dd yyyy"];
@@ -130,30 +131,23 @@
     gestureRecognizer.numberOfTapsRequired = 2;
     
     
+    if(self.post.currUserMarked == YES) {
+        NSLog(@"YES");
+        NSString *imageName = @"bookmark-full.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = YES;
+    } else {
+        NSString *imageName = @"bookmark-empty.png";
+        UIImage *img = [UIImage imageNamed:imageName];
+        [self.bookmarkView setImage:img];
+        self.bookmarked = NO;
+    }
     //bookmark
     //goal: see if the user has the post in their bookmark relation
+    //make sure asyncrhronous part doesn't get messed up
     // create a relation based on the authors key
-    PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
-    // generate a query based on that relation
-    PFQuery *query = [relation query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
-        if ([posts count] != 0) {
-            for (Post* potential in posts) {
-                if ([potential.objectId isEqualToString:self.post.objectId]) {
-                    NSLog(@"bookmarked");
-                    NSString *imageName = @"bookmark-full.png";
-                    UIImage *img = [UIImage imageNamed:imageName];
-                    [self.bookmarkView setImage:img];
-                    self.bookmarked = YES;
-                    break;
-                }
-                // do stuff
-            }
-        } else {
-            NSLog(@"no bookmarks");
-            NSLog(@"%@", error.localizedDescription);
-        }
-    }];
+    
     [self fetchTags];
 }
 
@@ -167,6 +161,7 @@
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
         self.bookmarked = NO;
+        self.post.currUserMarked = NO;
     } else {
         PFUser *user = [PFUser currentUser];
         PFRelation *relation = [user relationForKey:@"bookmarks"];
@@ -176,6 +171,7 @@
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
         self.bookmarked = YES;
+        self.post.currUserMarked = YES;
     }
 }
 
