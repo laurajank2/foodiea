@@ -29,6 +29,7 @@
 @property dispatch_group_t group;
 @property NSMutableDictionary<NSString*, NSNumber*> *followerPagesLoaded;
 @property (nonatomic, assign) NSInteger screenPosts;
+@property NSArray *lastAdded;
 @end
 
 @implementation HomeFeedViewController
@@ -157,7 +158,6 @@
         }
         
         dispatch_group_notify(self.group, dispatch_get_main_queue(), ^{
-            NSLog(@"finally!");
             [self sortUserPosts];
             [self updateViewedPosts];
         });
@@ -193,7 +193,6 @@
     if (posts != nil) {
         // all posts in descending order
         for(Post *post in posts) {
-            NSLog(@"%@", post.caption);
             if(self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
@@ -226,14 +225,17 @@
         self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
     }
     _postBox = [NSMutableArray new];
+    _lastAdded = smallArray;
     [self.homeFeedTableView reloadData];
 }
 
 -(void)updateViewedPosts{
-    for(Post *chosenPost in self.posts) {
+    NSLog(@"%@", self.followerPagesLoaded);
+    for(Post *chosenPost in self.lastAdded) {
         int numLoaded = [self.followerPagesLoaded[chosenPost.author.objectId] integerValue] +1;
         self.followerPagesLoaded[chosenPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
     }
+    NSLog(@"%@", self.followerPagesLoaded);
 }
 
 #pragma mark - pagination logic

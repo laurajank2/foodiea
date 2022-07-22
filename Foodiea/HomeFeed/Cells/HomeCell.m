@@ -105,7 +105,6 @@
     _post = newPost;
     [self fetchUser:self.post.author.objectId];
     self.postCaption.text = self.post[@"caption"];
-    NSLog(@"%@", self.author);
     NSDate *dateVisited = self.post[@"date"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"EEEE, MMMM dd yyyy"];
@@ -140,7 +139,6 @@
         if ([posts count] != 0) {
             for (Post* potential in posts) {
                 if ([potential.objectId isEqualToString:self.post.objectId]) {
-                    NSLog(@"bookmarked");
                     NSString *imageName = @"bookmark-full.png";
                     UIImage *img = [UIImage imageNamed:imageName];
                     [self.bookmarkView setImage:img];
@@ -150,7 +148,6 @@
                 // do stuff
             }
         } else {
-            NSLog(@"no bookmarks");
             NSLog(@"%@", error.localizedDescription);
         }
     }];
