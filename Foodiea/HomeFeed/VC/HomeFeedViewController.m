@@ -62,6 +62,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     //pagination
+    
     [self chooseFetch];
 }
 
@@ -101,6 +102,7 @@
         
     }
     Post *post = self.posts[indexPath.row];
+    NSLog(@"%li", indexPath.row);
     NSLog(@"%@", post.caption);
     cell.homeVC = self;
     [cell setPost:post];
@@ -139,7 +141,6 @@
         } else {
             self.posts = posts;
         }
-        [self.homeFeedTableView reloadData];
         self.screenPosts += self.posts.count;
     }
 }
@@ -256,7 +257,20 @@
     }
     _postBox = [NSMutableArray new];
     _lastAdded = smallArray;
-    [self.homeFeedTableView reloadData];
+    NSLog(@"count");
+    NSLog(@"%i", smallArray.count);
+    if(self.screenPosts != 4) {
+        NSMutableArray *indiciesToAdd = [NSMutableArray new];
+        for(int i = 0; i< MIN(4, smallArray.count); i++) {
+            [indiciesToAdd addObject: [NSIndexPath indexPathForRow: self.screenPosts-4-1+i inSection: 0]];
+        }
+        [self.homeFeedTableView beginUpdates];
+        [self.homeFeedTableView insertRowsAtIndexPaths:[indiciesToAdd copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.homeFeedTableView endUpdates];
+    } else {
+        [self.homeFeedTableView reloadData];
+    }
+    
 }
 
 -(void)updateViewedPosts{
