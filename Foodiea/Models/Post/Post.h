@@ -27,7 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *formattedAddress;
 
 
+
 + (void) postUserImage: ( UIImage * _Nullable )image restaurantName: (NSString * _Nullable )name restaurantPrice: (NSString * _Nullable )price withCaption: ( NSString * _Nullable )caption postDate: ( NSDate * _Nullable )date postLongitude: (NSNumber * _Nullable) longitude postLatitude: (NSNumber * _Nullable) latitude postAddress: (NSString * _Nullable) address postTags: (NSArray * _Nullable)tags withCompletion: (PFBooleanResultBlock  _Nullable)completion;
+
+
 
 @end
 

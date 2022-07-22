@@ -50,20 +50,6 @@
 
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear: animated];
-    //pagination
-    self.screenPosts = 4;
-    self.followerPagesLoaded = [NSMutableDictionary dictionary];
-    _postBox = [NSMutableArray new];
-    self.posts = nil;
-    [self fetchFollowerPosts];
-    NSLog(@"%@", self.posts);
-    
-    //[self chooseFetch];
-}
-
-
 -(void)setNavBtns {
     if(self.subFeed > 0){
         [self.profileBtn setTitle:@"" forState:UIControlStateNormal];
@@ -73,24 +59,26 @@
     }
 }
 
-- (void)fetchBookmarked {
-    PFRelation *relation = [self.user relationForKey:@"bookmarks"];
-    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-            [self bookmarkCallback:posts errorMessage:error];
-        };
-    [self.manager relationQuery:relation getRelationInfo:callbackForUse];
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    //pagination
+    [self chooseFetch];
 }
 
-- (void)bookmarkCallback:(NSArray *)posts errorMessage:(NSError *)error{
-    if (error) {
-        // There was an error
-        NSLog(@"%@", error.localizedDescription);
+-(void)chooseFetch {
+    self.posts = nil;
+    if(self.subFeed < 2) {
+        self.screenPosts = 4;
+        self.followerPagesLoaded = [NSMutableDictionary dictionary];
+        _postBox = [NSMutableArray new];
+        
+        [self fetchFollowerPosts];
     } else {
-        // objects has all the Posts the current user liked.
-        self.posts = posts;
-        [self.homeFeedTableView reloadData];
+        [self fetchBookmarked];
     }
 }
+
+#pragma mark - set up table
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.posts.count;
@@ -104,11 +92,16 @@
     
     HomeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HomeCell"];
     if(indexPath.row == self.screenPosts-1) {
-        self.screenPosts += 4;
-        [self fetchFollowerPosts];
+        if(self.subFeed < 2) {
+            self.screenPosts += 4;
+            [self fetchFollowerPosts];
+        } else {
+            [self fetchBookmarked];
+        }
+        
     }
     Post *post = self.posts[indexPath.row];
-    
+    NSLog(@"%@", post.caption);
     cell.homeVC = self;
     [cell setPost:post];
 
@@ -123,6 +116,33 @@
 
 #pragma mark - Get home posts by query
 
+
+
+- (void)fetchBookmarked {
+    PFRelation *relation = [self.user relationForKey:@"bookmarks"];
+    PFQuery *bookmarksQuery = [relation query];
+    bookmarksQuery.skip = self.screenPosts;
+    void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+            [self bookmarkCallback:posts errorMessage:error];
+        };
+    [self.manager query:bookmarksQuery getObjects:callbackForUse];
+}
+
+- (void)bookmarkCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    if (error) {
+        // There was an error
+        NSLog(@"%@", error.localizedDescription);
+    } else {
+        // objects has all the Posts the current user liked.
+        if(self.posts != nil) {
+            self.posts = [self.posts arrayByAddingObjectsFromArray:posts];
+        } else {
+            self.posts = posts;
+        }
+        [self.homeFeedTableView reloadData];
+        self.screenPosts += self.posts.count;
+    }
+}
 
 -(void)fetchFollowerPosts {
     if(self.subFeed == 0) {
@@ -186,7 +206,6 @@
     }
     if(self.followerPagesLoaded[follower.objectId] != nil) {
         //might need to mess with types
-        NSLog(@"%li", [self.followerPagesLoaded[follower.objectId] integerValue]);
         postQuery.skip = [self.followerPagesLoaded[follower.objectId] integerValue];
     } else {
         NSString *followerId = follower.objectId;
@@ -241,21 +260,9 @@
 }
 
 -(void)updateViewedPosts{
-    NSLog(@"%@", self.followerPagesLoaded);
     for(Post *chosenPost in self.lastAdded) {
         int numLoaded = [self.followerPagesLoaded[chosenPost.author.objectId] integerValue] +1;
         self.followerPagesLoaded[chosenPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
-    }
-    NSLog(@"%@", self.followerPagesLoaded);
-}
-
-#pragma mark - pagination logic
-
--(void)chooseFetch {
-    if(self.subFeed < 2) {
-        [self fetchFollowerPosts];
-    } else {
-        [self fetchBookmarked];
     }
 }
 #pragma mark - delegate

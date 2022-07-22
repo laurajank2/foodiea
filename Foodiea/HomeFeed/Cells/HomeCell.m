@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSArray *tagsArray;
 @property NSMutableArray *colors;
 @property NSUInteger colorIndex;
+@property NSString *objectId;
 
 @end
 @implementation HomeCell
@@ -104,6 +105,7 @@
 - (void)setPost:(Post *)newPost {
     _post = newPost;
     [self fetchUser:self.post.author.objectId];
+    self.objectId = self.post.objectId;
     self.postCaption.text = self.post[@"caption"];
     NSDate *dateVisited = self.post[@"date"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -129,16 +131,26 @@
     gestureRecognizer.numberOfTapsRequired = 2;
     
     
+    
     //bookmark
     //goal: see if the user has the post in their bookmark relation
+    //make sure asyncrhronous part doesn't get messed up
+    dispatch_group_t cellGroup = dispatch_group_create();
+    dispatch_group_enter(cellGroup);
     // create a relation based on the authors key
     PFRelation *relation = [[PFUser currentUser] relationForKey:@"bookmarks"];
     // generate a query based on that relation
     PFQuery *query = [relation query];
+//    NSLog(@"start");
+//    NSLog(@"%@", self.post.caption);
+//    NSLog(@"%@", self.objectId);
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if ([posts count] != 0) {
             for (Post* potential in posts) {
-                if ([potential.objectId isEqualToString:self.post.objectId]) {
+                if ([potential.objectId isEqualToString:self.objectId]) {
+//                    NSLog(@"%@", potential.objectId);
+//                    NSLog(@"%@", self.objectId);
+//                    NSLog(@"%@", self.postCaption.text);
                     NSString *imageName = @"bookmark-full.png";
                     UIImage *img = [UIImage imageNamed:imageName];
                     [self.bookmarkView setImage:img];
@@ -150,6 +162,7 @@
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
+        dispatch_group_leave(cellGroup);
     }];
     [self fetchTags];
 }
