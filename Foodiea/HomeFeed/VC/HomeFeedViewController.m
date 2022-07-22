@@ -125,13 +125,23 @@
 
 
 -(void)fetchFollowerPosts {
-    PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
-    // generate a query based on that relation
-    PFQuery *usersQuery = [relation query];
-    void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
-            [self followerCountCallback:users errorMessage:error];
-        };
-    [self.manager query:usersQuery getObjects:callbackForUsers];
+    if(self.subFeed == 0) {
+        PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+        // generate a query based on that relation
+        PFQuery *usersQuery = [relation query];
+        void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+                [self followerCountCallback:users errorMessage:error];
+            };
+        [self.manager query:usersQuery getObjects:callbackForUsers];
+    } else if (self.subFeed == 1) {
+        PFQuery *userQuery = [PFUser query];
+        [userQuery whereKey:@"objectId" equalTo:self.user.objectId];
+        void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+                [self followerCountCallback:users errorMessage:error];
+            };
+        [self.manager query:userQuery getObjects:callbackForUsers];
+    }
+    
 }
 
 - (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
