@@ -76,6 +76,7 @@
         
         [self fetchFollowerPosts];
     } else {
+        self.screenPosts = 0;
         [self fetchBookmarked];
     }
 }
@@ -124,11 +125,14 @@
 - (void)fetchBookmarked {
     PFRelation *relation = [self.user relationForKey:@"bookmarks"];
     PFQuery *bookmarksQuery = [relation query];
+    [bookmarksQuery orderByDescending:@"date"];
     bookmarksQuery.skip = self.screenPosts;
+    bookmarksQuery.limit = 4;
     void (^callbackForUse)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
             [self bookmarkCallback:posts errorMessage:error];
         };
     [self.manager query:bookmarksQuery getObjects:callbackForUse];
+    
 }
 
 - (void)bookmarkCallback:(NSArray *)posts errorMessage:(NSError *)error{
@@ -144,6 +148,14 @@
         }
         self.screenPosts += self.posts.count;
     }
+    self.bookmarkGroup = dispatch_group_create();
+    for(Post *post in self.posts) {
+        dispatch_group_enter(self.bookmarkGroup);
+        [self setPostBookMark:post];
+    }
+    dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
+        [self.homeFeedTableView reloadData];
+    });
 }
 
 -(void)fetchFollowerPosts {
