@@ -10,6 +10,7 @@
 #import "APIManager.h"
 #import "TagsCell.h"
 #import "Tag.h"
+#import <ChameleonFramework/Chameleon.h>
 #import <Parse/Parse.h>
 @interface HomeCell() <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -232,7 +233,7 @@
                                     saturation:0.75
                                     brightness:1.0
                                          alpha:1.0];
-        [self.colors addObject:color];
+        [self.colors addObject:[(UIColor *)color flatten]];
     }
 }
 

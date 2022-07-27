@@ -1,5 +1,8 @@
 PODS:
   - Bolts/Tasks (1.9.1)
+  - ChameleonFramework (2.1.0):
+    - ChameleonFramework/Default (= 2.1.0)
+  - ChameleonFramework/Default (2.1.0)
   - DateTools (2.0.0)
   - GoogleMaps (7.0.0):
     - GoogleMaps/Maps (= 7.0.0)
@@ -17,6 +20,7 @@ PODS:
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
+  - ChameleonFramework
   - DateTools
   - GoogleMaps (= 7.0.0)
   - GooglePlaces (= 7.0.0)
@@ -28,6 +32,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Bolts
+    - ChameleonFramework
     - DateTools
     - GoogleMaps
     - GooglePlaces
@@ -37,6 +42,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   GoogleMaps: 6e9c923ca035989709fcb5771544fda4cc5fa2a4
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
@@ -44,6 +50,6 @@ SPEC CHECKSUMS:
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: e6c83ada3c7b78f1973a60d793fd1e190206b0a3
+PODFILE CHECKSUM: 03ca39705c296c25dff0baca02832e60ed87ef86
 
 COCOAPODS: 1.11.3

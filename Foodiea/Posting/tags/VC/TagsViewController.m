@@ -9,7 +9,7 @@
 #import "TagsCell.h"
 #import "Tag.h"
 #import "APIManager.h"
-
+#import <ChameleonFramework/Chameleon.h>
 @interface TagsViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
 @property APIManager *manager;
@@ -80,6 +80,7 @@
         [cell setUp];
     }
     cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
+    cell.titleLabel.textColor = ContrastColor([self.colors objectAtIndex:self.colorIndex], YES);
     self.colorIndex++;
     return cell;
 }
@@ -91,7 +92,7 @@
                                     saturation:0.75
                                     brightness:1.0
                                          alpha:1.0];
-        [self.colors addObject:color];
+        [self.colors addObject:[(UIColor *)color flatten]];
     }
 }
 

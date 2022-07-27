@@ -81,17 +81,21 @@
         [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
     } else {
         if (self.followed) {
+            self.followed = NO;
+            [self setRightNavBtn];
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation removeObject:self.user];
             [self.manager saveUserInfo:user];
-            [self setFollowed];
+            
         } else {
+            self.followed = YES;
+            [self setRightNavBtn];
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation addObject:self.user];
             [self.manager saveUserInfo:user];
-            [self setFollowed];
+            
         }
         
     }
@@ -176,14 +180,18 @@
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if ([posts count] != 0) {
+            Boolean navSet = NO;
             for (PFUser* potential in posts) {
                 if ([potential.objectId isEqualToString:self.user.objectId]) {
                     self.followed = YES;
+                    navSet = YES;
                     [self setRightNavBtn];
                     break;
                 }
             }
-            [self setRightNavBtn];
+            if(!navSet) {
+                [self setRightNavBtn];
+            }
         } else {
             NSLog(@"not following anyone");
             [self setRightNavBtn];

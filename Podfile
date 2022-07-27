@@ -14,6 +14,8 @@ pod 'UITextView+Placeholder'
  pod 'DateTools'
 pod 'GoogleMaps', '7.0.0'
 pod 'GooglePlaces', '7.0.0'
+use_frameworks!
+pod 'ChameleonFramework'
 
 
   target 'FoodieaTests' do
