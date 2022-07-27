@@ -28,13 +28,13 @@
 		833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA02875037E004E9D0C /* LoginViewController.m */; };
 		833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */; };
 		833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AA628750FD0004E9D0C /* ProfileViewController.m */; };
-		833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 833B1AA8287510A2004E9D0C /* Assets.xcassets */; };
 		833B1AAC28751438004E9D0C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAB28751438004E9D0C /* SettingsViewController.m */; };
 		833B1AAF2875F5FB004E9D0C /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1AAE2875F5FB004E9D0C /* ComposeViewController.m */; };
 		833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32D9287E309C0025C56E /* FIndUserViewController.m */; };
 		833D32DE287E33460025C56E /* FindUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32DD287E33460025C56E /* FindUserCell.m */; };
 		833D32E3287F420D0025C56E /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32E2287F420D0025C56E /* FilterViewController.m */; };
 		834434ED2888927F00ADE507 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 834434EC2888927F00ADE507 /* Tag.m */; };
+		8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8378C1612891A6B100A9EF05 /* Icons.xcassets */; };
 		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
 		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
@@ -103,7 +103,6 @@
 		833B1AA3287505FA004E9D0C /* HomeFeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeFeedViewController.m; sourceTree = "<group>"; };
 		833B1AA528750FD0004E9D0C /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		833B1AA628750FD0004E9D0C /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
-		833B1AA8287510A2004E9D0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../.Trash/Assets.xcassets; sourceTree = "<group>"; };
 		833B1AAA28751438004E9D0C /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		833B1AAB28751438004E9D0C /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		833B1AAD2875F5FB004E9D0C /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
@@ -116,6 +115,7 @@
 		833D32E2287F420D0025C56E /* FilterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		834434EB2888927F00ADE507 /* Tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		834434EC2888927F00ADE507 /* Tag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
+		8378C1612891A6B100A9EF05 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
@@ -310,9 +310,9 @@
 				833B1A6C2874F3AC004E9D0C /* Main.storyboard */,
 				833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */,
 				833B1A742874F3AD004E9D0C /* Info.plist */,
-				833B1AA8287510A2004E9D0C /* Assets.xcassets */,
 				833B1A752874F3AD004E9D0C /* main.m */,
 				83199ED42880902D002C6850 /* Keys.plist */,
+				8378C1612891A6B100A9EF05 /* Icons.xcassets */,
 			);
 			path = Foodiea;
 			sourceTree = "<group>";
@@ -649,7 +649,7 @@
 			files = (
 				83199ED52880902D002C6850 /* Keys.plist in Resources */,
 				833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */,
-				833B1AA9287510A2004E9D0C /* Assets.xcassets in Resources */,
+				8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */,
 				833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
