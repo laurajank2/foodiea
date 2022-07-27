@@ -11,6 +11,7 @@
 #import "ProfileCell.h"
 #import "APIManager.h"
 #import "HomeFeedViewController.h"
+#import "FontAwesomeKit/FontAwesomeKit.h"
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
@@ -63,9 +64,18 @@
 }
 
 -(void)setRightNavBtn {
-    NSLog(@"setRight");
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
-        [self.rightNavBtn setTitle:@"Settings" forState:UIControlStateNormal];
+        FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:30];
+        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+        UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+        cogIcon.iconFontSize = 30;
+        UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+        self.navigationItem.rightBarButtonItem =
+        [[UIBarButtonItem alloc] initWithImage:rightImage
+                           landscapeImagePhone:rightLandscapeImage
+                                         style:UIBarButtonItemStylePlain
+                                        target:self
+                                        action:@selector(handleNav)];
     } else {
         if(self.followed) {
             [self.rightNavBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
@@ -76,25 +86,33 @@
     }
 }
 
-- (IBAction)tapTopRight:(id)sender {
+- (void) handleNav {
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
     } else {
         if (self.followed) {
+            self.followed = NO;
+            [self setRightNavBtn];
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation removeObject:self.user];
             [self.manager saveUserInfo:user];
-            [self setFollowed];
+            
         } else {
+            self.followed = YES;
+            [self setRightNavBtn];
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation addObject:self.user];
             [self.manager saveUserInfo:user];
-            [self setFollowed];
+            
         }
         
     }
+}
+
+- (IBAction)tapTopRight:(id)sender {
+    [self handleNav];
     
 }
 
@@ -176,14 +194,18 @@
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if ([posts count] != 0) {
+            Boolean navSet = NO;
             for (PFUser* potential in posts) {
                 if ([potential.objectId isEqualToString:self.user.objectId]) {
                     self.followed = YES;
+                    navSet = YES;
                     [self setRightNavBtn];
                     break;
                 }
             }
-            [self setRightNavBtn];
+            if(!navSet) {
+                [self setRightNavBtn];
+            }
         } else {
             NSLog(@"not following anyone");
             [self setRightNavBtn];
