@@ -8,7 +8,7 @@
 #import "SearchFilterViewController.h"
 @import GooglePlaces;
 
-@interface SearchFilterViewController () <GMSAutocompleteViewControllerDelegate>
+@interface SearchFilterViewController () <UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *searchCtrl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceCtrl;
 @property (weak, nonatomic) IBOutlet UIButton *locationBtn;

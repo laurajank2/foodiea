@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TagsViewController : UIViewController
 
+@property Boolean filter;
 @property (atomic, strong) id <TagsViewControllerDelegate> delegate;
 
 @end

@@ -36,6 +36,9 @@
 - (void)fetchTags {
     PFQuery *tagQuery = [Tag query];
     [tagQuery orderByAscending:@"title"];
+    if(self.filter) {
+        [tagQuery whereKey:@"title" notEqualTo:@"zzzzz"];
+    }
     tagQuery.limit = 20;
 
     void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
@@ -79,6 +82,7 @@
         cell.writeYourTag = 0;
         [cell setUp];
     }
+    cell.filter = self.filter;
     cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
     self.colorIndex++;
     return cell;

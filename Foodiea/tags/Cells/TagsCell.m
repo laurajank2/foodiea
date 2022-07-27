@@ -92,10 +92,8 @@
     self.manager = [[APIManager alloc] init];
     __block Tag *finalTag;
     PFQuery *tagQuery = [Tag query];
-    NSLog(@"%@", self.tag);
-    NSLog(@"%@", self.tag.objectId);
     [tagQuery whereKey:@"title" equalTo:self.titleLabel.text];
-    tagQuery.limit = 20;
+    tagQuery.limit = 40;
     void (^callbackForTagCheck)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
         [self callback:tags finalTag:finalTag errorMessage:error];
     };
@@ -117,9 +115,6 @@
 
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
-    NSLog(@"%@", self.parentVC.delegate);
-    NSLog(@"%@", self.parentVC);
-    NSLog(@"%@", self.tag);
     [self sendRealTag];
     [self.parentVC dismissViewControllerAnimated:YES completion:nil];
 }
