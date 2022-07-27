@@ -4,6 +4,27 @@ PODS:
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
   - DateTools (2.0.0)
+  - FontAwesomeKit (2.2.1):
+    - FontAwesomeKit/Core (= 2.2.1)
+    - FontAwesomeKit/FontAwesome (= 2.2.1)
+    - FontAwesomeKit/FoundationIcons (= 2.2.1)
+    - FontAwesomeKit/IonIcons (= 2.2.1)
+    - FontAwesomeKit/Material (= 2.2.1)
+    - FontAwesomeKit/Octicons (= 2.2.1)
+    - FontAwesomeKit/Zocial (= 2.2.1)
+  - FontAwesomeKit/Core (2.2.1)
+  - FontAwesomeKit/FontAwesome (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/FoundationIcons (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/IonIcons (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Material (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Octicons (2.2.1):
+    - FontAwesomeKit/Core
+  - FontAwesomeKit/Zocial (2.2.1):
+    - FontAwesomeKit/Core
   - GoogleMaps (7.0.0):
     - GoogleMaps/Maps (= 7.0.0)
   - GoogleMaps/Base (7.0.0)
@@ -22,6 +43,7 @@ PODS:
 DEPENDENCIES:
   - ChameleonFramework
   - DateTools
+  - FontAwesomeKit (~> 2.2.0)
   - GoogleMaps (= 7.0.0)
   - GooglePlaces (= 7.0.0)
   - MKDropdownMenu
@@ -34,6 +56,7 @@ SPEC REPOS:
     - Bolts
     - ChameleonFramework
     - DateTools
+    - FontAwesomeKit
     - GoogleMaps
     - GooglePlaces
     - MKDropdownMenu
@@ -44,12 +67,13 @@ SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
+  FontAwesomeKit: 3614979b3dbb0ec3f7fac1bd760b91f66c31db67
   GoogleMaps: 6e9c923ca035989709fcb5771544fda4cc5fa2a4
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: 03ca39705c296c25dff0baca02832e60ed87ef86
+PODFILE CHECKSUM: f14b4670a364a8c35c36d53844400b6afdac0e77
 
 COCOAPODS: 1.11.3

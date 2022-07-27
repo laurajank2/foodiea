@@ -11,6 +11,7 @@
 #import "ProfileCell.h"
 #import "APIManager.h"
 #import "HomeFeedViewController.h"
+#import "FontAwesomeKit/FontAwesomeKit.h"
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
@@ -63,9 +64,18 @@
 }
 
 -(void)setRightNavBtn {
-    NSLog(@"setRight");
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
-        [self.rightNavBtn setTitle:@"Settings" forState:UIControlStateNormal];
+        FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:30];
+        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+        UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+        cogIcon.iconFontSize = 30;
+        UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+        self.navigationItem.rightBarButtonItem =
+        [[UIBarButtonItem alloc] initWithImage:rightImage
+                           landscapeImagePhone:rightLandscapeImage
+                                         style:UIBarButtonItemStylePlain
+                                        target:self
+                                        action:@selector(handleNav)];
     } else {
         if(self.followed) {
             [self.rightNavBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
@@ -76,7 +86,7 @@
     }
 }
 
-- (IBAction)tapTopRight:(id)sender {
+- (void) handleNav {
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         [self performSegueWithIdentifier:@"settingsSegue" sender:nil];
     } else {
@@ -99,6 +109,10 @@
         }
         
     }
+}
+
+- (IBAction)tapTopRight:(id)sender {
+    [self handleNav];
     
 }
 
