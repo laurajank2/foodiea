@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property APIManager *manager;
 @property int unique;
 @property int writeYourTag;
-
+@property Boolean filter;
 - (void) setUp;
 
 @end

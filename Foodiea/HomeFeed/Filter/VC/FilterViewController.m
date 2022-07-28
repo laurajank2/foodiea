@@ -8,9 +8,11 @@
 #import "FilterViewController.h"
 #import <math.h>
 #import "OBSlider.h"
+#import "TagsViewController.h"
+#import "TagsCell.h"
 @import GooglePlaces;
 
-@interface FilterViewController () <GMSAutocompleteViewControllerDelegate>
+@interface FilterViewController () <TagsViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceCtrl;
 @property (weak, nonatomic) IBOutlet OBSlider *distanceCtrl;
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
@@ -18,10 +20,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *min;
 @property (weak, nonatomic) IBOutlet UILabel *max;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
 @property NSString *price;
 @property double distance;
 @property double startLatitude;
 @property double startLongitude;
+@property NSArray *tags;
+@property NSMutableArray *colors;
+@property NSUInteger colorIndex;
+@property BOOL duplicateTag;
 
 @end
 
@@ -32,7 +39,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initalTagSetup];
     [self makeButton];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
 }
 
 - (IBAction)onPriceChange:(id)sender {
@@ -53,6 +65,7 @@
     [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
     [self.delegate passLongitude:self didFinishEnteringLongitude:self.startLongitude];
     [self.delegate passLatitude:self didFinishEnteringLatitude:self.startLatitude];
+    [self.delegate passTags:self didFinishEnteringTags:self.tags];
     [self.delegate refresh];
     
 }
@@ -111,14 +124,81 @@ didFailAutocompleteWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-/*
+# pragma mark - tags
+
+- (IBAction)didTapTagBtn:(id)sender {
+    [self performSegueWithIdentifier:@"feedFilterTagsSegue" sender:self];
+}
+
+
+- (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag {
+    NSMutableArray *temp = [NSMutableArray new];
+    self.duplicateTag = NO;
+    if (self.tags.count >= 1) {
+        for(Tag *oldTag in self.tags) {
+            if([oldTag[@"title"] isEqualToString: tag[@"title"]]) {
+                self.duplicateTag = YES;
+            }
+            [temp addObject:oldTag];
+        }
+    }
+    if(!self.duplicateTag) {
+        [temp addObject:tag];
+    }
+    
+    self.tags = [temp copy];
+    [self.tagsView reloadData];
+}
+
+- (void)initalTagSetup {
+    self.tagsView.dataSource = self;
+    self.tagsView.delegate = self;
+    self.colors = [NSMutableArray array];
+    self.colorIndex = 0;
+    [self colorMaker];
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.tags.count;
+}
+
+- (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
+    Tag *tag = self.tags[indexPath.row];
+    cell.tag = tag;
+    cell.filter = YES;
+    cell.writeYourTag = 0;
+    [cell setUp];
+//    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
+//    self.colorIndex++;
+    return cell;
+}
+
+- (void)colorMaker {
+    float INCREMENT = 0.05;
+    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
+        UIColor *color = [UIColor colorWithHue:hue
+                                    saturation:0.75
+                                    brightness:1.0
+                                         alpha:1.0];
+        [self.colors addObject:color];
+    }
+}
+
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"feedFilterTagsSegue"]) {
+        TagsViewController *tagsVC = [segue destinationViewController];
+        tagsVC.delegate = self;
+        tagsVC.filter = YES;
+    }
 }
-*/
+
 
 @end

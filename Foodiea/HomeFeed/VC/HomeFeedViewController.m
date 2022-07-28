@@ -12,20 +12,25 @@
 #import "DetailMapViewController.h"
 #import "ProfileViewController.h"
 #import "FilterViewController.h"
+#import "Tag.h"
 
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
 @property (weak, nonatomic) IBOutlet UIButton *searchBtn;
 @property (weak, nonatomic) IBOutlet UIButton *profileBtn;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) NSArray *posts;
-@property (nonatomic, strong) NSMutableArray *postBox;
+//filters
+@property NSArray *tags;
+@property BOOL isSubset;
 @property NSString *price;
 @property double userLat;
 @property double userLong;
 @property double distance;
 @property APIManager *manager;
 //pagination
+@property (nonatomic, strong) NSArray *posts;
+@property (nonatomic, strong) NSMutableArray *postBox;
+@property dispatch_group_t tagGroup;
 @property dispatch_group_t postGroup;
 @property dispatch_group_t bookmarkGroup;
 @property NSMutableDictionary<NSString*, NSNumber*> *followerPagesLoaded;
@@ -63,7 +68,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     //pagination
-    
+    NSLog(@"tags: %@", self.tags);
     [self chooseFetch];
 }
 
@@ -237,7 +242,16 @@
     if (posts != nil) {
         // all posts in descending order
         for(Post *post in posts) {
-            if(self.distance != 0.000000) {
+            if(self.tags.count > 0) {
+                self.isSubset = NO;
+                PFRelation *tagRelation = [post relationForKey:@"tags"];
+                // generate a query based on that relation
+                PFQuery *tagQuery = [tagRelation query];
+                void (^callbackForTags)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+                    [self tagCallback:posts post:post errorMessage:error];
+                    };
+                [self.manager query:tagQuery getObjects:callbackForTags];
+            } else if (self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
                 //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
@@ -253,6 +267,39 @@
         NSLog(@"%@", error.localizedDescription);
     }
     dispatch_group_leave(self.postGroup);
+}
+
+- (void)tagCallback:(NSArray *)tags post:(Post *)post errorMessage:(NSError *)error{
+    if ([tags count] != 0) {
+        NSLog(@"%@", [NSSet setWithArray: self.tags]);
+        NSLog(@"%@", [NSSet setWithArray: tags]);
+        NSMutableSet *postTagNames = [[NSMutableSet alloc] init];
+        NSMutableSet *filterTagNames = [[NSMutableSet alloc] init];
+        for(Tag *tag in tags) {
+            [postTagNames addObject:tag[@"title"]];
+        }
+        for(Tag *tag in self.tags) {
+            [filterTagNames addObject:tag[@"title"]];
+        }
+        NSLog(@"%@", filterTagNames);
+        NSLog(@"%@", postTagNames);
+        self.isSubset = [[filterTagNames copy] isSubsetOfSet: [postTagNames copy]];
+        if(self.isSubset) {
+            if(self.distance != 0.000000) {
+                CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
+                CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
+                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
+                CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
+                if(distanceInMeters/1609.344 <= self.distance) {
+                    [self.postBox addObject:post];
+                }
+            } else {
+                [self.postBox addObject:post];
+            }
+        }
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
 }
 
 -(void)setPostBookMark:(Post * _Nullable)post {
@@ -337,7 +384,13 @@
 - (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude {
     self.userLat = latitude;
 }
+
+- (void)passTags:(FilterViewController *)controller didFinishEnteringTags:(NSArray *)tags {
+    self.tags = tags;
+}
+
 - (void) refresh {
+    NSLog(@"refresh tags: %@", self.tags);
     [self chooseFetch];
 }
 

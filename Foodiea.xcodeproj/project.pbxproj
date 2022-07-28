@@ -13,7 +13,6 @@
 		8319AC78288737D500CDEF97 /* OBSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC77288737D500CDEF97 /* OBSlider.m */; };
 		8319AC7D28875C3A00CDEF97 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC7C28875C3A00CDEF97 /* TagsViewController.m */; };
 		8319AC8128875E7900CDEF97 /* TagsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC8028875E7900CDEF97 /* TagsCell.m */; };
-		8319AC8428875FDD00CDEF97 /* NewTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC8328875FDD00CDEF97 /* NewTagCell.m */; };
 		832D11DA288226F800D0188F /* MainMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D11D9288226F800D0188F /* MainMapViewController.m */; };
 		832D11DE2886045D00D0188F /* SearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D11DD2886045D00D0188F /* SearchFilterViewController.m */; };
 		833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A642874F3AC004E9D0C /* AppDelegate.m */; };
@@ -75,8 +74,6 @@
 		8319AC7C28875C3A00CDEF97 /* TagsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TagsViewController.m; sourceTree = "<group>"; };
 		8319AC7F28875E7900CDEF97 /* TagsCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagsCell.h; sourceTree = "<group>"; };
 		8319AC8028875E7900CDEF97 /* TagsCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TagsCell.m; sourceTree = "<group>"; };
-		8319AC8228875FDD00CDEF97 /* NewTagCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewTagCell.h; sourceTree = "<group>"; };
-		8319AC8328875FDD00CDEF97 /* NewTagCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewTagCell.m; sourceTree = "<group>"; };
 		832D11D8288226F800D0188F /* MainMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainMapViewController.h; sourceTree = "<group>"; };
 		832D11D9288226F800D0188F /* MainMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainMapViewController.m; sourceTree = "<group>"; };
 		832D11DC2886045D00D0188F /* SearchFilterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchFilterViewController.h; sourceTree = "<group>"; };
@@ -228,8 +225,6 @@
 			children = (
 				8319AC7F28875E7900CDEF97 /* TagsCell.h */,
 				8319AC8028875E7900CDEF97 /* TagsCell.m */,
-				8319AC8228875FDD00CDEF97 /* NewTagCell.h */,
-				8319AC8328875FDD00CDEF97 /* NewTagCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -302,6 +297,7 @@
 				83EEF63E287C9461006DAA80 /* DetailMap */,
 				83EEF6342878D0FB006DAA80 /* Posting */,
 				83EEF6332878D0EC006DAA80 /* Login */,
+				8319AC7928875BF000CDEF97 /* tags */,
 				83EEF62F2878D0A0006DAA80 /* Profile */,
 				83EEF62C2878D075006DAA80 /* HomeFeed */,
 				83F5570D287646C7003D4502 /* Models */,
@@ -485,7 +481,6 @@
 		83EEF6342878D0FB006DAA80 /* Posting */ = {
 			isa = PBXGroup;
 			children = (
-				8319AC7928875BF000CDEF97 /* tags */,
 				83EEF6352878D11E006DAA80 /* VC */,
 			);
 			path = Posting;
@@ -830,7 +825,6 @@
 				833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */,
 				833D32E3287F420D0025C56E /* FilterViewController.m in Sources */,
 				834434ED2888927F00ADE507 /* Tag.m in Sources */,
-				8319AC8428875FDD00CDEF97 /* NewTagCell.m in Sources */,
 				833B1A762874F3AD004E9D0C /* main.m in Sources */,
 				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,
 				83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */,
