@@ -68,7 +68,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     //pagination
-    
+    NSLog(@"tags: %@", self.tags);
     [self chooseFetch];
 }
 
@@ -273,15 +273,17 @@
     if ([tags count] != 0) {
         NSLog(@"%@", [NSSet setWithArray: self.tags]);
         NSLog(@"%@", [NSSet setWithArray: tags]);
-        NSMutableSet *tagNames = [[NSMutableSet alloc] init];
-        NSMutableSet *selfTagNames = [[NSMutableSet alloc] init];
+        NSMutableSet *postTagNames = [[NSMutableSet alloc] init];
+        NSMutableSet *filterTagNames = [[NSMutableSet alloc] init];
         for(Tag *tag in tags) {
-            [tagNames addObject:tag[@"title"]];
+            [postTagNames addObject:tag[@"title"]];
         }
         for(Tag *tag in self.tags) {
-            [selfTagNames addObject:tag[@"title"]];
+            [filterTagNames addObject:tag[@"title"]];
         }
-        self.isSubset = [tagNames isSubsetOfSet: selfTagNames];
+        NSLog(@"%@", filterTagNames);
+        NSLog(@"%@", postTagNames);
+        self.isSubset = [[filterTagNames copy] isSubsetOfSet: [postTagNames copy]];
         if(self.isSubset) {
             if(self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
@@ -388,6 +390,7 @@
 }
 
 - (void) refresh {
+    NSLog(@"refresh tags: %@", self.tags);
     [self chooseFetch];
 }
 
