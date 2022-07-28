@@ -6,6 +6,7 @@
 //
 
 #import "TagsCell.h"
+#import "SCLAlertView.h"
 
 @implementation TagsCell
 
@@ -27,7 +28,7 @@
         self.titleLabel.text = self.tag[@"title"];
         self.spacingLabel.text = self.tag[@"title"];
         self.titleLabel.userInteractionEnabled = false;
-        if(self.parentVC != nil && !self.filter) {
+        if(self.parentVC != nil) {
             [self doubleTap];
         }
     }
@@ -60,15 +61,9 @@
     if (tags != nil) {
         if(!(tags.count == 0)) {
             self.unique = 0;
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Tag exists"
-                                                                                     message:@"This tag already exists. Please choose another"
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            //We add buttons to the alert controller by creating UIAlertActions:
-            UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-                                                               style:UIAlertActionStyleDefault
-                                                             handler:nil]; //You can use a block here to handle a press on this button
-            [alertController addAction:actionOk];
-            [self.parentVC presentViewController:alertController animated:YES completion:nil];
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showWarning:self.parentVC title:@"Tag exists" subTitle:@"This tag already exists. Please choose another." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
         } else {
             self.unique = 1;
             [Tag setTitle:self.titleLabel.text

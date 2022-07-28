@@ -13,6 +13,7 @@
 #import "ProfileViewController.h"
 #import "FilterViewController.h"
 #import "Tag.h"
+#import "SCLAlertView.h"
 
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
@@ -185,15 +186,17 @@
 
 - (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
     if (users.count == 0) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Find Foodies!"
-                                                                                 message:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration"
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-        //We add buttons to the alert controller by creating UIAlertActions:
-        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil]; //You can use a block here to handle a press on this button
-        [alertController addAction:actionOk];
-        [self presentViewController:alertController animated:YES completion:nil];
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showInfo:self title:@"Find Foodies!" subTitle:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration." closeButtonTitle:@"Ok!" duration:0.0f]; // Info
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Find Foodies!"
+//                                                                                 message:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration"
+//                                                                          preferredStyle:UIAlertControllerStyleAlert];
+//        //We add buttons to the alert controller by creating UIAlertActions:
+//        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
+//                                                           style:UIAlertActionStyleDefault
+//                                                         handler:nil]; //You can use a block here to handle a press on this button
+//        [alertController addAction:actionOk];
+//        [self presentViewController:alertController animated:YES completion:nil];
     } else if(users != nil) {
         int counter = 0;
         self.postGroup = dispatch_group_create();

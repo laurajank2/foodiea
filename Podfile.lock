@@ -38,6 +38,7 @@ PODS:
     - Bolts/Tasks (= 1.9.1)
   - Parse/UI (1.19.3):
     - Parse/Core
+  - SCLAlertView-Objective-C (1.2.0)
   - "UITextView+Placeholder (1.4.0)"
 
 DEPENDENCIES:
@@ -49,6 +50,7 @@ DEPENDENCIES:
   - MKDropdownMenu
   - Parse
   - Parse/UI
+  - SCLAlertView-Objective-C
   - "UITextView+Placeholder"
 
 SPEC REPOS:
@@ -61,6 +63,7 @@ SPEC REPOS:
     - GooglePlaces
     - MKDropdownMenu
     - Parse
+    - SCLAlertView-Objective-C
     - "UITextView+Placeholder"
 
 SPEC CHECKSUMS:
@@ -72,8 +75,9 @@ SPEC CHECKSUMS:
   GooglePlaces: 8dba710bed6160a2e4b85e84aaafdbcc0b4010d8
   MKDropdownMenu: 269df4a41d21a1db684ce8bc709befe419fc5bae
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
+  SCLAlertView-Objective-C: 84f12f66d779dadad7f293e5e8b7697ba4254ee0
   "UITextView+Placeholder": d7b0c400921f66523f3a85d74f774512e14f6502
 
-PODFILE CHECKSUM: f14b4670a364a8c35c36d53844400b6afdac0e77
+PODFILE CHECKSUM: 8f0e65beaf24133123be0cc784592a381b755f3f
 
 COCOAPODS: 1.11.3
