@@ -34,6 +34,7 @@
 		833D32E3287F420D0025C56E /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32E2287F420D0025C56E /* FilterViewController.m */; };
 		834434ED2888927F00ADE507 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 834434EC2888927F00ADE507 /* Tag.m */; };
 		8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8378C1612891A6B100A9EF05 /* Icons.xcassets */; };
+		8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C165289344BD00A9EF05 /* OutsideTap.m */; };
 		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
 		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
@@ -113,6 +114,8 @@
 		834434EB2888927F00ADE507 /* Tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		834434EC2888927F00ADE507 /* Tag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 		8378C1612891A6B100A9EF05 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		8378C164289344BD00A9EF05 /* OutsideTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OutsideTap.h; sourceTree = "<group>"; };
+		8378C165289344BD00A9EF05 /* OutsideTap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OutsideTap.m; sourceTree = "<group>"; };
 		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
@@ -404,6 +407,15 @@
 			path = Tag;
 			sourceTree = "<group>";
 		};
+		8378C1632893448800A9EF05 /* TapGesture */ = {
+			isa = PBXGroup;
+			children = (
+				8378C164289344BD00A9EF05 /* OutsideTap.h */,
+				8378C165289344BD00A9EF05 /* OutsideTap.m */,
+			);
+			path = TapGesture;
+			sourceTree = "<group>";
+		};
 		83EEF62C2878D075006DAA80 /* HomeFeed */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,6 +536,7 @@
 		83F5570D287646C7003D4502 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8378C1632893448800A9EF05 /* TapGesture */,
 				834434EE2888930500ADE507 /* Tag */,
 				8319AC752887379B00CDEF97 /* Slider */,
 				83199ED62880972D002C6850 /* Post */,
@@ -822,6 +835,7 @@
 				83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */,
 				8319AC78288737D500CDEF97 /* OBSlider.m in Sources */,
 				833D32DE287E33460025C56E /* FindUserCell.m in Sources */,
+				8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */,
 				833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */,
 				833D32E3287F420D0025C56E /* FilterViewController.m in Sources */,
 				834434ED2888927F00ADE507 /* Tag.m in Sources */,

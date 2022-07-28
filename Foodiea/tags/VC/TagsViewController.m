@@ -9,6 +9,7 @@
 #import "TagsCell.h"
 #import "Tag.h"
 #import "APIManager.h"
+#import "OutsideTap.h"
 #import <ChameleonFramework/Chameleon.h>
 @interface TagsViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
@@ -77,6 +78,10 @@
         cell.tag = tag;
         cell.writeYourTag = 1;
         [cell setUp];
+        OutsideTap *outCellTap = [[OutsideTap alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
+
+        outCellTap.avoidCell = cell;
+        [self.view addGestureRecognizer:outCellTap];
     } else {
         cell.tag = tag;
         cell.writeYourTag = 0;
@@ -87,6 +92,15 @@
     cell.titleLabel.textColor = ContrastColor([self.colors objectAtIndex:self.colorIndex], YES);
     self.colorIndex++;
     return cell;
+}
+
+-(void) dismissKeyboard:(UITapGestureRecognizer *)tapRecognizer {
+
+    OutsideTap *tap = (OutsideTap *)tapRecognizer;
+
+    NSLog(@"cell title : %@", tap.avoidCell.tag[@"title"]);
+    [tap.avoidCell.titleLabel resignFirstResponder];
+
 }
 
 - (void)colorMaker {
