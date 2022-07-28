@@ -154,10 +154,11 @@ didFailAutocompleteWithError:(NSError *)error {
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
     Tag *tag = self.tags[indexPath.row];
     cell.tag = tag;
+    cell.filter = YES;
     cell.writeYourTag = 0;
     [cell setUp];
-    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-    self.colorIndex++;
+//    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
+//    self.colorIndex++;
     return cell;
 }
 

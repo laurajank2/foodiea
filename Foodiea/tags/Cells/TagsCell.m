@@ -27,7 +27,7 @@
         self.titleLabel.text = self.tag[@"title"];
         self.spacingLabel.text = self.tag[@"title"];
         self.titleLabel.userInteractionEnabled = false;
-        if(self.parentVC != nil) {
+        if(self.parentVC != nil && !self.filter) {
             [self doubleTap];
         }
     }
@@ -108,6 +108,7 @@
             finalTag = arrayTag;
         }
         [self.parentVC.delegate tagsVC:self.parentVC didFinishChoosingTag:finalTag];
+        [self.parentVC dismissViewControllerAnimated:YES completion:nil];
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
@@ -116,7 +117,6 @@
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
     [self sendRealTag];
-    [self.parentVC dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
