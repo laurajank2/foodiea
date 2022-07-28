@@ -28,6 +28,7 @@
 @property NSArray *tags;
 @property NSMutableArray *colors;
 @property NSUInteger colorIndex;
+@property BOOL duplicateTag;
 
 @end
 
@@ -40,6 +41,10 @@
     // Do any additional setup after loading the view.
     [self initalTagSetup];
     [self makeButton];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
 }
 
 - (IBAction)onPriceChange:(id)sender {
@@ -128,12 +133,19 @@ didFailAutocompleteWithError:(NSError *)error {
 
 - (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag {
     NSMutableArray *temp = [NSMutableArray new];
+    self.duplicateTag = NO;
     if (self.tags.count >= 1) {
         for(Tag *oldTag in self.tags) {
+            if(oldTag[@"title"] == tag[@"title"]) {
+                self.duplicateTag = YES;
+            }
             [temp addObject:oldTag];
         }
     }
-    [temp addObject:tag];
+    if(!self.duplicateTag) {
+        [temp addObject:tag];
+    }
+    
     self.tags = [temp copy];
     [self.tagsView reloadData];
 }
