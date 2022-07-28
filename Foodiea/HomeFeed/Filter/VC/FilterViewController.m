@@ -136,7 +136,7 @@ didFailAutocompleteWithError:(NSError *)error {
     self.duplicateTag = NO;
     if (self.tags.count >= 1) {
         for(Tag *oldTag in self.tags) {
-            if(oldTag[@"title"] == tag[@"title"]) {
+            if([oldTag[@"title"] isEqualToString: tag[@"title"]]) {
                 self.duplicateTag = YES;
             }
             [temp addObject:oldTag];
