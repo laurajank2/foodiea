@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  - (void)passDistance:(FilterViewController *)controller didFinishEnteringDistance:(double)distance;
  - (void)passLongitude:(FilterViewController *)controller didFinishEnteringLongitude:(double)longitude;
  - (void)passLatitude:(FilterViewController *)controller didFinishEnteringLatitude:(double)latitude;
+ - (void)passTags:(FilterViewController *)controller didFinishEnteringTags:(NSArray *)tags;
  - (void)refresh;
 @end
 

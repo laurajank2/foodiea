@@ -60,6 +60,7 @@
     [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
     [self.delegate passLongitude:self didFinishEnteringLongitude:self.startLongitude];
     [self.delegate passLatitude:self didFinishEnteringLatitude:self.startLatitude];
+    [self.delegate passTags:self didFinishEnteringTags:self.tags];
     [self.delegate refresh];
     
 }
