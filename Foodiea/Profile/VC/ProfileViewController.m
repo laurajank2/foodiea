@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *expertLoc;
 @property (weak, nonatomic) IBOutlet UIButton *postBtn;
 @property (weak, nonatomic) IBOutlet UILabel *favslabel;
-@property (weak, nonatomic) IBOutlet UICollectionView *btnView;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -52,8 +51,6 @@
     [self.profileImage.layer setBorderWidth: 1.5];
     self.profileFeed.dataSource = self;
     self.profileFeed.delegate = self;
-    self.btnView.dataSource = self;
-    self.btnView.delegate = self;
     self.username.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
@@ -278,6 +275,10 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [self filloutUser];
+    [self setFollowed];
+    [self fetchPosts];
+    [self setFavs];
     if(self.user == [PFUser currentUser]) {
         if((![self.user[@"fav1"] isEqualToString:@""] && self.user[@"fav1"] != nil) && ([self.user[@"fav1Link"] isEqualToString:@""] || self.user[@"fav1Link"] == nil)) {
             SCLAlertView *alert = [[SCLAlertView alloc] init];

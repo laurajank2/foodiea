@@ -55,9 +55,15 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
 }
--(void)dismissKeyboard {
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"viewWillDisappear is running");
     [self viewDidEndEditing];
     [self fieldDidEndEditing];
+}
+
+-(void)dismissKeyboard {
     [self.userName resignFirstResponder];
     [self.screenName resignFirstResponder];
     [self.bio resignFirstResponder];
