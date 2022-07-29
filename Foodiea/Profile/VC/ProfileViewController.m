@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fav3;
 @property (weak, nonatomic) IBOutlet UILabel *expertLoc;
 @property (weak, nonatomic) IBOutlet UIButton *postBtn;
+@property (weak, nonatomic) IBOutlet UILabel *favslabel;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -40,6 +41,7 @@
     [self filloutUser];
     [self setFollowed];
     [self fetchPosts];
+    [self setFavs];
     
 }
 
@@ -59,9 +61,22 @@
     [self.profileImage loadInBackground];
     [self fetchPosts];
     self.penOrMark = 0;
-    
-    
-    
+}
+
+-(void)setFavs {
+    NSLog(@"%@", self.fav1.currentTitle);
+    if([self.fav1.currentTitle isEqualToString:@""] || self.fav1.currentTitle == nil) {
+        self.fav1.hidden = YES;
+    }
+    if([self.fav2.currentTitle isEqualToString:@""] || self.fav2.currentTitle == nil) {
+        self.fav2.hidden = YES;
+    }
+    if([self.fav2.currentTitle isEqualToString:@""] || self.fav3.currentTitle == nil) {
+        self.fav3.hidden = YES;
+    }
+    if(self.fav1.hidden && self.fav2.hidden && self.fav3.hidden) {
+        self.favslabel.hidden = YES;
+    }
 }
 
 -(void)setRightNavBtn {

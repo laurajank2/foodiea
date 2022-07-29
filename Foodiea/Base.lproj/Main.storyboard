@@ -1354,7 +1354,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="favs:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLp-eE-4hs">
-                                <rect key="frame" x="16" y="288" width="36" height="21"/>
+                                <rect key="frame" x="16" y="288" width="351" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -1506,6 +1506,7 @@
                         <outlet property="fav1" destination="7eC-58-7CL" id="vEo-y2-asN"/>
                         <outlet property="fav2" destination="r6S-8R-OC7" id="ItC-wt-Tcz"/>
                         <outlet property="fav3" destination="5qx-17-prC" id="ma9-Lr-9qy"/>
+                        <outlet property="favslabel" destination="GLp-eE-4hs" id="LrF-oW-xzV"/>
                         <outlet property="postBtn" destination="e4z-uH-xUv" id="oIW-Bb-ZCI"/>
                         <outlet property="profileFeed" destination="D0v-TH-mzc" id="Bsd-aO-uzn"/>
                         <outlet property="profileImage" destination="dWg-TV-exT" id="awG-CR-Prj"/>
