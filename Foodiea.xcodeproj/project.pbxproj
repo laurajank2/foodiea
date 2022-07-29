@@ -35,6 +35,7 @@
 		834434ED2888927F00ADE507 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 834434EC2888927F00ADE507 /* Tag.m */; };
 		8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8378C1612891A6B100A9EF05 /* Icons.xcassets */; };
 		8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C165289344BD00A9EF05 /* OutsideTap.m */; };
+		8378C16928948BE500A9EF05 /* BtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C16828948BE500A9EF05 /* BtnCell.m */; };
 		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
 		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
@@ -116,6 +117,8 @@
 		8378C1612891A6B100A9EF05 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		8378C164289344BD00A9EF05 /* OutsideTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OutsideTap.h; sourceTree = "<group>"; };
 		8378C165289344BD00A9EF05 /* OutsideTap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OutsideTap.m; sourceTree = "<group>"; };
+		8378C16728948BE500A9EF05 /* BtnCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BtnCell.h; sourceTree = "<group>"; };
+		8378C16828948BE500A9EF05 /* BtnCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BtnCell.m; sourceTree = "<group>"; };
 		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
@@ -468,6 +471,8 @@
 			children = (
 				83F55715287750BE003D4502 /* ProfileCell.h */,
 				83F55716287750BE003D4502 /* ProfileCell.m */,
+				8378C16728948BE500A9EF05 /* BtnCell.h */,
+				8378C16828948BE500A9EF05 /* BtnCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -820,6 +825,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8378C16928948BE500A9EF05 /* BtnCell.m in Sources */,
 				833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */,
 				83F55717287750BE003D4502 /* ProfileCell.m in Sources */,
 				833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */,

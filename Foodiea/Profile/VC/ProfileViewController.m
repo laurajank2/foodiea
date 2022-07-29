@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *expertLoc;
 @property (weak, nonatomic) IBOutlet UIButton *postBtn;
 @property (weak, nonatomic) IBOutlet UILabel *favslabel;
+@property (weak, nonatomic) IBOutlet UICollectionView *btnView;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -51,6 +52,8 @@
     [self.profileImage.layer setBorderWidth: 1.5];
     self.profileFeed.dataSource = self;
     self.profileFeed.delegate = self;
+    self.btnView.dataSource = self;
+    self.btnView.delegate = self;
     self.username.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
@@ -201,7 +204,7 @@
     }
 }
 
-#pragma mark - Collection View Requirements
+#pragma mark - Feed Collection View Requirements
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
@@ -245,7 +248,6 @@
     }];
     NSLog(@"setFollowedquery");
 }
-
 
 #pragma mark - Navigation
 
