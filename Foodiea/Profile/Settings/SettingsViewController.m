@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import "SCLAlertView.h"
 @import GooglePlaces;
 
 @interface SettingsViewController () <UITextViewDelegate, UITextFieldDelegate>
@@ -120,6 +121,12 @@
 }
 - (IBAction)changePhoto:(id)sender {
     [self getImagePicker];
+}
+- (IBAction)backBtn:(id)sender {
+//    SCLAlertView *alert = [[SCLAlertView alloc] init];
+//
+//    [alert showSuccess:self title:@"Hello World" subTitle:@"This is a more descriptive text." closeButtonTitle:@"Done" duration:0.0f];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)getImagePicker {

@@ -12,6 +12,7 @@
 #import "APIManager.h"
 #import "HomeFeedViewController.h"
 #import "FontAwesomeKit/FontAwesomeKit.h"
+#import "SCLAlertView.h"
 
 @interface ProfileViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) NSArray *profilePosts;
@@ -67,12 +68,15 @@
     NSLog(@"%@", self.fav1.currentTitle);
     if([self.fav1.currentTitle isEqualToString:@""] || self.fav1.currentTitle == nil) {
         self.fav1.hidden = YES;
+        self.fav1.userInteractionEnabled = NO;
     }
     if([self.fav2.currentTitle isEqualToString:@""] || self.fav2.currentTitle == nil) {
         self.fav2.hidden = YES;
+        self.fav2.userInteractionEnabled = NO;
     }
-    if([self.fav2.currentTitle isEqualToString:@""] || self.fav3.currentTitle == nil) {
+    if([self.fav3.currentTitle isEqualToString:@""] || self.fav3.currentTitle == nil) {
         self.fav3.hidden = YES;
+        self.fav3.userInteractionEnabled = NO;
     }
     if(self.fav1.hidden && self.fav2.hidden && self.fav3.hidden) {
         self.favslabel.hidden = YES;
@@ -258,9 +262,71 @@
 }
 
 - (IBAction)didTapFav1:(id)sender {
-    NSLog(@"%@", self.user[@"fav1Link"]);
     [[UIApplication sharedApplication] openURL:[NSURL
     URLWithString:self.user[@"fav1Link"]]];
+}
+
+- (IBAction)didTapFav2:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL
+    URLWithString:self.user[@"fav2Link"]]];
+}
+- (IBAction)didTapFav3:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL
+    URLWithString:self.user[@"fav3Link"]]];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    if(self.user == [PFUser currentUser]) {
+        if((![self.user[@"fav1"] isEqualToString:@""] && self.user[@"fav1"] != nil) && ([self.user[@"fav1Link"] isEqualToString:@""] || self.user[@"fav1Link"] == nil)) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showSuccess:self title:@"fav 1 error" subTitle:@"This is a more descriptive text." closeButtonTitle:@"Done" duration:0.0f];
+        }
+        if((![self.user[@"fav2"] isEqualToString:@""] && self.user[@"fav2"] != nil) && ([self.user[@"fav2Link"] isEqualToString:@""] || self.user[@"fav2Link"] == nil)) {
+            NSString *title = @"Case of the Missing Link";
+            NSString *message = @"You have not set a link for your fav2! Without one, other users will not be able to find your favorite spot! Please enter a link including http://";
+            NSString *cancel = @"Cancel";
+            NSString *done = @"Done";
+            
+            SCLALertViewTextFieldBuilder *textField = [SCLALertViewTextFieldBuilder new].title(@"Code");
+            SCLALertViewButtonBuilder *doneButton = [SCLALertViewButtonBuilder new].title(done)
+            .validationBlock(^BOOL{
+                NSString *link = [textField.textField.text copy];
+                return [self checkLink:link];
+            })
+            .actionBlock(^{
+                NSString *link = [textField.textField.text copy];
+                self.user[@"fav2Link"] = link;
+                [self.manager saveUserInfo:self.user];
+            });
+            
+            SCLAlertViewBuilder *builder = [SCLAlertViewBuilder new]
+            .showAnimationType(SCLAlertViewShowAnimationFadeIn)
+            .hideAnimationType(SCLAlertViewHideAnimationFadeOut)
+            .shouldDismissOnTapOutside(NO)
+            .addTextFieldWithBuilder(textField)
+            .addButtonWithBuilder(doneButton);
+            
+            SCLAlertViewShowBuilder *showBuilder = [SCLAlertViewShowBuilder new]
+            .style(SCLAlertViewStyleCustom)
+            .color([UIColor blueColor])
+            .title(title)
+            .subTitle(message)
+            .closeButtonTitle(cancel)
+            .duration(0.0f);
+
+            [showBuilder showAlertView:builder.alertView onViewController:self];
+        }
+    }
+    
+}
+
+-(BOOL)checkLink:(NSString * _Nullable)link {
+    if ([link rangeOfString:@"http" options:NSCaseInsensitiveSearch].location == NSNotFound ) {
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 
