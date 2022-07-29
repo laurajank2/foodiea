@@ -10,6 +10,7 @@
 #import "OBSlider.h"
 #import "TagsViewController.h"
 #import "TagsCell.h"
+#import "SCLAlertView.h"
 @import GooglePlaces;
 
 @interface FilterViewController () <TagsViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
@@ -45,6 +46,10 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
+    if(self.duplicateTag) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showWarning:self title:@"Duplicate Tag" subTitle:@"You have already chosen this tag. Please choose another or continue with what is currently selected." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+    }
 }
 
 - (IBAction)onPriceChange:(id)sender {

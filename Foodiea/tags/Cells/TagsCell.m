@@ -111,6 +111,7 @@
 
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
+    
     [self sendRealTag];
 }
 

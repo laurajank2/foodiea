@@ -10,6 +10,7 @@
 #import "Tag.h"
 #import "TagsCell.h"
 #import "APIManager.h"
+#import "FontAwesomeKit/FontAwesomeKit.h"
 @import GooglePlaces;
 
 @interface ComposeViewController () <TagsViewControllerDelegate ,UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
@@ -21,6 +22,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
+@property (weak, nonatomic) IBOutlet UIImageView *restaurant;
+@property (weak, nonatomic) IBOutlet UIImageView *priceImg;
+@property (weak, nonatomic) IBOutlet UIImageView *calImg;
+@property (weak, nonatomic) IBOutlet UIImageView *tagImg;
+@property (weak, nonatomic) IBOutlet UIImageView *pinImg;
 @property GMSPlace *postLocation;
 @property APIManager *manager;
 @property NSString *userPrice;
@@ -37,9 +43,40 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.manager = [[APIManager alloc] init];
+    [self setIcons];
     [self initalTagSetup];
     [self makeButton];
 }
+
+
+#pragma mark - Icons
+-(void) setIcons {
+    FAKFontAwesome *restaurantIcon = [FAKFontAwesome spoonIconWithSize:30];
+    [restaurantIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *restaurantImage = [restaurantIcon imageWithSize:CGSizeMake(30, 30)];
+    self.restaurant.image = restaurantImage;
+    
+    FAKFontAwesome *priceIcon = [FAKFontAwesome dollarIconWithSize:30];
+    [priceIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *priceImage = [priceIcon imageWithSize:CGSizeMake(30, 30)];
+    self.priceImg.image = priceImage;
+    
+    FAKFontAwesome *calIcon = [FAKFontAwesome calendarIconWithSize:30];
+    [calIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *calImage = [calIcon imageWithSize:CGSizeMake(30, 30)];
+    self.calImg.image = calImage;
+    
+    FAKFontAwesome *tagIcon = [FAKFontAwesome tagIconWithSize:30];
+    [tagIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *tagImage = [tagIcon imageWithSize:CGSizeMake(30, 30)];
+    self.tagImg.image = tagImage;
+    
+    FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:30];
+    [mapIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *mapImage = [mapIcon imageWithSize:CGSizeMake(30, 30)];
+    self.pinImg.image = mapImage;
+}
+
 
 #pragma mark - Image
 - (IBAction)didTapPhoto:(id)sender {

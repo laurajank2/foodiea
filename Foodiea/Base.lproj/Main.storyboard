@@ -567,7 +567,7 @@
                         <outlet property="min" destination="OFh-eP-kdL" id="chz-se-yUa"/>
                         <outlet property="priceCtrl" destination="caN-hB-IPV" id="u59-HV-fvI"/>
                         <outlet property="tagsView" destination="uWk-d2-Bqu" id="iNq-Zp-O6S"/>
-                        <segue destination="oao-lX-g0P" kind="presentation" identifier="feedFilterTagsSegue" id="mPv-fx-UM2"/>
+                        <segue destination="oao-lX-g0P" kind="presentation" identifier="feedFilterTagsSegue" modalPresentationStyle="fullScreen" id="mPv-fx-UM2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rjM-71-OEl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1160,12 +1160,17 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnLaunchAc" destination="ITC-ev-qeL" id="7qn-W5-DwN"/>
+                        <outlet property="calImg" destination="RwG-Gk-c1r" id="4ld-al-1Fo"/>
                         <outlet property="locationLabel" destination="sDw-hS-kW0" id="wf2-wq-FCW"/>
+                        <outlet property="pinImg" destination="j00-YB-Uvp" id="0ns-Ou-BWa"/>
                         <outlet property="postCaption" destination="ugC-9A-UAs" id="4Va-6m-Fv0"/>
                         <outlet property="postDatePicker" destination="U0i-Fz-een" id="bnH-GC-Bvn"/>
                         <outlet property="postImage" destination="Hrf-d5-a9h" id="azs-tD-qn8"/>
+                        <outlet property="priceImg" destination="BHs-gq-Uae" id="HV7-PJ-rpt"/>
                         <outlet property="priceSegControl" destination="hBq-Zb-eEO" id="Rvk-XO-dfZ"/>
+                        <outlet property="restaurant" destination="JLD-HS-ap2" id="n18-Q4-qRz"/>
                         <outlet property="restaurantName" destination="oBs-cJ-Vto" id="h0u-tB-iHP"/>
+                        <outlet property="tagImg" destination="PIg-07-oho" id="DIk-4x-4jb"/>
                         <outlet property="tagsView" destination="vRU-aQ-XaO" id="6YP-Kv-C3o"/>
                         <segue destination="oao-lX-g0P" kind="presentation" identifier="composeTagsSegue" id="fGy-sD-Aud"/>
                     </connections>
@@ -1862,8 +1867,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="6iQ-Hm-ceQ"/>
-        <segue reference="mPv-fx-UM2"/>
+        <segue reference="ObO-rd-zjb"/>
+        <segue reference="fGy-sD-Aud"/>
         <segue reference="3ez-2i-PgN"/>
     </inferredMetricsTieBreakers>
     <resources>
