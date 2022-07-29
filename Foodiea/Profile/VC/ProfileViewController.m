@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *fav2;
 @property (weak, nonatomic) IBOutlet UIButton *fav3;
 @property (weak, nonatomic) IBOutlet UILabel *expertLoc;
+@property (weak, nonatomic) IBOutlet UIButton *postBtn;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -65,6 +66,7 @@
 
 -(void)setRightNavBtn {
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
+        //set right nav btn
         FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:30];
         [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
         UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
@@ -76,12 +78,22 @@
                                          style:UIBarButtonItemStylePlain
                                         target:self
                                         action:@selector(handleNav)];
+        //set post btn
+        FAKFontAwesome *plusIcon = [FAKFontAwesome plusSquareOIconWithSize:30];
+        [plusIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        UIImage *plusImage = [plusIcon imageWithSize:CGSizeMake(30, 30)];
+        [self.postBtn setImage:plusImage forState:UIControlStateNormal];
+        self.postBtn.userInteractionEnabled = YES;
     } else {
+        //set right nav btn
         if(self.followed) {
             [self.rightNavBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
         } else {
             [self.rightNavBtn setTitle:@"Follow" forState:UIControlStateNormal];
         }
+        
+        //set post btn
+        self.postBtn.userInteractionEnabled = NO;
         
     }
 }
@@ -229,6 +241,12 @@
         NSLog(@"%@", self.user.username);
     }
 }
+
+- (IBAction)didTapFav1:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL
+    URLWithString:@"http://www.facebook.com"]];
+}
+
 
 
 @end
