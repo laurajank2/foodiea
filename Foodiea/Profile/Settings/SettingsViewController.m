@@ -21,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *fav1;
 @property (weak, nonatomic) IBOutlet UITextField *fav2;
 @property (weak, nonatomic) IBOutlet UITextField *fav3;
+@property (weak, nonatomic) IBOutlet UITextField *fav1Link;
+@property (weak, nonatomic) IBOutlet UITextField *fav2Link;
+@property (weak, nonatomic) IBOutlet UITextField *fav3Link;
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (nonatomic, strong) PFUser *user;
@@ -47,6 +50,22 @@
     self.manager = [[APIManager alloc] init];
     [self filloutUser];
     [self makeButton];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+}
+-(void)dismissKeyboard {
+    [self viewDidEndEditing];
+    [self fieldDidEndEditing];
+    [self.userName resignFirstResponder];
+    [self.screenName resignFirstResponder];
+    [self.bio resignFirstResponder];
+    [self.fav1 resignFirstResponder];
+    [self.fav2 resignFirstResponder];
+    [self.fav3 resignFirstResponder];
+    [self.fav1Link resignFirstResponder];
+    [self.fav2Link resignFirstResponder];
+    [self.fav3Link resignFirstResponder];
 }
 
 -(void)filloutUser {
@@ -61,6 +80,9 @@
     self.fav1.text = self.user[@"fav1"];
     self.fav2.text = self.user[@"fav2"];
     self.fav3.text = self.user[@"fav3"];
+    self.fav1Link.text = self.user[@"fav1Link"];
+    self.fav2Link.text = self.user[@"fav2Link"];
+    self.fav3Link.text = self.user[@"fav3Link"];
     
 }
 
@@ -76,7 +98,7 @@
     
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView{
+- (void)viewDidEndEditing {
     // TODO: Check the proposed new text character count
     // Set the max character limit
     // Construct what the new text would be if we allowed the user's latest edit
@@ -85,12 +107,15 @@
     [self.manager saveUserInfo:self.user];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField{
+- (void)fieldDidEndEditing {
     self.user[@"username"] = self.userName.text;
     self.user[@"screenname"] = self.screenName.text;
     self.user[@"fav1"] = self.fav1.text;
     self.user[@"fav2"] = self.fav2.text;
     self.user[@"fav3"] = self.fav3.text;
+    self.user[@"fav1Link"] = self.fav1Link.text;
+    self.user[@"fav2Link"] = self.fav2Link.text;
+    self.user[@"fav3Link"] = self.fav3Link.text;
     [self.manager saveUserInfo:self.user];
 }
 - (IBAction)changePhoto:(id)sender {

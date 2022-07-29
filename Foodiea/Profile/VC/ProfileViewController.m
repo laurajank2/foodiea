@@ -243,8 +243,9 @@
 }
 
 - (IBAction)didTapFav1:(id)sender {
+    NSLog(@"%@", self.user[@"fav1Link"]);
     [[UIApplication sharedApplication] openURL:[NSURL
-    URLWithString:@"http://www.facebook.com"]];
+    URLWithString:self.user[@"fav1Link"]]];
 }
 
 
