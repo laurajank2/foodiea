@@ -36,8 +36,6 @@
 		8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8378C1612891A6B100A9EF05 /* Icons.xcassets */; };
 		8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C165289344BD00A9EF05 /* OutsideTap.m */; };
 		8378C16928948BE500A9EF05 /* BtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C16828948BE500A9EF05 /* BtnCell.m */; };
-		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
-		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
 		83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF641287C9473006DAA80 /* DetailMapViewController.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
@@ -119,10 +117,6 @@
 		8378C165289344BD00A9EF05 /* OutsideTap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OutsideTap.m; sourceTree = "<group>"; };
 		8378C16728948BE500A9EF05 /* BtnCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BtnCell.h; sourceTree = "<group>"; };
 		8378C16828948BE500A9EF05 /* BtnCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BtnCell.m; sourceTree = "<group>"; };
-		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
-		83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacesViewController.m; sourceTree = "<group>"; };
 		83EEF6372878D317006DAA80 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		83EEF6382878D317006DAA80 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		83EEF640287C9473006DAA80 /* DetailMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailMapViewController.h; sourceTree = "<group>"; };
@@ -239,20 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				832D11D7288226CB00D0188F /* CurrentVCs */,
-				832D11D6288224E000D0188F /* VC */,
 			);
 			path = Map;
-			sourceTree = "<group>";
-		};
-		832D11D6288224E000D0188F /* VC */ = {
-			isa = PBXGroup;
-			children = (
-				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
-				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
-				83B9F249287CC78C00C05A5B /* MapViewController.m */,
-				83B9F248287CC78C00C05A5B /* MapViewController.h */,
-			);
-			path = VC;
 			sourceTree = "<group>";
 		};
 		832D11D7288226CB00D0188F /* CurrentVCs */ = {
@@ -838,7 +820,6 @@
 				83F55710287646E9003D4502 /* Post.m in Sources */,
 				832D11DE2886045D00D0188F /* SearchFilterViewController.m in Sources */,
 				832D11DA288226F800D0188F /* MainMapViewController.m in Sources */,
-				83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */,
 				8319AC78288737D500CDEF97 /* OBSlider.m in Sources */,
 				833D32DE287E33460025C56E /* FindUserCell.m in Sources */,
 				8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */,
@@ -849,7 +830,6 @@
 				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,
 				83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */,
 				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
-				83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,
 				833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */,
 			);

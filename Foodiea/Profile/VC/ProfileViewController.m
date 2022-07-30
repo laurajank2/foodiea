@@ -281,47 +281,58 @@
     [self setFavs];
     if(self.user == [PFUser currentUser]) {
         if((![self.user[@"fav1"] isEqualToString:@""] && self.user[@"fav1"] != nil) && ([self.user[@"fav1Link"] isEqualToString:@""] || self.user[@"fav1Link"] == nil)) {
-            SCLAlertView *alert = [[SCLAlertView alloc] init];
-
-            [alert showSuccess:self title:@"fav 1 error" subTitle:@"This is a more descriptive text." closeButtonTitle:@"Done" duration:0.0f];
+            [self showLinkAlert:@"1"];
         }
         if((![self.user[@"fav2"] isEqualToString:@""] && self.user[@"fav2"] != nil) && ([self.user[@"fav2Link"] isEqualToString:@""] || self.user[@"fav2Link"] == nil)) {
-            NSString *title = @"Case of the Missing Link";
-            NSString *message = @"You have not set a link for your fav2! Without one, other users will not be able to find your favorite spot! Please enter a link including http://";
-            NSString *cancel = @"Cancel";
-            NSString *done = @"Done";
-            
-            SCLALertViewTextFieldBuilder *textField = [SCLALertViewTextFieldBuilder new].title(@"Code");
-            SCLALertViewButtonBuilder *doneButton = [SCLALertViewButtonBuilder new].title(done)
-            .validationBlock(^BOOL{
-                NSString *link = [textField.textField.text copy];
-                return [self checkLink:link];
-            })
-            .actionBlock(^{
-                NSString *link = [textField.textField.text copy];
-                self.user[@"fav2Link"] = link;
-                [self.manager saveUserInfo:self.user];
-            });
-            
-            SCLAlertViewBuilder *builder = [SCLAlertViewBuilder new]
-            .showAnimationType(SCLAlertViewShowAnimationFadeIn)
-            .hideAnimationType(SCLAlertViewHideAnimationFadeOut)
-            .shouldDismissOnTapOutside(NO)
-            .addTextFieldWithBuilder(textField)
-            .addButtonWithBuilder(doneButton);
-            
-            SCLAlertViewShowBuilder *showBuilder = [SCLAlertViewShowBuilder new]
-            .style(SCLAlertViewStyleCustom)
-            .color([UIColor blueColor])
-            .title(title)
-            .subTitle(message)
-            .closeButtonTitle(cancel)
-            .duration(0.0f);
-
-            [showBuilder showAlertView:builder.alertView onViewController:self];
+            [self showLinkAlert:@"2"];
+        }
+        if((![self.user[@"fav3"] isEqualToString:@""] && self.user[@"fav3"] != nil) && ([self.user[@"fav3Link"] isEqualToString:@""] || self.user[@"fav3Link"] == nil)) {
+            [self showLinkAlert:@"3"];
         }
     }
     
+}
+
+-(void)showLinkAlert:(NSString * _Nullable)favNum {
+    
+    NSString *title = @"Case of the Missing Link";
+    NSString *part1 = @"You have not set a link for your fav";
+    NSString *part2 = @"! Without one, other users will not be able to find your favorite spot! Please enter a link including http://";
+    NSString *message = [NSString stringWithFormat:@"%@%@%@", part1, favNum, part2];
+    NSString *cancel = @"Cancel";
+    NSString *done = @"Done";
+    
+    SCLALertViewTextFieldBuilder *textField = [SCLALertViewTextFieldBuilder new].title(@"Link");
+    SCLALertViewButtonBuilder *doneButton = [SCLALertViewButtonBuilder new].title(done)
+    .validationBlock(^BOOL{
+        NSString *link = [textField.textField.text copy];
+        return [self checkLink:link];
+    })
+    .actionBlock(^{
+        NSString *link = [textField.textField.text copy];
+        NSString *fav = @"fav";
+        NSString *linkString = @"Link";
+        NSString *entry = [NSString stringWithFormat:@"%@%@%@", fav, favNum, linkString];
+        self.user[entry] = link;
+        [self.manager saveUserInfo:self.user];
+    });
+    
+    SCLAlertViewBuilder *builder = [SCLAlertViewBuilder new]
+    .showAnimationType(SCLAlertViewShowAnimationFadeIn)
+    .hideAnimationType(SCLAlertViewHideAnimationFadeOut)
+    .shouldDismissOnTapOutside(NO)
+    .addTextFieldWithBuilder(textField)
+    .addButtonWithBuilder(doneButton);
+    
+    SCLAlertViewShowBuilder *showBuilder = [SCLAlertViewShowBuilder new]
+    .style(SCLAlertViewStyleCustom)
+    .color([UIColor blueColor])
+    .title(title)
+    .subTitle(message)
+    .closeButtonTitle(cancel)
+    .duration(0.0f);
+
+    [showBuilder showAlertView:builder.alertView onViewController:self];
 }
 
 -(BOOL)checkLink:(NSString * _Nullable)link {
