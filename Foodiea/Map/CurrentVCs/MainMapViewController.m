@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view.
     [self firstPostLatLong];
     [self setUpMap];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
                                                   target:self
                                                   selector:@selector(updateMap)
                                                   userInfo:nil
@@ -104,6 +104,7 @@
     [postQuery whereKey:@"latitude" lessThan:[NSNumber numberWithDouble:maxLat]];
     [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithDouble:minLong]];
     [postQuery whereKey:@"longitude" lessThan:[NSNumber numberWithDouble:maxLong]];
+    [postQuery whereKey:@"objectId" notContainedIn:self.prevposts];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
