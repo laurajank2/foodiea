@@ -191,22 +191,16 @@
 - (void)tagsCallback:(NSArray *)tags errorMessage:(NSError *)error{
     if (tags != nil) {
         self.tagsArray = tags;
+        
         self.colors = [NSMutableArray array];
         self.colorIndex = 0;
         [self colorMaker];
-        [_tagsView setDataSource:self];
-        [_tagsView setDelegate:self];
-        [_tagsView reloadData];
+        [self.tagsView setDataSource:self];
+        [self.tagsView setDelegate:self];
+        [self.tagsView reloadData];
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
-    
-}
-
-
-- (void)initalTagSetup {
-    self.tagsView.dataSource = self;
-    self.tagsView.delegate = self;
     
 }
 

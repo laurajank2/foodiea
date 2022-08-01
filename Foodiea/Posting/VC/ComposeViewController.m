@@ -46,8 +46,15 @@
     [self setIcons];
     [self initalTagSetup];
     [self makeButton];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
 }
 
+-(void)dismissKeyboard {
+    [self.postCaption resignFirstResponder];
+    [self.restaurantName resignFirstResponder];
+    [self.postDatePicker resignFirstResponder];
+}
 
 #pragma mark - Icons
 -(void) setIcons {
