@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Foodiea requires access to camera for uploading profile and post images</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
-        <key>NSLocationWhenInUseUsageDescription</key>
-        <string>Allow app to use location to find nearby eats</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Allow app to use location to find nearby eats</string>
 		<key>NSLocationAlwaysUsageDescription</key>
 		<string>Allow app to use location to find nearby eats</string>
 		<key>UIApplicationSupportsTabbedSceneCollection</key>

@@ -159,7 +159,6 @@
         }
     }
     for(Post *post in onlyCurr) {
-        NSLog(@"%@", post.restaurantName);
         GMSMarker *marker = [[GMSMarker alloc] init];
         marker.position = CLLocationCoordinate2DMake([post.latitude doubleValue], [post.longitude doubleValue]);
         [marker setAppearAnimation:kGMSMarkerAnimationPop];
