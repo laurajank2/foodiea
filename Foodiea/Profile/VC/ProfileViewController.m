@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *expertLoc;
 @property (weak, nonatomic) IBOutlet UIButton *postBtn;
 @property (weak, nonatomic) IBOutlet UILabel *favslabel;
+@property (weak, nonatomic) IBOutlet UILabel *followingCount;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -55,6 +56,11 @@
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
     self.expertLoc.text = self.user[@"location"];
+    if(self.user[@"followingCount"] == nil) {
+        [self fetchFollowingCount];
+    }
+    NSLog(@"%@", self.user[@"followingCount"]);
+    self.followingCount.text = [NSString stringWithFormat:@"%@", self.user[@"followingCount"]];
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
     [self.fav3 setTitle:self.user[@"fav3"] forState:UIControlStateNormal];
@@ -127,7 +133,18 @@
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation removeObject:self.user];
+            
+            //set following count
+            if(self.user[@"followingCount"] != nil) {
+                NSNumber *followingCount = self.user[@"followingCount"];
+                double newCount = [followingCount integerValue] - 1;
+                self.user[@"followingCount"] = [NSNumber numberWithDouble:newCount];
+            } else {
+                [self fetchFollowingCount];
+            }
+            
             [self.manager saveUserInfo:user];
+            
             
         } else {
             self.followed = YES;
@@ -135,12 +152,40 @@
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation addObject:self.user];
+            NSNumber *followingCount = self.user[@"followingCount"];
+            double newCount = [followingCount integerValue] + 1;
+            self.user[@"followingCount"] = [NSNumber numberWithDouble:newCount];
             [self.manager saveUserInfo:user];
             
         }
         
     }
 }
+
+- (void)fetchFollowingCount {
+    PFRelation *relation = [self.user relationForKey:@"following"];
+    PFQuery *usersQuery = [relation query];
+    void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+            [self followerCountCallback:users errorMessage:error];
+        };
+    [self.manager query:usersQuery getObjects:callbackForUsers];
+}
+
+- (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
+    if (users.count == 0) {
+        self.followingCount.text = @"0";
+    } else if(users != nil) {
+        int counter = 0;
+        for (PFUser *user in users){
+            counter++;
+        }
+        self.user[@"followingCount"] = [NSNumber numberWithInt:counter];
+        self.followingCount.text = [NSString stringWithFormat:@"%d",counter];
+        [self.manager saveUserInfo:self.user];
+    }
+    
+}
+
 
 - (IBAction)tapTopRight:(id)sender {
     [self handleNav];
