@@ -261,17 +261,35 @@
 }
 
 - (IBAction)didTapFav1:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL
-    URLWithString:self.user[@"fav1Link"]]];
+    if ((![self.user[@"fav1Link"] isEqualToString:@""] && self.user[@"fav1Link"] != nil)){
+        [[UIApplication sharedApplication] openURL:[NSURL
+        URLWithString:self.user[@"fav1Link"]]];
+    } else {
+        [self missingLink];
+    }
+    
 }
 
 - (IBAction)didTapFav2:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL
-    URLWithString:self.user[@"fav2Link"]]];
+    if ((![self.user[@"fav2Link"] isEqualToString:@""] && self.user[@"fav2Link"] != nil)){
+        [[UIApplication sharedApplication] openURL:[NSURL
+        URLWithString:self.user[@"fav2Link"]]];
+    } else {
+        [self missingLink];
+    }
 }
 - (IBAction)didTapFav3:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL
-    URLWithString:self.user[@"fav3Link"]]];
+    if ((![self.user[@"fav3Link"] isEqualToString:@""] && self.user[@"fav3Link"] != nil)){
+        [[UIApplication sharedApplication] openURL:[NSURL
+        URLWithString:self.user[@"fav3Link"]]];
+    } else {
+        [self missingLink];
+    }
+}
+
+-(void)missingLink {
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    [alert showError:self title:@"Missing Link" subTitle:@"This user has not added a link for this favorite." closeButtonTitle:@"OK" duration:0.0f];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -336,10 +354,12 @@
 }
 
 -(BOOL)checkLink:(NSString * _Nullable)link {
-    if ([link rangeOfString:@"http" options:NSCaseInsensitiveSearch].location == NSNotFound ) {
-        return NO;
-    } else {
+    NSURL *url = [NSURL URLWithString:link];
+    if (url && url.scheme && url.host)
+    {
         return YES;
+    } else {
+        return NO;
     }
 }
 
