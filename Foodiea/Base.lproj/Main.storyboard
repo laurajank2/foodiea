@@ -895,8 +895,20 @@
                                                             <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Write caption here"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </textView>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gf7-xD-PVq">
-                                                        <rect key="frame" x="4" y="2" width="125" height="125"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OSe-4o-M1E">
+                                                        <rect key="frame" x="17" y="45" width="40" height="40"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain" image="books.vertical" catalog="system">
+                                                            <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="tapLibrary:" destination="EYJ-qb-CZu" eventType="touchUpInside" id="TXZ-cB-s0V"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gf7-xD-PVq">
+                                                        <rect key="frame" x="79" y="52" width="36" height="24"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="">
                                                             <imageReference key="image" image="camera" catalog="system" symbolScale="large"/>
@@ -912,11 +924,9 @@
                                                     <constraint firstAttribute="trailing" secondItem="ugC-9A-UAs" secondAttribute="trailing" constant="-6" id="5ma-iC-bnD"/>
                                                     <constraint firstItem="Hrf-d5-a9h" firstAttribute="leading" secondItem="Ryg-sw-cf9" secondAttribute="leading" constant="4" id="Emc-rn-oNl"/>
                                                     <constraint firstItem="Hrf-d5-a9h" firstAttribute="top" secondItem="Ryg-sw-cf9" secondAttribute="top" constant="2" id="NGx-V6-Hzt"/>
-                                                    <constraint firstItem="Gf7-xD-PVq" firstAttribute="centerY" secondItem="Hrf-d5-a9h" secondAttribute="centerY" id="PFB-Xo-CTE"/>
                                                     <constraint firstItem="ugC-9A-UAs" firstAttribute="top" secondItem="Ryg-sw-cf9" secondAttribute="top" constant="3" id="VL1-ba-K9b"/>
                                                     <constraint firstItem="ugC-9A-UAs" firstAttribute="leading" secondItem="Hrf-d5-a9h" secondAttribute="trailing" id="cn0-z5-dh5"/>
                                                     <constraint firstAttribute="bottom" secondItem="ugC-9A-UAs" secondAttribute="bottom" id="hNM-Te-nC4"/>
-                                                    <constraint firstItem="Gf7-xD-PVq" firstAttribute="centerX" secondItem="Hrf-d5-a9h" secondAttribute="centerX" id="lkb-gb-wpO"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="igH-rQ-iOw">
@@ -2118,6 +2128,7 @@
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="bitcoinsign.circle" catalog="system" width="128" height="121"/>
         <image name="bookmark-empty" width="350" height="484"/>
+        <image name="books.vertical" catalog="system" width="128" height="107"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="camera" catalog="system" width="128" height="94"/>
         <image name="feed-pin" width="272" height="448"/>

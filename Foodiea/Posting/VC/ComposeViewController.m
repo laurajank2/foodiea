@@ -82,11 +82,21 @@
 - (IBAction)didTapPhoto:(id)sender {
     [self getImagePicker];
 }
+- (IBAction)tapLibrary:(id)sender {
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    
+    imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
 
 - (void)getImagePicker {
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
+    
 
     // The Xcode simulator does not support taking pictures, so let's first check that the camera is indeed supported on the device before trying to present it.
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
