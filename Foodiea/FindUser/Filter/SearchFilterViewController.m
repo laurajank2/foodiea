@@ -20,8 +20,6 @@
 @property NSString *searchBy;
 
 @property NSArray *tags;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @property BOOL duplicateTag;
 
 @end
@@ -42,7 +40,6 @@
     [self.delegate passSearch:self didFinishEnteringSearch:[self.searchCtrl titleForSegmentAtIndex:self.searchCtrl.selectedSegmentIndex]];
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
-    [self.delegate passPrice:self didFinishEnteringPrice:[self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]];
     [self.delegate passTags:self didFinishEnteringTags:self.tags];
     [self.delegate refresh];
 }
@@ -129,9 +126,6 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)initalTagSetup {
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
-    self.colors = [NSMutableArray array];
-    self.colorIndex = 0;
-    [self colorMaker];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -147,19 +141,10 @@ didFailAutocompleteWithError:(NSError *)error {
     [cell setUp];
     return cell;
 }
-
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:color];
-    }
+- (IBAction)didChangePrice:(id)sender {
+    [self.delegate passPrice:self didFinishEnteringPrice:[self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]];
+    [self.delegate refresh];
 }
-
-
 
 #pragma mark - Navigation
 

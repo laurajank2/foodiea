@@ -262,6 +262,9 @@
                                     <segment title="$$$"/>
                                     <segment title="$$$$"/>
                                 </segments>
+                                <connections>
+                                    <action selector="didChangePrice:" destination="SYc-Xa-DWO" eventType="valueChanged" id="WQT-x8-d65"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Located At:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kha-da-JQO">
                                 <rect key="frame" x="18" y="202" width="87" height="21"/>
