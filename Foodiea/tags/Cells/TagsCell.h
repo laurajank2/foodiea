@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property int unique;
 @property int writeYourTag;
 @property Boolean filter;
+@property double hue;
 - (void) setUp;
 
 @end

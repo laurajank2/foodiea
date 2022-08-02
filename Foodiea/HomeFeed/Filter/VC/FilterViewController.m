@@ -10,6 +10,7 @@
 #import "OBSlider.h"
 #import "TagsViewController.h"
 #import "TagsCell.h"
+#import "SCLAlertView.h"
 @import GooglePlaces;
 
 @interface FilterViewController () <TagsViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
@@ -26,8 +27,6 @@
 @property double startLatitude;
 @property double startLongitude;
 @property NSArray *tags;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @property BOOL duplicateTag;
 
 @end
@@ -45,6 +44,10 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
+    if(self.duplicateTag) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showWarning:self title:@"Duplicate Tag" subTitle:@"You have already chosen this tag. Please choose another or continue with what is currently selected." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+    }
 }
 
 - (IBAction)onPriceChange:(id)sender {
@@ -106,7 +109,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didFailAutocompleteWithError:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // TODO: handle the error.
     NSLog(@"Error: %@", [error description]);
     }
 
@@ -153,9 +155,6 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)initalTagSetup {
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
-    self.colors = [NSMutableArray array];
-    self.colorIndex = 0;
-    [self colorMaker];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -166,23 +165,11 @@ didFailAutocompleteWithError:(NSError *)error {
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
     Tag *tag = self.tags[indexPath.row];
     cell.tag = tag;
+    cell.hue = [cell.tag.hue doubleValue];
     cell.filter = YES;
     cell.writeYourTag = 0;
     [cell setUp];
-//    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-//    self.colorIndex++;
     return cell;
-}
-
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:color];
-    }
 }
 
 

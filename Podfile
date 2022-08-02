@@ -15,6 +15,7 @@ pod 'UITextView+Placeholder'
 pod 'GoogleMaps', '7.0.0'
 pod 'GooglePlaces', '7.0.0'
 pod 'FontAwesomeKit', '~> 2.2.0'
+pod 'SCLAlertView-Objective-C'
 use_frameworks!
 pod 'ChameleonFramework'
 

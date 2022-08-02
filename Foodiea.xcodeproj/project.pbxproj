@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4123AEE173DACED6F6208B24 /* Pods_Foodiea_FoodieaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F861162F6636CE809A90D67C /* Pods_Foodiea_FoodieaUITests.framework */; };
 		48F4058873487FB93EB1B408 /* Pods_FoodieaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */; };
-		83199ED52880902D002C6850 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83199ED42880902D002C6850 /* Keys.plist */; };
 		8319AC78288737D500CDEF97 /* OBSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC77288737D500CDEF97 /* OBSlider.m */; };
 		8319AC7D28875C3A00CDEF97 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC7C28875C3A00CDEF97 /* TagsViewController.m */; };
 		8319AC8128875E7900CDEF97 /* TagsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8319AC8028875E7900CDEF97 /* TagsCell.m */; };
@@ -17,7 +16,6 @@
 		832D11DE2886045D00D0188F /* SearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D11DD2886045D00D0188F /* SearchFilterViewController.m */; };
 		833B1A652874F3AC004E9D0C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A642874F3AC004E9D0C /* AppDelegate.m */; };
 		833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A672874F3AC004E9D0C /* SceneDelegate.m */; };
-		833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A6A2874F3AC004E9D0C /* ViewController.m */; };
 		833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833B1A6C2874F3AC004E9D0C /* Main.storyboard */; };
 		833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */; };
 		833B1A762874F3AD004E9D0C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 833B1A752874F3AD004E9D0C /* main.m */; };
@@ -34,8 +32,8 @@
 		833D32E3287F420D0025C56E /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 833D32E2287F420D0025C56E /* FilterViewController.m */; };
 		834434ED2888927F00ADE507 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 834434EC2888927F00ADE507 /* Tag.m */; };
 		8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8378C1612891A6B100A9EF05 /* Icons.xcassets */; };
-		83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F249287CC78C00C05A5B /* MapViewController.m */; };
-		83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */; };
+		8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C165289344BD00A9EF05 /* OutsideTap.m */; };
+		8378C1702899AA5700A9EF05 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8378C16F2899AA5700A9EF05 /* Keys.plist */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
 		83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF641287C9473006DAA80 /* DetailMapViewController.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
@@ -67,7 +65,6 @@
 		335A887519EBDA38CC57B49A /* Pods_Foodiea.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Foodiea.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F9291472E5876A436C4025B /* Pods_FoodieaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodieaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5646AF58FDF83E7A83597CC2 /* Pods-Foodiea-FoodieaUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Foodiea-FoodieaUITests.debug.xcconfig"; path = "Target Support Files/Pods-Foodiea-FoodieaUITests/Pods-Foodiea-FoodieaUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		83199ED42880902D002C6850 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		8319AC76288737D500CDEF97 /* OBSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBSlider.h; sourceTree = "<group>"; };
 		8319AC77288737D500CDEF97 /* OBSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBSlider.m; sourceTree = "<group>"; };
 		8319AC7B28875C3A00CDEF97 /* TagsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagsViewController.h; sourceTree = "<group>"; };
@@ -83,8 +80,6 @@
 		833B1A642874F3AC004E9D0C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		833B1A662874F3AC004E9D0C /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		833B1A672874F3AC004E9D0C /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		833B1A692874F3AC004E9D0C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		833B1A6A2874F3AC004E9D0C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		833B1A6D2874F3AC004E9D0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		833B1A722874F3AD004E9D0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		833B1A742874F3AD004E9D0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,10 +108,9 @@
 		834434EB2888927F00ADE507 /* Tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		834434EC2888927F00ADE507 /* Tag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 		8378C1612891A6B100A9EF05 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
-		83B9F248287CC78C00C05A5B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		83B9F249287CC78C00C05A5B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlacesViewController.h; sourceTree = "<group>"; };
-		83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlacesViewController.m; sourceTree = "<group>"; };
+		8378C164289344BD00A9EF05 /* OutsideTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OutsideTap.h; sourceTree = "<group>"; };
+		8378C165289344BD00A9EF05 /* OutsideTap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OutsideTap.m; sourceTree = "<group>"; };
+		8378C16F2899AA5700A9EF05 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		83EEF6372878D317006DAA80 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		83EEF6382878D317006DAA80 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		83EEF640287C9473006DAA80 /* DetailMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailMapViewController.h; sourceTree = "<group>"; };
@@ -233,20 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				832D11D7288226CB00D0188F /* CurrentVCs */,
-				832D11D6288224E000D0188F /* VC */,
 			);
 			path = Map;
-			sourceTree = "<group>";
-		};
-		832D11D6288224E000D0188F /* VC */ = {
-			isa = PBXGroup;
-			children = (
-				83B9F24F287CC7BA00C05A5B /* PlacesViewController.m */,
-				83B9F24E287CC7BA00C05A5B /* PlacesViewController.h */,
-				83B9F249287CC78C00C05A5B /* MapViewController.m */,
-				83B9F248287CC78C00C05A5B /* MapViewController.h */,
-			);
-			path = VC;
 			sourceTree = "<group>";
 		};
 		832D11D7288226CB00D0188F /* CurrentVCs */ = {
@@ -301,13 +283,12 @@
 				83EEF62F2878D0A0006DAA80 /* Profile */,
 				83EEF62C2878D075006DAA80 /* HomeFeed */,
 				83F5570D287646C7003D4502 /* Models */,
-				833B1A992874F862004E9D0C /* ViewControllers */,
 				833B1A982874F84A004E9D0C /* Delegates */,
 				833B1A6C2874F3AC004E9D0C /* Main.storyboard */,
 				833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */,
 				833B1A742874F3AD004E9D0C /* Info.plist */,
+				8378C16F2899AA5700A9EF05 /* Keys.plist */,
 				833B1A752874F3AD004E9D0C /* main.m */,
-				83199ED42880902D002C6850 /* Keys.plist */,
 				8378C1612891A6B100A9EF05 /* Icons.xcassets */,
 			);
 			path = Foodiea;
@@ -339,15 +320,6 @@
 				833B1A632874F3AC004E9D0C /* AppDelegate.h */,
 			);
 			path = Delegates;
-			sourceTree = "<group>";
-		};
-		833B1A992874F862004E9D0C /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				833B1A6A2874F3AC004E9D0C /* ViewController.m */,
-				833B1A692874F3AC004E9D0C /* ViewController.h */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		833D32D6287E30880025C56E /* FindUser */ = {
@@ -402,6 +374,15 @@
 				834434EC2888927F00ADE507 /* Tag.m */,
 			);
 			path = Tag;
+			sourceTree = "<group>";
+		};
+		8378C1632893448800A9EF05 /* TapGesture */ = {
+			isa = PBXGroup;
+			children = (
+				8378C164289344BD00A9EF05 /* OutsideTap.h */,
+				8378C165289344BD00A9EF05 /* OutsideTap.m */,
+			);
+			path = TapGesture;
 			sourceTree = "<group>";
 		};
 		83EEF62C2878D075006DAA80 /* HomeFeed */ = {
@@ -524,6 +505,7 @@
 		83F5570D287646C7003D4502 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8378C1632893448800A9EF05 /* TapGesture */,
 				834434EE2888930500ADE507 /* Tag */,
 				8319AC752887379B00CDEF97 /* Slider */,
 				83199ED62880972D002C6850 /* Post */,
@@ -642,7 +624,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83199ED52880902D002C6850 /* Keys.plist in Resources */,
+				8378C1702899AA5700A9EF05 /* Keys.plist in Resources */,
 				833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */,
 				8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */,
 				833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */,
@@ -807,7 +789,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				833B1A6B2874F3AC004E9D0C /* ViewController.m in Sources */,
 				83F55717287750BE003D4502 /* ProfileCell.m in Sources */,
 				833B1AA4287505FA004E9D0C /* HomeFeedViewController.m in Sources */,
 				83F55714287651E3003D4502 /* HomeCell.m in Sources */,
@@ -819,9 +800,9 @@
 				83F55710287646E9003D4502 /* Post.m in Sources */,
 				832D11DE2886045D00D0188F /* SearchFilterViewController.m in Sources */,
 				832D11DA288226F800D0188F /* MainMapViewController.m in Sources */,
-				83B9F250287CC7BA00C05A5B /* PlacesViewController.m in Sources */,
 				8319AC78288737D500CDEF97 /* OBSlider.m in Sources */,
 				833D32DE287E33460025C56E /* FindUserCell.m in Sources */,
+				8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */,
 				833D32DA287E309C0025C56E /* FIndUserViewController.m in Sources */,
 				833D32E3287F420D0025C56E /* FilterViewController.m in Sources */,
 				834434ED2888927F00ADE507 /* Tag.m in Sources */,
@@ -829,7 +810,6 @@
 				83EEF6392878D317006DAA80 /* APIManager.m in Sources */,
 				83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */,
 				833B1AA728750FD0004E9D0C /* ProfileViewController.m in Sources */,
-				83B9F24A287CC78C00C05A5B /* MapViewController.m in Sources */,
 				833B1A682874F3AC004E9D0C /* SceneDelegate.m in Sources */,
 				833B1AA12875037E004E9D0C /* LoginViewController.m in Sources */,
 			);

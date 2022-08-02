@@ -13,6 +13,7 @@
 @interface MainMapViewController ()
 @property GMSMapView *mapView;
 @property (nonatomic, strong) NSArray *posts;
+@property (nonatomic, strong) NSMutableArray *prevposts;
 @property GMSCameraPosition *camera;
 @property GMSVisibleRegion visible;
 @property NSTimer *timer;
@@ -30,11 +31,22 @@
     // Do any additional setup after loading the view.
     [self firstPostLatLong];
     [self setUpMap];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
                                                   target:self
                                                   selector:@selector(updateMap)
                                                   userInfo:nil
                                                   repeats:YES];
+}
+
+-(void)setUpMap{
+    self.prevposts = [NSMutableArray new];
+    self.camera = [GMSCameraPosition cameraWithLatitude:self.camLatitude longitude:self.camLongitude zoom:5];
+    self.prevLatitude = self.visible.nearRight.latitude;
+    self.prevLongitude = self.visible.nearRight.longitude;
+    self.mapView = [GMSMapView mapWithFrame:self.view.frame camera:self.camera];
+    [self.view addSubview:self.mapView];
+    self.visible = [self.mapView.projection visibleRegion];
+    [self fetchPosts];
 }
 
 -(void)firstPostLatLong {
@@ -81,17 +93,18 @@
 }
 
 -(void)fetchPosts {
-    int minLat = MIN(self.visible.nearRight.latitude, self.visible.farLeft.latitude);
-    int maxLat = MAX(self.visible.nearRight.latitude, self.visible.farLeft.latitude);
-    int minLong = MIN(self.visible.nearRight.longitude, self.visible.farLeft.longitude);
-    int maxLong = MAX(self.visible.nearRight.longitude, self.visible.farLeft.longitude);
+    double minLat = [self findMin:self.visible.nearRight.latitude numTwo:self.visible.farLeft.latitude];
+    double maxLat = [self findMax:self.visible.nearRight.latitude numTwo:self.visible.farLeft.latitude];;
+    double minLong = [self findMin:self.visible.nearRight.longitude numTwo:self.visible.farLeft.longitude];
+    double maxLong = [self findMax:self.visible.nearRight.longitude numTwo:self.visible.farLeft.longitude];
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
-    [postQuery whereKey:@"latitude" greaterThan:[NSNumber numberWithInt:minLat]];
-    [postQuery whereKey:@"latitude" lessThan:[NSNumber numberWithInt:maxLat]];
-    [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithInt:minLong]];
-    [postQuery whereKey:@"longitude" lessThan:[NSNumber numberWithInt:maxLong]];
+    [postQuery whereKey:@"latitude" greaterThan:[NSNumber numberWithDouble:minLat]];
+    [postQuery whereKey:@"latitude" lessThan:[NSNumber numberWithDouble:maxLat]];
+    [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithDouble:minLong]];
+    [postQuery whereKey:@"longitude" lessThan:[NSNumber numberWithDouble:maxLong]];
+    [postQuery whereKey:@"objectId" notContainedIn:self.prevposts];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
@@ -121,6 +134,9 @@
                                 [followedPosts addObject:post];
                             }
                         }
+                        for(Post *post in self.posts) {
+                            [self.prevposts addObject:post.objectId];
+                        }
                         self.posts = [followedPosts copy];
                         [self makeMarkers];
                     } else {
@@ -136,25 +152,21 @@
 }
 
 -(void)makeMarkers {
+    NSMutableArray *onlyCurr = [NSMutableArray new];
     for(Post *post in self.posts) {
+        if(![self.prevposts containsObject:post.objectId]) {
+            [onlyCurr addObject:post];
+        }
+    }
+    for(Post *post in onlyCurr) {
         GMSMarker *marker = [[GMSMarker alloc] init];
         marker.position = CLLocationCoordinate2DMake([post.latitude doubleValue], [post.longitude doubleValue]);
+        [marker setAppearAnimation:kGMSMarkerAnimationPop];
         marker.title = post.restaurantName;
         marker.snippet =  post.formattedAddress;
         marker.map = self.mapView;
     }
 }
-
--(void)setUpMap{
-    self.camera = [GMSCameraPosition cameraWithLatitude:self.camLatitude longitude:self.camLongitude zoom:5];
-    self.prevLatitude = self.visible.nearRight.latitude;
-    self.prevLongitude = self.visible.nearRight.longitude;
-    self.mapView = [GMSMapView mapWithFrame:self.view.frame camera:self.camera];
-    [self.view addSubview:self.mapView];
-    self.visible = [self.mapView.projection visibleRegion];
-    [self fetchPosts];
-}
-
 
 - (void)updateMap {
     self.visible = [self.mapView.projection visibleRegion];
@@ -166,6 +178,22 @@
     
 }
 
+-(double)findMin:(double)numOne numTwo:(double) numTwo {
+    if(numOne <= numTwo) {
+        return numOne;
+    } else {
+        return numTwo;
+    }
+}
+
+-(double)findMax:(double)numOne numTwo:(double) numTwo {
+    if(numOne >= numTwo) {
+        return numOne;
+    } else {
+        return numTwo;
+    }
+}
+
 /*
 #pragma mark - Navigation
 
@@ -175,5 +203,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
 
 @end

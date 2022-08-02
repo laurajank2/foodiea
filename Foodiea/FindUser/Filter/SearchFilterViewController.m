@@ -6,16 +6,23 @@
 //
 
 #import "SearchFilterViewController.h"
+#import "TagsCell.h"
 @import GooglePlaces;
 
-@interface SearchFilterViewController () <UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
+@interface SearchFilterViewController () <TagsViewControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISegmentedControl *searchCtrl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *priceCtrl;
 @property (weak, nonatomic) IBOutlet UIButton *locationBtn;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UITextField *favField;
+@property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
 @property NSString *price;
 @property NSString *searchBy;
+
+@property NSArray *tags;
+@property NSMutableArray *colors;
+@property NSUInteger colorIndex;
+@property BOOL duplicateTag;
 
 @end
 
@@ -27,19 +34,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self makeButton];
+    [self initalTagSetup];
     self.locationLabel.text = @"";
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [self.delegate passSearch:self didFinishEnteringSearch:[self.searchCtrl titleForSegmentAtIndex:self.searchCtrl.selectedSegmentIndex]];
-    NSLog(@"%@", self.favField.text);
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
-    NSLog(@"filter price");
-    NSLog(@"%@", [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]);
     [self.delegate passPrice:self didFinishEnteringPrice:[self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]];
+    [self.delegate passTags:self didFinishEnteringTags:self.tags];
     [self.delegate refresh];
-    NSLog(@"%@", self.searchBy);
 }
 
 #pragma mark - Location autocomplete
@@ -96,14 +101,78 @@ didFailAutocompleteWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
-/*
+#pragma mark - Tags
+
+- (IBAction)didTapTagArrow:(id)sender {
+    [self performSegueWithIdentifier:@"userFilterTagsSegue" sender:sender];
+}
+
+- (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag {
+    NSMutableArray *temp = [NSMutableArray new];
+    self.duplicateTag = NO;
+    if (self.tags.count >= 1) {
+        for(Tag *oldTag in self.tags) {
+            if([oldTag[@"title"] isEqualToString: tag[@"title"]]) {
+                self.duplicateTag = YES;
+            }
+            [temp addObject:oldTag];
+        }
+    }
+    if(!self.duplicateTag) {
+        [temp addObject:tag];
+    }
+    
+    self.tags = [temp copy];
+    [self.tagsView reloadData];
+}
+
+- (void)initalTagSetup {
+    self.tagsView.dataSource = self;
+    self.tagsView.delegate = self;
+    self.colors = [NSMutableArray array];
+    self.colorIndex = 0;
+    [self colorMaker];
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.tags.count;
+}
+
+- (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
+    Tag *tag = self.tags[indexPath.row];
+    cell.tag = tag;
+    cell.filter = YES;
+    cell.writeYourTag = 0;
+    [cell setUp];
+    return cell;
+}
+
+- (void)colorMaker {
+    float INCREMENT = 0.05;
+    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
+        UIColor *color = [UIColor colorWithHue:hue
+                                    saturation:0.75
+                                    brightness:1.0
+                                         alpha:1.0];
+        [self.colors addObject:color];
+    }
+}
+
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"userFilterTagsSegue"]) {
+        TagsViewController *tagsVC = [segue destinationViewController];
+        tagsVC.delegate = self;
+        tagsVC.filter = YES;
+    }
 }
-*/
+
 
 @end

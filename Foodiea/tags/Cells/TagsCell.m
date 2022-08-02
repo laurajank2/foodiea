@@ -6,6 +6,7 @@
 //
 
 #import "TagsCell.h"
+#import "SCLAlertView.h"
 
 @implementation TagsCell
 
@@ -19,6 +20,11 @@
 }
 
 - (void) setUp {
+    UIColor *color = [UIColor colorWithHue:self.hue
+                                saturation:0.85
+                                brightness:0.9
+                                     alpha:1.0];
+    self.backgroundColor = color;
     if(self.writeYourTag == 1) {
         self.titleLabel.text = @"";
         self.spacingLabel.text = @"Write your tag";
@@ -27,10 +33,11 @@
         self.titleLabel.text = self.tag[@"title"];
         self.spacingLabel.text = self.tag[@"title"];
         self.titleLabel.userInteractionEnabled = false;
-        if(self.parentVC != nil && !self.filter) {
+        if(self.parentVC != nil) {
             [self doubleTap];
         }
     }
+    
 }
 
 - (void)doubleTap {
@@ -60,18 +67,13 @@
     if (tags != nil) {
         if(!(tags.count == 0)) {
             self.unique = 0;
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Tag exists"
-                                                                                     message:@"This tag already exists. Please choose another"
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            //We add buttons to the alert controller by creating UIAlertActions:
-            UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-                                                               style:UIAlertActionStyleDefault
-                                                             handler:nil]; //You can use a block here to handle a press on this button
-            [alertController addAction:actionOk];
-            [self.parentVC presentViewController:alertController animated:YES completion:nil];
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showWarning:self.parentVC title:@"Tag exists" subTitle:@"This tag already exists. Please choose another." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
         } else {
             self.unique = 1;
             [Tag setTitle:self.titleLabel.text
+                   setHue:[NSNumber numberWithDouble:self.hue]
              withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded) {
                     self.titleLabel.userInteractionEnabled = false;
@@ -98,7 +100,6 @@
         [self callback:tags finalTag:finalTag errorMessage:error];
     };
     [self.manager query:tagQuery getObjects:callbackForTagCheck];
-    NSLog(@"%@", finalTag);
     
 }
 

@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import "SCLAlertView.h"
 @import GooglePlaces;
 
 @interface SettingsViewController () <UITextViewDelegate, UITextFieldDelegate>
@@ -21,6 +22,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *fav1;
 @property (weak, nonatomic) IBOutlet UITextField *fav2;
 @property (weak, nonatomic) IBOutlet UITextField *fav3;
+@property (weak, nonatomic) IBOutlet UITextField *fav1Link;
+@property (weak, nonatomic) IBOutlet UITextField *fav2Link;
+@property (weak, nonatomic) IBOutlet UITextField *fav3Link;
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (nonatomic, strong) PFUser *user;
@@ -47,6 +51,27 @@
     self.manager = [[APIManager alloc] init];
     [self filloutUser];
     [self makeButton];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self viewDidEndEditing];
+    [self fieldDidEndEditing];
+}
+
+-(void)dismissKeyboard {
+    [self.userName resignFirstResponder];
+    [self.screenName resignFirstResponder];
+    [self.bio resignFirstResponder];
+    [self.fav1 resignFirstResponder];
+    [self.fav2 resignFirstResponder];
+    [self.fav3 resignFirstResponder];
+    [self.fav1Link resignFirstResponder];
+    [self.fav2Link resignFirstResponder];
+    [self.fav3Link resignFirstResponder];
 }
 
 -(void)filloutUser {
@@ -61,11 +86,13 @@
     self.fav1.text = self.user[@"fav1"];
     self.fav2.text = self.user[@"fav2"];
     self.fav3.text = self.user[@"fav3"];
+    self.fav1Link.text = self.user[@"fav1Link"];
+    self.fav2Link.text = self.user[@"fav2Link"];
+    self.fav3Link.text = self.user[@"fav3Link"];
     
 }
 
 - (IBAction)logout:(id)sender {
-    NSLog(@"Did tap logout");
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         // PFUser.current() will now be nil
         SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
@@ -76,21 +103,20 @@
     
 }
 
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    // TODO: Check the proposed new text character count
-    // Set the max character limit
-    // Construct what the new text would be if we allowed the user's latest edit
+- (void)viewDidEndEditing {
     self.user[@"bio"] = self.bio.text;
-    NSLog(@"%@", self.user);
     [self.manager saveUserInfo:self.user];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField{
+- (void)fieldDidEndEditing {
     self.user[@"username"] = self.userName.text;
     self.user[@"screenname"] = self.screenName.text;
     self.user[@"fav1"] = self.fav1.text;
     self.user[@"fav2"] = self.fav2.text;
     self.user[@"fav3"] = self.fav3.text;
+    self.user[@"fav1Link"] = self.fav1Link.text;
+    self.user[@"fav2Link"] = self.fav2Link.text;
+    self.user[@"fav3Link"] = self.fav3Link.text;
     [self.manager saveUserInfo:self.user];
 }
 - (IBAction)changePhoto:(id)sender {
@@ -186,7 +212,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didFailAutocompleteWithError:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // TODO: handle the error.
     NSLog(@"Error: %@", [error description]);
     }
 

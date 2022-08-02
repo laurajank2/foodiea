@@ -10,6 +10,8 @@
 #import "Tag.h"
 #import "TagsCell.h"
 #import "APIManager.h"
+#import "FontAwesomeKit/FontAwesomeKit.h"
+#import "SCLAlertView.h"
 @import GooglePlaces;
 
 @interface ComposeViewController () <TagsViewControllerDelegate ,UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
@@ -21,12 +23,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnLaunchAc;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
+@property (weak, nonatomic) IBOutlet UIImageView *restaurant;
+@property (weak, nonatomic) IBOutlet UIImageView *priceImg;
+@property (weak, nonatomic) IBOutlet UIImageView *calImg;
+@property (weak, nonatomic) IBOutlet UIImageView *tagImg;
+@property (weak, nonatomic) IBOutlet UIImageView *pinImg;
 @property GMSPlace *postLocation;
 @property APIManager *manager;
 @property NSString *userPrice;
 @property NSArray *tags;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @end
 
 @implementation ComposeViewController {
@@ -37,19 +42,67 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.manager = [[APIManager alloc] init];
+    [self setIcons];
     [self initalTagSetup];
     [self makeButton];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
 }
+
+-(void)dismissKeyboard {
+    [self.postCaption resignFirstResponder];
+    [self.restaurantName resignFirstResponder];
+    [self.postDatePicker resignFirstResponder];
+}
+
+#pragma mark - Icons
+-(void) setIcons {
+    FAKFontAwesome *restaurantIcon = [FAKFontAwesome spoonIconWithSize:30];
+    [restaurantIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *restaurantImage = [restaurantIcon imageWithSize:CGSizeMake(30, 30)];
+    self.restaurant.image = restaurantImage;
+    
+    FAKFontAwesome *priceIcon = [FAKFontAwesome dollarIconWithSize:30];
+    [priceIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *priceImage = [priceIcon imageWithSize:CGSizeMake(30, 30)];
+    self.priceImg.image = priceImage;
+    
+    FAKFontAwesome *calIcon = [FAKFontAwesome calendarIconWithSize:30];
+    [calIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *calImage = [calIcon imageWithSize:CGSizeMake(30, 30)];
+    self.calImg.image = calImage;
+    
+    FAKFontAwesome *tagIcon = [FAKFontAwesome tagIconWithSize:30];
+    [tagIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *tagImage = [tagIcon imageWithSize:CGSizeMake(30, 30)];
+    self.tagImg.image = tagImage;
+    
+    FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:30];
+    [mapIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+    UIImage *mapImage = [mapIcon imageWithSize:CGSizeMake(30, 30)];
+    self.pinImg.image = mapImage;
+}
+
 
 #pragma mark - Image
 - (IBAction)didTapPhoto:(id)sender {
     [self getImagePicker];
+}
+- (IBAction)tapLibrary:(id)sender {
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    
+    imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
 }
 
 - (void)getImagePicker {
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
+    
 
     // The Xcode simulator does not support taking pictures, so let's first check that the camera is indeed supported on the device before trying to present it.
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -84,8 +137,6 @@
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.postImage.image = originalImage;
     
-    // Do something with the images (based on your use case)
-    
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -94,20 +145,14 @@
 
 - (IBAction)didTapShare:(id)sender {
     if(![self checkCompletion]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Incomplete Information"
-                                                                                 message:@"Please fill out all fields before posting."
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-        //We add buttons to the alert controller by creating UIAlertActions:
-        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil]; //You can use a block here to handle a press on this button
-        [alertController addAction:actionOk];
-        [self presentViewController:alertController animated:YES completion:nil];
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showWarning:self title:@"Incomplete Fields" subTitle:@"Please go back and fill in incomplete fields." closeButtonTitle:@"Done" duration:0.0f]; // Notice
     } else {
         CGFloat width = self.postImage.bounds.size.width * 10;
         CGFloat height = self.postImage.bounds.size.height * 10;
         CGSize newSize = CGSizeMake(width, height);
         NSString *selectedPrice = [self.priceSegControl titleForSegmentAtIndex:self.priceSegControl.selectedSegmentIndex];
+        NSLog(@"Starting to upload image...");
         [Post postUserImage:[self resizeImage:self.postImage.image withSize:newSize]
             restaurantName: self.restaurantName.text
             restaurantPrice:selectedPrice
@@ -245,7 +290,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didFailAutocompleteWithError:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // TODO: handle the error.
     NSLog(@"Error: %@", [error description]);
     }
 
@@ -269,8 +313,6 @@ didFailAutocompleteWithError:(NSError *)error {
     [self performSegueWithIdentifier:@"composeTagsSegue" sender:self];
 }
 - (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag {
-    NSLog(@"tag");
-    NSLog(@"%@", tag);
     NSMutableArray *temp = [NSMutableArray new];
     if (self.tags.count >= 1) {
         for(Tag *oldTag in self.tags) {
@@ -278,18 +320,13 @@ didFailAutocompleteWithError:(NSError *)error {
         }
     }
     [temp addObject:tag];
-    NSLog(@"%@", temp);
     self.tags = [temp copy];
-    NSLog(@"%@", self.tags);
     [self.tagsView reloadData];
 }
 
 - (void)initalTagSetup {
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
-    self.colors = [NSMutableArray array];
-    self.colorIndex = 0;
-    [self colorMaker];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -302,23 +339,10 @@ didFailAutocompleteWithError:(NSError *)error {
     Tag *tag = self.tags[indexPath.row];
     cell.tag = tag;
     cell.writeYourTag = 0;
+    cell.hue = [cell.tag.hue doubleValue];
     [cell setUp];
-    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-    self.colorIndex++;
     return cell;
 }
-
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:color];
-    }
-}
-
 
 #pragma mark - Navigation
 

@@ -15,8 +15,6 @@
 @interface HomeCell() <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSArray *tagsArray;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @property NSString *objectId;
 
 @end
@@ -26,7 +24,7 @@
     [super awakeFromNib];
     self.manager = [[APIManager alloc] init];
 }
-//forgot what this does
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -132,8 +130,7 @@
     gestureRecognizer.numberOfTapsRequired = 2;
     
     
-    if(self.post.currUserMarked == YES) {
-        NSLog(@"YES");
+    if(self.post.currUserMarked) {
         NSString *imageName = @"bookmark-full.png";
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
@@ -144,10 +141,6 @@
         [self.bookmarkView setImage:img];
         self.bookmarked = NO;
     }
-    //bookmark
-    //goal: see if the user has the post in their bookmark relation
-    //make sure asyncrhronous part doesn't get messed up
-    // create a relation based on the authors key
     
     [self fetchTags];
 }
@@ -191,22 +184,12 @@
 - (void)tagsCallback:(NSArray *)tags errorMessage:(NSError *)error{
     if (tags != nil) {
         self.tagsArray = tags;
-        self.colors = [NSMutableArray array];
-        self.colorIndex = 0;
-        [self colorMaker];
-        [_tagsView setDataSource:self];
-        [_tagsView setDelegate:self];
-        [_tagsView reloadData];
+        [self.tagsView setDataSource:self];
+        [self.tagsView setDelegate:self];
+        [self.tagsView reloadData];
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
-    
-}
-
-
-- (void)initalTagSetup {
-    self.tagsView.dataSource = self;
-    self.tagsView.delegate = self;
     
 }
 
@@ -220,21 +203,10 @@
     Tag *tag = self.tagsArray[indexPath.row];
     cell.tag = tag;
     cell.writeYourTag = 0;
+    cell.hue = [cell.tag.hue doubleValue];
     [cell setUp];
-    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-    self.colorIndex++;
     return cell;
 }
 
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:[(UIColor *)color flatten]];
-    }
-}
 
 @end
