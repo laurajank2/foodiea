@@ -388,8 +388,13 @@
     .addTextFieldWithBuilder(textField)
     .addButtonWithBuilder(doneButton);
     
+    FAKFontAwesome *linkIcon = [FAKFontAwesome linkIconWithSize:30];
+    [linkIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+    UIImage *linkImage = [linkIcon imageWithSize:CGSizeMake(30, 30)];
+    
     SCLAlertViewShowBuilder *showBuilder = [SCLAlertViewShowBuilder new]
     .style(SCLAlertViewStyleCustom)
+    .image(linkImage)
     .color([UIColor blueColor])
     .title(title)
     .subTitle(message)

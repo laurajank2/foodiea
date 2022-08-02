@@ -11,6 +11,7 @@
 #import "TagsCell.h"
 #import "APIManager.h"
 #import "FontAwesomeKit/FontAwesomeKit.h"
+#import "SCLAlertView.h"
 @import GooglePlaces;
 
 @interface ComposeViewController () <TagsViewControllerDelegate ,UICollectionViewDataSource, UICollectionViewDelegate, GMSAutocompleteViewControllerDelegate>
@@ -144,15 +145,8 @@
 
 - (IBAction)didTapShare:(id)sender {
     if(![self checkCompletion]) {
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Incomplete Information"
-                                                                                 message:@"Please fill out all fields before posting."
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
-        //We add buttons to the alert controller by creating UIAlertActions:
-        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:nil]; //You can use a block here to handle a press on this button
-        [alertController addAction:actionOk];
-        [self presentViewController:alertController animated:YES completion:nil];
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showWarning:self title:@"Incomplete Fields" subTitle:@"Please go back and fill in incomplete fields." closeButtonTitle:@"Done" duration:0.0f]; // Notice
     } else {
         CGFloat width = self.postImage.bounds.size.width * 10;
         CGFloat height = self.postImage.bounds.size.height * 10;
