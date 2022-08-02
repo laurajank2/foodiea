@@ -856,7 +856,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Si-NI-dAC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3120" y="914"/>
+            <point key="canvasLocation" x="3040" y="877"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="2sl-e6-P0S">
@@ -1160,7 +1160,7 @@
                     <navigationItem key="navigationItem" id="Yr5-Iz-MNe">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="kvs-So-Ih4">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="t5z-Sl-7a8">
-                                <rect key="frame" x="282" y="4.6666666666666679" width="92" height="34.666666666666657"/>
+                                <rect key="frame" x="282" y="10.666666666666668" width="92" height="34.666666666666657"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Share"/>
@@ -1273,32 +1273,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6oI-0p-oI1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7504.6153846153848" y="615.63981042654029"/>
-        </scene>
-        <!--Map View Controller-->
-        <scene sceneID="saA-Re-j6e">
-            <objects>
-                <viewController id="5Sy-e4-bax" customClass="MapViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Wd5-xg-vWQ">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mpM-Jq-6WN" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="RqW-vM-Gcs"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="jXV-BF-HmK"/>
-                    <connections>
-                        <outlet property="locSelectMap" destination="mpM-Jq-6WN" id="xaL-xE-9Kd"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gG2-uA-crn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1689" y="2165"/>
         </scene>
         <!--Main Map View Controller-->
         <scene sceneID="jId-uA-kuV">
@@ -1524,12 +1498,14 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bio" destination="XVF-bg-02V" id="QcW-7F-ty2"/>
+                        <outlet property="bookmarkImg" destination="0Rv-iz-OSD" id="gb8-fc-M7L"/>
                         <outlet property="expertLoc" destination="1SO-zO-XLl" id="AU7-0A-9u0"/>
                         <outlet property="fav1" destination="7eC-58-7CL" id="vEo-y2-asN"/>
                         <outlet property="fav2" destination="r6S-8R-OC7" id="ItC-wt-Tcz"/>
                         <outlet property="fav3" destination="5qx-17-prC" id="ma9-Lr-9qy"/>
                         <outlet property="favslabel" destination="GLp-eE-4hs" id="LrF-oW-xzV"/>
                         <outlet property="followingCount" destination="gwp-WT-uAh" id="jfK-XI-uoA"/>
+                        <outlet property="pencilImg" destination="6kt-wR-cRx" id="E7j-Wf-T8g"/>
                         <outlet property="postBtn" destination="e4z-uH-xUv" id="oIW-Bb-ZCI"/>
                         <outlet property="profileFeed" destination="D0v-TH-mzc" id="Bsd-aO-uzn"/>
                         <outlet property="profileImage" destination="dWg-TV-exT" id="awG-CR-Prj"/>
@@ -1553,7 +1529,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uzq-1u-koJ">
-                                <rect key="frame" x="0.0" y="44" width="390" height="746"/>
+                                <rect key="frame" x="0.0" y="56" width="390" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VSy-BK-4rd">
                                         <rect key="frame" x="10" y="0.0" width="367" height="924.33333333333337"/>
@@ -2012,7 +1988,7 @@
                     <navigationItem key="navigationItem" id="ecd-jj-reC">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="zW9-0b-Fh6">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="PJw-la-HFh">
-                                <rect key="frame" x="282" y="4.6666666666666679" width="92" height="34.666666666666657"/>
+                                <rect key="frame" x="282" y="10.666666666666668" width="92" height="34.666666666666657"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Log out"/>

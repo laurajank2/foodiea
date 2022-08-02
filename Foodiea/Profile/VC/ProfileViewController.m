@@ -30,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *postBtn;
 @property (weak, nonatomic) IBOutlet UILabel *favslabel;
 @property (weak, nonatomic) IBOutlet UILabel *followingCount;
+@property (weak, nonatomic) IBOutlet UIImageView *pencilImg;
+@property (weak, nonatomic) IBOutlet UIImageView *bookmarkImg;
 @property int penOrMark;
 @property APIManager *manager;
 @end
@@ -68,6 +70,7 @@
     [self.profileImage loadInBackground];
     [self fetchPosts];
     self.penOrMark = 0;
+    self.pencilImg.image = [UIImage imageNamed:@"pencil.fill.png"];
 }
 
 -(void)setFavs {
@@ -194,10 +197,14 @@
 
 - (IBAction)didTapBookmark:(id)sender {
     [self fetchBookmarked];
+    self.bookmarkImg.image = [UIImage imageNamed:@"bookmark-full.png"];
+    self.pencilImg.image = [UIImage imageNamed:@"pencil.png"];
     self.penOrMark = 1;
 }
 - (IBAction)didTapPencil:(id)sender {
     [self fetchPosts];
+    self.bookmarkImg.image = [UIImage imageNamed:@"bookmark-empty.png"];
+    self.pencilImg.image = [UIImage imageNamed:@"pencil.fill.png"];
     self.penOrMark = 0;
 }
 
