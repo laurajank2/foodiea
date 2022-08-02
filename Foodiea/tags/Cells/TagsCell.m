@@ -74,7 +74,7 @@
         } else {
             self.unique = 1;
             [Tag setTitle:self.titleLabel.text
-                   setHue:[NSNumber numberWithInt:self.hue]
+                   setHue:[NSNumber numberWithDouble:self.hue]
              withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded) {
                     self.titleLabel.userInteractionEnabled = false;

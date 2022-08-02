@@ -27,8 +27,6 @@
 @property double startLatitude;
 @property double startLongitude;
 @property NSArray *tags;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @property BOOL duplicateTag;
 
 @end
@@ -157,9 +155,6 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)initalTagSetup {
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
-    self.colors = [NSMutableArray array];
-    self.colorIndex = 0;
-    [self colorMaker];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -170,21 +165,11 @@ didFailAutocompleteWithError:(NSError *)error {
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
     Tag *tag = self.tags[indexPath.row];
     cell.tag = tag;
+    cell.hue = [cell.tag.hue doubleValue];
     cell.filter = YES;
     cell.writeYourTag = 0;
     [cell setUp];
     return cell;
-}
-
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:color];
-    }
 }
 
 

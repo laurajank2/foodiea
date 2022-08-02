@@ -31,8 +31,6 @@
 @property APIManager *manager;
 @property NSString *userPrice;
 @property NSArray *tags;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @end
 
 @implementation ComposeViewController {
@@ -335,9 +333,6 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)initalTagSetup {
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
-    self.colors = [NSMutableArray array];
-    self.colorIndex = 0;
-    [self colorMaker];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -350,23 +345,10 @@ didFailAutocompleteWithError:(NSError *)error {
     Tag *tag = self.tags[indexPath.row];
     cell.tag = tag;
     cell.writeYourTag = 0;
+    cell.hue = [cell.tag.hue doubleValue];
     [cell setUp];
-    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-    self.colorIndex++;
     return cell;
 }
-
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:color];
-    }
-}
-
 
 #pragma mark - Navigation
 
