@@ -58,10 +58,12 @@
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
     self.expertLoc.text = self.user[@"location"];
-    if(self.user[@"followingCount"] == nil) {
+    NSLog(@"%@", self.user[@"followingCount"]);
+    if(self.user[@"followingCount"] == nil || [self.user[@"followingCount"] isEqualToNumber:@0]) {
         [self fetchFollowingCount];
+    } else {
+        self.followingCount.text = [NSString stringWithFormat:@"%@", self.user[@"followingCount"]];
     }
-    self.followingCount.text = [NSString stringWithFormat:@"%@", self.user[@"followingCount"]];
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
     [self.fav3 setTitle:self.user[@"fav3"] forState:UIControlStateNormal];
@@ -137,9 +139,9 @@
             
             //set following count
             if(self.user[@"followingCount"] != nil) {
-                NSNumber *followingCount = self.user[@"followingCount"];
+                NSNumber *followingCount = [PFUser currentUser][@"followingCount"];
                 double newCount = [followingCount integerValue] - 1;
-                self.user[@"followingCount"] = [NSNumber numberWithDouble:newCount];
+                [PFUser currentUser][@"followingCount"] = [NSNumber numberWithDouble:newCount];
             } else {
                 [self fetchFollowingCount];
             }
@@ -153,9 +155,9 @@
             PFUser *user = [PFUser currentUser];
             PFRelation *relation = [user relationForKey:@"following"];
             [relation addObject:self.user];
-            NSNumber *followingCount = self.user[@"followingCount"];
+            NSNumber *followingCount = [PFUser currentUser][@"followingCount"];
             double newCount = [followingCount integerValue] + 1;
-            self.user[@"followingCount"] = [NSNumber numberWithDouble:newCount];
+            [PFUser currentUser][@"followingCount"] = [NSNumber numberWithDouble:newCount];
             [self.manager saveUserInfo:user];
             
         }
@@ -182,7 +184,7 @@
         }
         self.user[@"followingCount"] = [NSNumber numberWithInt:counter];
         self.followingCount.text = [NSString stringWithFormat:@"%d",counter];
-        [self.manager saveUserInfo:self.user];
+        [self.manager saveUserInfo:[PFUser currentUser]];
     }
     
 }
