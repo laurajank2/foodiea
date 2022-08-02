@@ -43,6 +43,7 @@
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
     [self.delegate passPrice:self didFinishEnteringPrice:[self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]];
+    [self.delegate passTags:self didFinishEnteringTags:self.tags];
     [self.delegate refresh];
 }
 

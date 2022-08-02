@@ -13,8 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *tagID;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSNumber *hue;
 
-+ (void) setTitle:(NSString * _Nullable) title withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void) setTitle:(NSString * _Nullable)title setHue:(NSNumber * _Nullable)hue withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
 @end
 

@@ -17,6 +17,7 @@
 @property NSArray *tags;
 @property NSMutableArray *colors;
 @property NSUInteger colorIndex;
+@property double lastHue;
 
 @end
 
@@ -77,20 +78,18 @@
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
         cell.tag = tag;
         cell.writeYourTag = 1;
+        cell.hue = self.lastHue + 0.05;
         [cell setUp];
         OutsideTap *outCellTap = [[OutsideTap alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
-
         outCellTap.avoidCell = cell;
         [self.view addGestureRecognizer:outCellTap];
     } else {
         cell.tag = tag;
         cell.writeYourTag = 0;
+        self.lastHue = [cell.tag.hue doubleValue];
         [cell setUp];
     }
     cell.filter = self.filter;
-    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-    cell.titleLabel.textColor = ContrastColor([self.colors objectAtIndex:self.colorIndex], YES);
-    self.colorIndex++;
     return cell;
 }
 
@@ -109,7 +108,7 @@
                                     saturation:0.75
                                     brightness:1.0
                                          alpha:1.0];
-        [self.colors addObject:[(UIColor *)color flatten]];
+        [self.colors addObject:color];
     }
 }
 

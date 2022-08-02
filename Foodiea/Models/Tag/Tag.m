@@ -17,9 +17,10 @@
     return @"Tag";
 }
 
-+ (void) setTitle:(NSString * _Nullable) title withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void) setTitle:(NSString * _Nullable) title setHue:(NSNumber * _Nullable)hue withCompletion: (PFBooleanResultBlock  _Nullable)completion {
     Tag *newTag = [Tag new];
     newTag.title = title;
+    newTag.hue = hue;
     
     [newTag saveInBackgroundWithBlock: completion];
 }

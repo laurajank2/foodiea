@@ -32,6 +32,11 @@
             [self doubleTap];
         }
     }
+    UIColor *color = [UIColor colorWithHue:[self.tag.hue doubleValue]
+                                saturation:0.75
+                                brightness:1.0
+                                     alpha:1.0];
+    self.backgroundColor = color;
 }
 
 - (void)doubleTap {
@@ -67,6 +72,7 @@
         } else {
             self.unique = 1;
             [Tag setTitle:self.titleLabel.text
+                   setHue:[NSNumber numberWithInt:self.hue]
              withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded) {
                     self.titleLabel.userInteractionEnabled = false;

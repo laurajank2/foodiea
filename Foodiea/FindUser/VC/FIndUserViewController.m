@@ -23,6 +23,7 @@
 @property NSString *searchBy;
 @property NSString *location;
 @property NSString *fav;
+@property NSArray *tags;
 
 @end
 
@@ -147,6 +148,9 @@
 }
 - (void)passLocation:(SearchFilterViewController *)controller didFinishEnteringLocation:(NSString *)location {
     self.location = location;
+}
+- (void)passTags:(SearchFilterViewController *)controller didFinishEnteringTags:(NSArray *)tags {
+    self.tags = tags;
 }
 - (void) refresh {
     [self fetchUsers];
