@@ -15,8 +15,6 @@
 @interface HomeCell() <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) NSArray *tagsArray;
-@property NSMutableArray *colors;
-@property NSUInteger colorIndex;
 @property NSString *objectId;
 
 @end
@@ -186,10 +184,6 @@
 - (void)tagsCallback:(NSArray *)tags errorMessage:(NSError *)error{
     if (tags != nil) {
         self.tagsArray = tags;
-        
-        self.colors = [NSMutableArray array];
-        self.colorIndex = 0;
-        [self colorMaker];
         [self.tagsView setDataSource:self];
         [self.tagsView setDelegate:self];
         [self.tagsView reloadData];
@@ -209,21 +203,10 @@
     Tag *tag = self.tagsArray[indexPath.row];
     cell.tag = tag;
     cell.writeYourTag = 0;
+    cell.hue = [cell.tag.hue doubleValue];
     [cell setUp];
-    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-    self.colorIndex++;
     return cell;
 }
 
-- (void)colorMaker {
-    float INCREMENT = 0.05;
-    for (float hue = 0.0; hue < 1.0; hue += INCREMENT) {
-        UIColor *color = [UIColor colorWithHue:hue
-                                    saturation:0.75
-                                    brightness:1.0
-                                         alpha:1.0];
-        [self.colors addObject:[(UIColor *)color flatten]];
-    }
-}
 
 @end

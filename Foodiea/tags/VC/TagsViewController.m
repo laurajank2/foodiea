@@ -11,11 +11,14 @@
 #import "APIManager.h"
 #import "OutsideTap.h"
 #import <ChameleonFramework/Chameleon.h>
-@interface TagsViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface TagsViewController () <UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *tagsView;
+@property (weak, nonatomic) IBOutlet UISearchBar *tagsSearch;
 @property APIManager *manager;
 @property NSArray *tags;
+@property NSArray *filteredTags;
 @property double lastHue;
+@property NSString *searchBy;
 
 @end
 
@@ -27,6 +30,8 @@
     self.manager = [[APIManager alloc] init];
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
+    self.tagsSearch.delegate = self;
+    self.tagsSearch.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self fetchTags];
 }
 
@@ -50,6 +55,7 @@
     if (tags != nil) {
         // do something with the array of object returned by the call
         self.tags = tags;
+        self.filteredTags = self.tags;
         [self.tagsView reloadData];
         
     } else {
@@ -63,17 +69,17 @@
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-    return self.tags.count;
+    return self.filteredTags.count;
 }
 
 - (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TagsCell *cell = [self.tagsView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
-    Tag *tag = self.tags[indexPath.row];
+    Tag *tag = self.filteredTags[indexPath.row];
     cell.parentVC = self;
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
         cell.tag = tag;
         cell.writeYourTag = 1;
-        cell.hue = self.lastHue + 0.05;
+        cell.hue = self.lastHue + 0.01;
         [cell setUp];
         OutsideTap *outCellTap = [[OutsideTap alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
         outCellTap.avoidCell = cell;
@@ -87,6 +93,24 @@
     }
     cell.filter = self.filter;
     return cell;
+}
+
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length != 0) {
+        
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(Tag *evaluatedTag, NSDictionary *bindings) {
+            return [evaluatedTag[@"title"] localizedCaseInsensitiveContainsString:searchText];
+        }];
+        self.filteredTags = [self.tags filteredArrayUsingPredicate:predicate];
+        
+    }
+    else {
+        self.filteredTags = self.tags;
+    }
+    
+    [self.tagsView reloadData];
+ 
 }
 
 -(void) dismissKeyboard:(UITapGestureRecognizer *)tapRecognizer {
