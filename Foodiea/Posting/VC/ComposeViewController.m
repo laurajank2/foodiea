@@ -138,8 +138,6 @@
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
     self.postImage.image = originalImage;
     
-    // Do something with the images (based on your use case)
-    
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -162,6 +160,7 @@
         CGFloat height = self.postImage.bounds.size.height * 10;
         CGSize newSize = CGSizeMake(width, height);
         NSString *selectedPrice = [self.priceSegControl titleForSegmentAtIndex:self.priceSegControl.selectedSegmentIndex];
+        NSLog(@"Starting to upload image...");
         [Post postUserImage:[self resizeImage:self.postImage.image withSize:newSize]
             restaurantName: self.restaurantName.text
             restaurantPrice:selectedPrice
@@ -299,7 +298,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didFailAutocompleteWithError:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // TODO: handle the error.
     NSLog(@"Error: %@", [error description]);
     }
 
@@ -323,8 +321,6 @@ didFailAutocompleteWithError:(NSError *)error {
     [self performSegueWithIdentifier:@"composeTagsSegue" sender:self];
 }
 - (void)tagsVC:(TagsViewController *)controller didFinishChoosingTag:(Tag *)tag {
-    NSLog(@"tag");
-    NSLog(@"%@", tag);
     NSMutableArray *temp = [NSMutableArray new];
     if (self.tags.count >= 1) {
         for(Tag *oldTag in self.tags) {
@@ -332,9 +328,7 @@ didFailAutocompleteWithError:(NSError *)error {
         }
     }
     [temp addObject:tag];
-    NSLog(@"%@", temp);
     self.tags = [temp copy];
-    NSLog(@"%@", self.tags);
     [self.tagsView reloadData];
 }
 

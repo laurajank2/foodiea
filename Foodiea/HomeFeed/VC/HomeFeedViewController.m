@@ -47,12 +47,6 @@
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
     self.manager = [[APIManager alloc] init];
-    //[self chooseFetch];
-    
-    //refresh control
-//    self.refreshControl = [[UIRefreshControl alloc] init];
-//    [self.refreshControl addTarget:self action:@selector(chooseFetch) forControlEvents:UIControlEventValueChanged];
-//    [self.homeFeedTableView insertSubview:self.refreshControl atIndex:0];
     [self setNavBtns];
 
 }
@@ -62,14 +56,12 @@
         [self.profileBtn setTitle:@"" forState:UIControlStateNormal];
         
         self.navigationItem.leftBarButtonItem = nil;
-        //self.navigationItem.hidesBackButton = true
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     //pagination
-    NSLog(@"tags: %@", self.tags);
     [self chooseFetch];
 }
 
@@ -110,8 +102,6 @@
         
     }
     Post *post = self.posts[indexPath.row];
-    NSLog(@"%li", indexPath.row);
-    NSLog(@"%@", post.caption);
     cell.homeVC = self;
     [cell setPost:post];
 
@@ -146,7 +136,6 @@
         // There was an error
         NSLog(@"%@", error.localizedDescription);
     } else {
-        // objects has all the Posts the current user liked.
         if(self.posts != nil) {
             self.posts = [self.posts arrayByAddingObjectsFromArray:posts];
         } else {
@@ -187,16 +176,7 @@
 - (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
     if (users.count == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert showInfo:self title:@"Find Foodies!" subTitle:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration." closeButtonTitle:@"Ok!" duration:0.0f]; // Info
-//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Find Foodies!"
-//                                                                                 message:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration"
-//                                                                          preferredStyle:UIAlertControllerStyleAlert];
-//        //We add buttons to the alert controller by creating UIAlertActions:
-//        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-//                                                           style:UIAlertActionStyleDefault
-//                                                         handler:nil]; //You can use a block here to handle a press on this button
-//        [alertController addAction:actionOk];
-//        [self presentViewController:alertController animated:YES completion:nil];
+        [alert showInfo:self title:@"Find Foodies!" subTitle:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration." closeButtonTitle:@"Ok!" duration:0.0f];
     } else if(users != nil) {
         int counter = 0;
         self.postGroup = dispatch_group_create();
@@ -227,7 +207,6 @@
         [postQuery whereKey:@"price" equalTo:self.price];
     }
     if(self.followerPagesLoaded[follower.objectId] != nil) {
-        //might need to mess with types
         postQuery.skip = [self.followerPagesLoaded[follower.objectId] integerValue];
     } else {
         NSString *followerId = follower.objectId;
@@ -257,7 +236,6 @@
             } else if (self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
-                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
                 CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
                 if(distanceInMeters/1609.344 <= self.distance) {
                     [self.postBox addObject:post];
@@ -274,8 +252,6 @@
 
 - (void)tagCallback:(NSArray *)tags post:(Post *)post errorMessage:(NSError *)error{
     if ([tags count] != 0) {
-        NSLog(@"%@", [NSSet setWithArray: self.tags]);
-        NSLog(@"%@", [NSSet setWithArray: tags]);
         NSMutableSet *postTagNames = [[NSMutableSet alloc] init];
         NSMutableSet *filterTagNames = [[NSMutableSet alloc] init];
         for(Tag *tag in tags) {
@@ -284,14 +260,11 @@
         for(Tag *tag in self.tags) {
             [filterTagNames addObject:tag[@"title"]];
         }
-        NSLog(@"%@", filterTagNames);
-        NSLog(@"%@", postTagNames);
         self.isSubset = [[filterTagNames copy] isSubsetOfSet: [postTagNames copy]];
         if(self.isSubset) {
             if(self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
-                //[self setLatitude:[post.latitude floatValue] setLongitude:[post.longitude floatValue]];
                 CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
                 if(distanceInMeters/1609.344 <= self.distance) {
                     [self.postBox addObject:post];
@@ -312,8 +285,6 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if ([posts count] != 0) {
-//            NSLog(@"%@", post.objectId);
-//            NSLog(@"%@", posts);
             for (Post* potential in posts) {
                 if ([potential.objectId isEqualToString:post.objectId]) {
                     post.currUserMarked = YES;
@@ -393,7 +364,6 @@
 }
 
 - (void) refresh {
-    NSLog(@"refresh tags: %@", self.tags);
     [self chooseFetch];
 }
 

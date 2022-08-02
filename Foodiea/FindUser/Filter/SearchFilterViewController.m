@@ -40,14 +40,10 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [self.delegate passSearch:self didFinishEnteringSearch:[self.searchCtrl titleForSegmentAtIndex:self.searchCtrl.selectedSegmentIndex]];
-    NSLog(@"%@", self.favField.text);
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
-    NSLog(@"filter price");
-    NSLog(@"%@", [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]);
     [self.delegate passPrice:self didFinishEnteringPrice:[self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex]];
     [self.delegate refresh];
-    NSLog(@"%@", self.searchBy);
 }
 
 #pragma mark - Location autocomplete
@@ -148,8 +144,6 @@ didFailAutocompleteWithError:(NSError *)error {
     cell.filter = YES;
     cell.writeYourTag = 0;
     [cell setUp];
-//    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-//    self.colorIndex++;
     return cell;
 }
 

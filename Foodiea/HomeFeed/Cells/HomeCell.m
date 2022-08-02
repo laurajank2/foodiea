@@ -26,7 +26,7 @@
     [super awakeFromNib];
     self.manager = [[APIManager alloc] init];
 }
-//forgot what this does
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -132,8 +132,7 @@
     gestureRecognizer.numberOfTapsRequired = 2;
     
     
-    if(self.post.currUserMarked == YES) {
-        NSLog(@"YES");
+    if(self.post.currUserMarked) {
         NSString *imageName = @"bookmark-full.png";
         UIImage *img = [UIImage imageNamed:imageName];
         [self.bookmarkView setImage:img];
@@ -144,10 +143,6 @@
         [self.bookmarkView setImage:img];
         self.bookmarked = NO;
     }
-    //bookmark
-    //goal: see if the user has the post in their bookmark relation
-    //make sure asyncrhronous part doesn't get messed up
-    // create a relation based on the authors key
     
     [self fetchTags];
 }

@@ -93,7 +93,6 @@
         [self callback:tags finalTag:finalTag errorMessage:error];
     };
     [self.manager query:tagQuery getObjects:callbackForTagCheck];
-    NSLog(@"%@", finalTag);
     
 }
 
@@ -111,7 +110,6 @@
 
 
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer {
-    
     [self sendRealTag];
 }
 

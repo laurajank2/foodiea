@@ -58,7 +58,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSLog(@"viewWillDisappear is running");
     [self viewDidEndEditing];
     [self fieldDidEndEditing];
 }
@@ -94,7 +93,6 @@
 }
 
 - (IBAction)logout:(id)sender {
-    NSLog(@"Did tap logout");
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         // PFUser.current() will now be nil
         SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
@@ -106,11 +104,7 @@
 }
 
 - (void)viewDidEndEditing {
-    // TODO: Check the proposed new text character count
-    // Set the max character limit
-    // Construct what the new text would be if we allowed the user's latest edit
     self.user[@"bio"] = self.bio.text;
-    NSLog(@"%@", self.user);
     [self.manager saveUserInfo:self.user];
 }
 
@@ -127,12 +121,6 @@
 }
 - (IBAction)changePhoto:(id)sender {
     [self getImagePicker];
-}
-- (IBAction)backBtn:(id)sender {
-//    SCLAlertView *alert = [[SCLAlertView alloc] init];
-//
-//    [alert showSuccess:self title:@"Hello World" subTitle:@"This is a more descriptive text." closeButtonTitle:@"Done" duration:0.0f];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)getImagePicker {
@@ -224,7 +212,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didFailAutocompleteWithError:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // TODO: handle the error.
     NSLog(@"Error: %@", [error description]);
     }
 

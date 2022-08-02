@@ -98,7 +98,6 @@
 
     OutsideTap *tap = (OutsideTap *)tapRecognizer;
 
-    NSLog(@"cell title : %@", tap.avoidCell.tag[@"title"]);
     [tap.avoidCell.titleLabel resignFirstResponder];
 
 }

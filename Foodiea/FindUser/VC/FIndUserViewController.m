@@ -48,20 +48,14 @@
 - (void)fetchUsers {
     PFQuery *userQuery = [PFUser query];
     [userQuery includeKey:@"author"];
-    NSLog(@"%@", self.location);
-    NSLog(@"%@", self.fav);
-    NSLog(@"%@", self.price);
     userQuery.limit = 20;
     if(![self.location isEqualToString: @""]) {
-        NSLog(@"location");
         [userQuery whereKey:@"location" equalTo:self.location];
     }
     if(![self.fav isEqualToString: @""]) {
-        NSLog(@"fav");
         [userQuery whereKey:@"fav1" equalTo:self.fav];
     }
     if(![self.price isEqualToString: @""]) {
-        NSLog(@"price");
         [userQuery whereKey:@"price" equalTo:self.price];
     }
 
@@ -118,7 +112,6 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSLog(@"%@", self.searchBy);
     if (searchText.length != 0) {
         
         NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(PFUser *evaluatedUser, NSDictionary *bindings) {

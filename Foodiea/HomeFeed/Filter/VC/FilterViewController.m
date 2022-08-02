@@ -111,7 +111,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
 - (void)viewController:(GMSAutocompleteViewController *)viewController
 didFailAutocompleteWithError:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
-    // TODO: handle the error.
     NSLog(@"Error: %@", [error description]);
     }
 
@@ -174,8 +173,6 @@ didFailAutocompleteWithError:(NSError *)error {
     cell.filter = YES;
     cell.writeYourTag = 0;
     [cell setUp];
-//    cell.backgroundColor = [self.colors objectAtIndex:self.colorIndex];
-//    self.colorIndex++;
     return cell;
 }
 

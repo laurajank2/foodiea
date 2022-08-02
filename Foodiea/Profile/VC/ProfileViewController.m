@@ -61,7 +61,6 @@
     if(self.user[@"followingCount"] == nil) {
         [self fetchFollowingCount];
     }
-    NSLog(@"%@", self.user[@"followingCount"]);
     self.followingCount.text = [NSString stringWithFormat:@"%@", self.user[@"followingCount"]];
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
@@ -74,7 +73,6 @@
 }
 
 -(void)setFavs {
-    NSLog(@"%@", self.fav1.currentTitle);
     if([self.fav1.currentTitle isEqualToString:@""] || self.fav1.currentTitle == nil) {
         self.fav1.hidden = YES;
         self.fav1.userInteractionEnabled = NO;
@@ -219,13 +217,11 @@
             [self postCallback:posts errorMessage:error];
         };
     [self.manager query:postQuery getObjects:callbackForUse];
-    // fetch data asynchronously
     
 }
 
 - (void)postCallback:(NSArray *)posts errorMessage:(NSError *)error{
     if (posts != nil) {
-        // do something with the array of object returned by the call
         self.profilePosts = posts;
         [self.profileFeed reloadData];
         
@@ -247,7 +243,6 @@
         // There was an error
         NSLog(@"%@", error.localizedDescription);
     } else {
-        // objects has all the Posts the current user liked.
         self.profilePosts = posts;
         [self.profileFeed reloadData];
     }
@@ -290,12 +285,10 @@
                 [self setRightNavBtn];
             }
         } else {
-            NSLog(@"not following anyone");
             [self setRightNavBtn];
             NSLog(@"%@", error.localizedDescription);
         }
     }];
-    NSLog(@"setFollowedquery");
 }
 
 #pragma mark - Navigation
@@ -308,7 +301,6 @@
         HomeFeedViewController *feedVC = [segue destinationViewController];
         feedVC.subFeed = 1 + self.penOrMark;
         feedVC.user = self.user;
-        NSLog(@"%@", self.user.username);
     }
 }
 
