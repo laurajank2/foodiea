@@ -20,6 +20,12 @@
 }
 
 - (void) setUp {
+    UIColor *color = [UIColor colorWithHue:self.hue
+                                saturation:0.75
+                                brightness:1.0
+                                     alpha:1.0];
+    NSLog(@"%f", self.hue);
+    self.backgroundColor = color;
     if(self.writeYourTag == 1) {
         self.titleLabel.text = @"";
         self.spacingLabel.text = @"Write your tag";
@@ -32,11 +38,7 @@
             [self doubleTap];
         }
     }
-    UIColor *color = [UIColor colorWithHue:[self.tag.hue doubleValue]
-                                saturation:0.75
-                                brightness:1.0
-                                     alpha:1.0];
-    self.backgroundColor = color;
+    
 }
 
 - (void)doubleTap {

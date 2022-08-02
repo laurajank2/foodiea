@@ -86,6 +86,7 @@
     } else {
         cell.tag = tag;
         cell.writeYourTag = 0;
+        cell.hue = [cell.tag.hue doubleValue];
         self.lastHue = [cell.tag.hue doubleValue];
         [cell setUp];
     }
