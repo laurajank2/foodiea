@@ -33,7 +33,7 @@
 		834434ED2888927F00ADE507 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 834434EC2888927F00ADE507 /* Tag.m */; };
 		8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8378C1612891A6B100A9EF05 /* Icons.xcassets */; };
 		8378C166289344BD00A9EF05 /* OutsideTap.m in Sources */ = {isa = PBXBuildFile; fileRef = 8378C165289344BD00A9EF05 /* OutsideTap.m */; };
-		8378C1702899AA5700A9EF05 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8378C16F2899AA5700A9EF05 /* Keys.plist */; };
+		83EC141E2899E2C6008433CF /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83EC141D2899E2C6008433CF /* Keys.plist */; };
 		83EEF6392878D317006DAA80 /* APIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF6382878D317006DAA80 /* APIManager.m */; };
 		83EEF642287C9473006DAA80 /* DetailMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83EEF641287C9473006DAA80 /* DetailMapViewController.m */; };
 		83F55710287646E9003D4502 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F5570F287646E9003D4502 /* Post.m */; };
@@ -110,7 +110,7 @@
 		8378C1612891A6B100A9EF05 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		8378C164289344BD00A9EF05 /* OutsideTap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OutsideTap.h; sourceTree = "<group>"; };
 		8378C165289344BD00A9EF05 /* OutsideTap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OutsideTap.m; sourceTree = "<group>"; };
-		8378C16F2899AA5700A9EF05 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		83EC141D2899E2C6008433CF /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		83EEF6372878D317006DAA80 /* APIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIManager.h; sourceTree = "<group>"; };
 		83EEF6382878D317006DAA80 /* APIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIManager.m; sourceTree = "<group>"; };
 		83EEF640287C9473006DAA80 /* DetailMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailMapViewController.h; sourceTree = "<group>"; };
@@ -287,9 +287,9 @@
 				833B1A6C2874F3AC004E9D0C /* Main.storyboard */,
 				833B1A712874F3AD004E9D0C /* LaunchScreen.storyboard */,
 				833B1A742874F3AD004E9D0C /* Info.plist */,
-				8378C16F2899AA5700A9EF05 /* Keys.plist */,
 				833B1A752874F3AD004E9D0C /* main.m */,
 				8378C1612891A6B100A9EF05 /* Icons.xcassets */,
+				83EC141D2899E2C6008433CF /* Keys.plist */,
 			);
 			path = Foodiea;
 			sourceTree = "<group>";
@@ -624,7 +624,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8378C1702899AA5700A9EF05 /* Keys.plist in Resources */,
+				83EC141E2899E2C6008433CF /* Keys.plist in Resources */,
 				833B1A732874F3AD004E9D0C /* LaunchScreen.storyboard in Resources */,
 				8378C1622891A6B100A9EF05 /* Icons.xcassets in Resources */,
 				833B1A6E2874F3AC004E9D0C /* Main.storyboard in Resources */,
