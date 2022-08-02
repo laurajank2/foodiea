@@ -96,6 +96,13 @@ didFailAutocompleteWithError:(NSError *)error {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+#pragma mark - Tags
+
+- (IBAction)didTapTagArrow:(id)sender {
+    [self performSegueWithIdentifier:@"userFilterTagsSegue" sender:sender];
+}
+
+
 /*
 #pragma mark - Navigation
 
