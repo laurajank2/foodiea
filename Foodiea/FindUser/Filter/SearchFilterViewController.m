@@ -40,7 +40,11 @@
     [self.delegate passSearch:self didFinishEnteringSearch:[self.searchCtrl titleForSegmentAtIndex:self.searchCtrl.selectedSegmentIndex]];
     [self.delegate passFav:self didFinishEnteringFav:self.favField.text];
     [self.delegate passLocation:self didFinishEnteringLocation:self.locationLabel.text];
-    [self.delegate passTags:self didFinishEnteringTags:self.tags];
+    NSMutableArray *tagTitles = [[NSMutableArray alloc] init];
+    for(Tag *tag in self.tags) {
+        [tagTitles addObject:tag.title];
+    }
+    [self.delegate passTags:self didFinishEnteringTags:[tagTitles copy]];
     [self.delegate refresh];
 }
 
