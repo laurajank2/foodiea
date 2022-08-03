@@ -223,16 +223,7 @@
     if (posts != nil) {
         // all posts in descending order
         for(Post *post in posts) {
-            if(self.tags != nil && self.tags.count > 0) {
-                self.isSubset = NO;
-                PFRelation *tagRelation = [post relationForKey:@"tags"];
-                // generate a query based on that relation
-                PFQuery *tagQuery = [tagRelation query];
-                void (^callbackForTags)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-                    [self tagCallback:posts post:post errorMessage:error];
-                    };
-                [self.manager query:tagQuery getObjects:callbackForTags];
-            } else if (self.distance != 0.000000) {
+            if (self.distance != 0.000000) {
                 CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
                 CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
                 CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
@@ -250,6 +241,7 @@
 }
 
 - (void)tagCallback:(NSArray *)tags post:(Post *)post errorMessage:(NSError *)error{
+    self.isSubset = NO;
     if ([tags count] != 0) {
         NSMutableSet *postTagNames = [[NSMutableSet alloc] init];
         NSMutableSet *filterTagNames = [[NSMutableSet alloc] init];
@@ -260,21 +252,14 @@
             [filterTagNames addObject:tag[@"title"]];
         }
         self.isSubset = [[filterTagNames copy] isSubsetOfSet: [postTagNames copy]];
-        if(self.isSubset) {
-            if(self.distance != 0.000000) {
-                CLLocation *restaurantLocation = [[CLLocation alloc] initWithLatitude:[post.latitude doubleValue] longitude:[post.longitude doubleValue]];
-                CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:self.userLat longitude:self.userLong];
-                CLLocationDistance distanceInMeters = [startLocation distanceFromLocation:restaurantLocation];
-                if(distanceInMeters/1609.344 <= self.distance) {
-                    [self.postBox addObject:post];
-                }
-            } else {
-                [self.postBox addObject:post];
-            }
+        if(!self.isSubset) {
+            [self.postBox removeObject:post];
+            
         }
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
+    dispatch_group_leave(self.bookmarkGroup);
 }
 
 -(void)setPostBookMark:(Post * _Nullable)post {
@@ -297,29 +282,47 @@
     }];
 }
 
+
+
 -(void)sortUserPosts {
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
-                                                  ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
-    
-    NSArray *smallArray = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
-    if(self.posts != nil) {
-        self.posts = [self.posts arrayByAddingObjectsFromArray:smallArray];
-    } else {
-        self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
-    }
-    _postBox = [NSMutableArray new];
-    _lastAdded = smallArray;
-    
     self.bookmarkGroup = dispatch_group_create();
-    for(Post *post in smallArray) {
+    if(self.tags != nil && self.tags.count > 0) {
+        for(Post *post in self.postBox) {
+            dispatch_group_enter(self.bookmarkGroup);
+            
+            PFRelation *tagRelation = [post relationForKey:@"tags"];
+            // generate a query based on that relation
+            PFQuery *tagQuery = [tagRelation query];
+            void (^callbackForTags)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+                [self tagCallback:posts post:post errorMessage:error];
+                };
+            [self.manager query:tagQuery getObjects:callbackForTags];
+        }
+        
+    }
+    
+    for(Post *post in self.postBox) {
         dispatch_group_enter(self.bookmarkGroup);
         [self setPostBookMark:post];
     }
     
     dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
+    
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
+                                                      ascending:NO];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
+        
+        NSArray *smallArray = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
+        if(self.posts != nil) {
+            self.posts = [self.posts arrayByAddingObjectsFromArray:smallArray];
+        } else {
+            self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
+        }
+        self.postBox = [NSMutableArray new];
+        self.lastAdded = smallArray;
+        
         if(self.screenPosts != 4) {
             NSMutableArray *indiciesToAdd = [NSMutableArray new];
             for(int i = 0; i< MIN(4, smallArray.count); i++) {
