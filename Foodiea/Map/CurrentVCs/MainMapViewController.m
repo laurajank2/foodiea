@@ -222,7 +222,7 @@
     marker.title = post.restaurantName;
     marker.snippet =  post.formattedAddress;
     
-    if (tags.count != 0) {
+    if (tags.count >= 1) {
         Tag *tag = [tags objectAtIndex:0];
         UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
                                     saturation:0.85

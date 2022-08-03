@@ -14,6 +14,7 @@
 #import "FilterViewController.h"
 #import "Tag.h"
 #import "SCLAlertView.h"
+#import <ChameleonFramework/Chameleon.h>
 
 @interface HomeFeedViewController () <UITableViewDelegate, UITableViewDataSource, FilterViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *homeFeedTableView;
@@ -222,7 +223,7 @@
     if (posts != nil) {
         // all posts in descending order
         for(Post *post in posts) {
-            if(self.tags.count > 0) {
+            if(self.tags != nil && self.tags.count > 0) {
                 self.isSubset = NO;
                 PFRelation *tagRelation = [post relationForKey:@"tags"];
                 // generate a query based on that relation
