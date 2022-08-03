@@ -138,6 +138,7 @@ didFailAutocompleteWithError:(NSError *)error {
     cell.tag = tag;
     cell.filter = YES;
     cell.writeYourTag = 0;
+    cell.hue = [cell.tag.hue doubleValue];
     [cell setUp];
     return cell;
 }

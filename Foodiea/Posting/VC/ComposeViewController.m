@@ -32,6 +32,10 @@
 @property APIManager *manager;
 @property NSString *userPrice;
 @property NSArray *tags;
+@property NSString *popTagTitle;
+@property int popTagCount;
+@property NSMutableDictionary *titles;
+@property dispatch_group_t tagGroup;
 @end
 
 @implementation ComposeViewController {
@@ -166,6 +170,7 @@
             if(succeeded) {
                 NSLog(@"Successfully posted image!");
                 [self setPrice];
+                [self setPopTag];
                 [self dismissViewControllerAnimated:YES completion:nil];
                 
             } else {
@@ -252,6 +257,79 @@
     return YES;
 }
 
+#pragma mark - popTag
+
+-(void)setPopTag {
+    
+    PFQuery *postQuery = [Post query];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery includeKey:@"author"];
+    [postQuery whereKey:@"author" equalTo:[PFUser currentUser]];
+    postQuery.limit = 20;
+
+    void (^callbackForPopTag)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+            [self popTagCallback:posts errorMessage:error];
+        };
+    [self.manager query:postQuery getObjects:callbackForPopTag];
+   
+}
+
+- (void)popTagCallback:(NSArray *)posts errorMessage:(NSError *)error{
+    self.tagGroup = dispatch_group_create();
+    if (posts != nil) {
+        for(Post *post in posts) {
+            dispatch_group_enter(self.tagGroup);
+            PFRelation *tagRelation = [post relationForKey:@"tags"];
+            // generate a query based on that relation
+            PFQuery *tagQuery = [tagRelation query];
+            void (^callbackForTags)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+                [self tagCallback:posts errorMessage:error];
+                };
+            [self.manager query:tagQuery getObjects:callbackForTags];
+            
+        }
+        dispatch_group_notify(self.tagGroup, dispatch_get_main_queue(), ^{
+            if(self.popTagCount != 0) {
+                NSLog(@"%@", self.popTagTitle);
+                [PFUser currentUser][@"popTag"] = self.popTagTitle;
+                [self.manager saveUserInfo:[PFUser currentUser]];
+            }
+        });
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
+}
+
+- (void)tagCallback:(NSArray *)tags errorMessage:(NSError *)error{
+    if ([tags count] != 0) {
+        for (Tag *tag in tags) {
+            if(self.titles[tag.title] != nil) {
+                self.titles[tag.title] = [NSString stringWithFormat:@"%@%@", self.titles[tag.title], @"1"];
+                NSString *numTag = self.titles[tag.title];
+                if((int)numTag.length > self.popTagCount) {
+                    self.popTagCount = (int)numTag.length;
+                    self.popTagTitle = tag.title;
+                }
+            } else {
+                NSLog(@"%@", tag.title);
+                NSString *title = tag.title;
+                [self.titles setObject:@"1" forKey:title];
+                if(self.popTagCount == 0) {
+                    self.popTagCount = 1;
+                    self.popTagTitle = tag.title;
+                }
+            }
+        }
+        
+        
+    }
+    dispatch_group_leave(self.tagGroup);
+    
+}
+
+
+
 #pragma mark - Loc Picker
 
 // Present the autocomplete view controller when the button is pressed.
@@ -327,6 +405,8 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)initalTagSetup {
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
+    self.popTagCount = 0;
+    self.titles =  [[NSMutableDictionary alloc]init];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
