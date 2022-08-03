@@ -42,6 +42,18 @@
     [self makeButton];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+  [super viewWillDisappear:animated];
+
+  if (self.isMovingFromParentViewController) {
+      [self.delegate passPrice:self didFinishEnteringPrice:self.price];
+      [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
+      [self.delegate passLongitude:self didFinishEnteringLongitude:self.startLongitude];
+      [self.delegate passLatitude:self didFinishEnteringLatitude:self.startLatitude];
+      [self.delegate passTags:self didFinishEnteringTags:self.tags];
+  }
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear: animated];
     if(self.duplicateTag) {
@@ -52,7 +64,7 @@
 
 - (IBAction)onPriceChange:(id)sender {
     self.price = [self.priceCtrl titleForSegmentAtIndex:self.priceCtrl.selectedSegmentIndex];
-    [self.delegate passPrice:self didFinishEnteringPrice:self.price];
+    
     
 }
 - (IBAction)onDistanceChange:(id)sender {
@@ -62,7 +74,7 @@
     NSString *distanceString = [twoDecimalPlacesFormatter stringFromNumber:[NSNumber numberWithFloat: self.distanceCtrl.value]];
     self.distance = [distanceString doubleValue];
     self.distanceLabel.text = [NSString stringWithFormat:@"%@%@", distanceString, @" miles"];
-    [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
+    
 }
 
 // Add a button to the view.
@@ -96,8 +108,6 @@ didAutocompleteWithPlace:(GMSPlace *)place {
     self.startLatitude = place.coordinate.latitude;
     self.startLongitude = place.coordinate.longitude;
     self.locationLabel.text = place.formattedAddress;
-    [self.delegate passLongitude:self didFinishEnteringLongitude:self.startLongitude];
-    [self.delegate passLatitude:self didFinishEnteringLatitude:self.startLatitude];
 }
 
 - (void)viewController:(GMSAutocompleteViewController *)viewController
@@ -144,7 +154,6 @@ didFailAutocompleteWithError:(NSError *)error {
     
     self.tags = [temp copy];
     [self.tagsView reloadData];
-    [self.delegate passTags:self didFinishEnteringTags:self.tags];
 }
 
 - (void)initalTagSetup {

@@ -1231,7 +1231,7 @@
             <objects>
                 <viewController id="oao-lX-g0P" customClass="TagsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f9Y-rX-PiK">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ElQ-qz-niO">
@@ -2133,7 +2133,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="xDV-z4-I4w"/>
-        <segue reference="KgL-fN-wrv"/>
+        <segue reference="mPv-fx-UM2"/>
         <segue reference="3ez-2i-PgN"/>
     </inferredMetricsTieBreakers>
     <resources>

@@ -269,7 +269,7 @@
                 self.followerPagesLoaded[removedPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
             }
             [self fetchFollowerPosts];
-            
+
         } else {
             [self finalSorting];
         }
