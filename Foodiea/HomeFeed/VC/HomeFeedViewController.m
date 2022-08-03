@@ -190,8 +190,7 @@
         }
         
         dispatch_group_notify(self.postGroup, dispatch_get_main_queue(), ^{
-            [self sortUserPosts];
-            [self updateViewedPosts];
+            [self dispatchSorting];
         });
     }
     
@@ -240,6 +239,81 @@
     dispatch_group_leave(self.postGroup);
 }
 
+-(void)dispatchSorting {
+    NSArray *dispatchBox = [self.postBox copy];
+    self.bookmarkGroup = dispatch_group_create();
+    if(self.tags != nil && self.tags.count > 0) {
+        for(Post *post in self.postBox) {
+            dispatch_group_enter(self.bookmarkGroup);
+            
+            PFRelation *tagRelation = [post relationForKey:@"tags"];
+            // generate a query based on that relation
+            PFQuery *tagQuery = [tagRelation query];
+            void (^callbackForTags)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
+                [self tagCallback:posts post:post errorMessage:error];
+                };
+            [self.manager query:tagQuery getObjects:callbackForTags];
+        }
+        
+    }
+    
+    for(Post *post in self.postBox) {
+        dispatch_group_enter(self.bookmarkGroup);
+        [self setPostBookMark:post];
+    }
+    
+    dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
+        if(self.tags != nil && self.tags.count > 0 && self.postBox.count == 0 && dispatchBox.count != 0) {
+            for(Post *removedPost in dispatchBox) {
+                int numLoaded = [self.followerPagesLoaded[removedPost.author.objectId] integerValue] +1;
+                self.followerPagesLoaded[removedPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
+            }
+            [self fetchFollowerPosts];
+            
+        } else {
+            [self finalSorting];
+        }
+    });
+    
+}
+
+-(void)finalSorting {
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
+                                                  ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
+    
+    NSArray *smallArray = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
+    if(self.posts != nil) {
+        self.posts = [self.posts arrayByAddingObjectsFromArray:smallArray];
+    } else {
+        self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
+    }
+    self.postBox = [NSMutableArray new];
+    self.lastAdded = smallArray;
+    
+    if(self.screenPosts != 4) {
+        NSMutableArray *indiciesToAdd = [NSMutableArray new];
+        for(int i = 0; i< MIN(4, smallArray.count); i++) {
+            [indiciesToAdd addObject: [NSIndexPath indexPathForRow: self.screenPosts-4-1+i inSection: 0]];
+        }
+        [self.homeFeedTableView beginUpdates];
+        [self.homeFeedTableView insertRowsAtIndexPaths:[indiciesToAdd copy] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.homeFeedTableView endUpdates];
+    } else {
+        [self.homeFeedTableView reloadData];
+    }
+    [self updateViewedPosts];
+}
+
+-(void)updateViewedPosts{
+    for(Post *chosenPost in self.lastAdded) {
+        int numLoaded = [self.followerPagesLoaded[chosenPost.author.objectId] integerValue] +1;
+        self.followerPagesLoaded[chosenPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
+    }
+}
+
 - (void)tagCallback:(NSArray *)tags post:(Post *)post errorMessage:(NSError *)error{
     self.isSubset = NO;
     if ([tags count] != 0) {
@@ -283,67 +357,6 @@
 }
 
 
-
--(void)sortUserPosts {
-    self.bookmarkGroup = dispatch_group_create();
-    if(self.tags != nil && self.tags.count > 0) {
-        for(Post *post in self.postBox) {
-            dispatch_group_enter(self.bookmarkGroup);
-            
-            PFRelation *tagRelation = [post relationForKey:@"tags"];
-            // generate a query based on that relation
-            PFQuery *tagQuery = [tagRelation query];
-            void (^callbackForTags)(NSArray *posts, NSError *error) = ^(NSArray *posts, NSError *error){
-                [self tagCallback:posts post:post errorMessage:error];
-                };
-            [self.manager query:tagQuery getObjects:callbackForTags];
-        }
-        
-    }
-    
-    for(Post *post in self.postBox) {
-        dispatch_group_enter(self.bookmarkGroup);
-        [self setPostBookMark:post];
-    }
-    
-    dispatch_group_notify(self.bookmarkGroup, dispatch_get_main_queue(), ^{
-    
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date"
-                                                      ascending:NO];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        NSArray *sortedArray = [self.postBox sortedArrayUsingDescriptors:sortDescriptors];
-        
-        NSArray *smallArray = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
-        if(self.posts != nil) {
-            self.posts = [self.posts arrayByAddingObjectsFromArray:smallArray];
-        } else {
-            self.posts = [sortedArray subarrayWithRange:NSMakeRange(0, MIN(4, sortedArray.count))];
-        }
-        self.postBox = [NSMutableArray new];
-        self.lastAdded = smallArray;
-        
-        if(self.screenPosts != 4) {
-            NSMutableArray *indiciesToAdd = [NSMutableArray new];
-            for(int i = 0; i< MIN(4, smallArray.count); i++) {
-                [indiciesToAdd addObject: [NSIndexPath indexPathForRow: self.screenPosts-4-1+i inSection: 0]];
-            }
-            [self.homeFeedTableView beginUpdates];
-            [self.homeFeedTableView insertRowsAtIndexPaths:[indiciesToAdd copy] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.homeFeedTableView endUpdates];
-        } else {
-            [self.homeFeedTableView reloadData];
-        }
-    });
-    
-}
-
--(void)updateViewedPosts{
-    for(Post *chosenPost in self.lastAdded) {
-        int numLoaded = [self.followerPagesLoaded[chosenPost.author.objectId] integerValue] +1;
-        self.followerPagesLoaded[chosenPost.author.objectId] = [NSNumber numberWithInt:numLoaded];
-    }
-}
 #pragma mark - delegate
 
 - (void)passPrice:(FilterViewController *)controller didFinishEnteringPrice:(NSString *)price {
