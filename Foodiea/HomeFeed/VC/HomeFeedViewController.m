@@ -116,8 +116,6 @@
 
 #pragma mark - Get home posts by query
 
-
-
 - (void)fetchBookmarked {
     PFRelation *relation = [self.user relationForKey:@"bookmarks"];
     PFQuery *bookmarksQuery = [relation query];

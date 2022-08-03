@@ -9,6 +9,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <Parse/Parse.h>
 #import "Post.h"
+#import "SCLAlertView.h"
+#import "APIManager.h"
 
 @interface MainMapViewController ()
 @property GMSMapView *mapView;
@@ -21,6 +23,8 @@
 @property double camLatitude;
 @property double prevLongitude;
 @property double prevLatitude;
+@property NSMutableArray *following;
+@property APIManager *manager;
 
 @end
 
@@ -31,7 +35,9 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self firstPostLatLong];
+    self.manager = [[APIManager alloc] init];
+    self.following = [[NSMutableArray alloc] init];
+    [self fetchFollowerPosts];
 }
 
 -(void)setUpMap{
@@ -45,12 +51,39 @@
     [self fetchPosts];
 }
 
+-(void)fetchFollowerPosts {
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+    // generate a query based on that relation
+    PFQuery *usersQuery = [relation query];
+    void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+            [self followerCountCallback:users errorMessage:error];
+        };
+    [self.manager query:usersQuery getObjects:callbackForUsers];
+    
+}
+
+- (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
+    if (users.count == 0) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showInfo:self title:@"Find Foodies!" subTitle:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration." closeButtonTitle:@"Ok!" duration:0.0f];
+    } else if(users != nil) {
+        for (PFUser *user in users){
+            [self.following addObject:user];
+        }
+        [self firstPostLatLong];
+    }
+    
+}
+
+
 -(void)firstPostLatLong {
     PFQuery *postQuery = [Post query];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
     __block NSMutableArray *followedPosts = [NSMutableArray new];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery whereKey:@"author" containedIn:self.following];
     [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
                 // all posts in descending order
@@ -110,6 +143,7 @@
     [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithDouble:minLong]];
     [postQuery whereKey:@"longitude" lessThan:[NSNumber numberWithDouble:maxLong]];
     [postQuery whereKey:@"objectId" notContainedIn:self.prevposts];
+    [postQuery whereKey:@"author" containedIn:self.following];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
