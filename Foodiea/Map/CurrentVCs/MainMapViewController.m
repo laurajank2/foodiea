@@ -28,14 +28,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     [self firstPostLatLong];
-    [self setUpMap];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
-                                                  target:self
-                                                  selector:@selector(updateMap)
-                                                  userInfo:nil
-                                                  repeats:YES];
 }
 
 -(void)setUpMap{
@@ -76,11 +72,20 @@
                             //if so, add them to followed posts
                             if([followedUsers containsObject:post.author.objectId]) {
                                 [followedPosts addObject:post];
+                                NSLog(@"%@", post);
+                                NSLog(@"%f",[post.latitude doubleValue]);
                                 self.camLatitude = [post.latitude doubleValue];
                                 self.camLongitude = [post.longitude doubleValue];
+                                [self setUpMap];
+                                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                                                              target:self
+                                                                              selector:@selector(updateMap)
+                                                                              userInfo:nil
+                                                                              repeats:YES];
                                 break;
                             }
                         }
+                        
                     } else {
                         NSLog(@"%@", error.localizedDescription);
                     }
