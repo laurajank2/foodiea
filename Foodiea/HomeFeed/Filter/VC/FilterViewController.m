@@ -47,9 +47,9 @@
 
   if (self.isMovingFromParentViewController) {
       [self.delegate passPrice:self didFinishEnteringPrice:self.price];
-      [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
       [self.delegate passLongitude:self didFinishEnteringLongitude:self.startLongitude];
       [self.delegate passLatitude:self didFinishEnteringLatitude:self.startLatitude];
+      [self.delegate passDistance:self didFinishEnteringDistance:self.distance];
       [self.delegate passTags:self didFinishEnteringTags:self.tags];
   }
 }
