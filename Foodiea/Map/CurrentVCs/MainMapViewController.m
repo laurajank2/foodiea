@@ -11,6 +11,8 @@
 #import "Post.h"
 #import "SCLAlertView.h"
 #import "APIManager.h"
+#import "Tag.h"
+#import <ChameleonFramework/Chameleon.h>
 
 @interface MainMapViewController ()
 @property GMSMapView *mapView;
@@ -198,13 +200,40 @@
         }
     }
     for(Post *post in onlyCurr) {
-        GMSMarker *marker = [[GMSMarker alloc] init];
-        marker.position = CLLocationCoordinate2DMake([post.latitude doubleValue], [post.longitude doubleValue]);
-        [marker setAppearAnimation:kGMSMarkerAnimationPop];
-        marker.title = post.restaurantName;
-        marker.snippet =  post.formattedAddress;
-        marker.map = self.mapView;
+        [self fetchPostTags:post];
     }
+}
+
+-(void)fetchPostTags:(Post * _Nullable)post{
+    PFRelation *relation = [post relationForKey:@"tags"];
+    // generate a query based on that relation
+    PFQuery *usersQuery = [relation query];
+    void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+        [self tagsCallback:tags post:post errorMessage:error];
+        };
+    [self.manager query:usersQuery getObjects:callbackForTags];
+    
+}
+
+- (void)tagsCallback:(NSArray *)tags post:(Post * _Nullable)post errorMessage:(NSError *)error {
+    GMSMarker *marker = [[GMSMarker alloc] init];
+    marker.position = CLLocationCoordinate2DMake([post.latitude doubleValue], [post.longitude doubleValue]);
+    [marker setAppearAnimation:kGMSMarkerAnimationPop];
+    marker.title = post.restaurantName;
+    marker.snippet =  post.formattedAddress;
+    
+    if (tags.count != 0) {
+        Tag *tag = [tags objectAtIndex:0];
+        UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
+                                    saturation:0.85
+                                    brightness:0.9
+                                         alpha:1.0];
+        marker.icon = [GMSMarker markerImageWithColor:color];
+    } else {
+        marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+    }
+    marker.map = self.mapView;
+    
 }
 
 - (void)updateMap {
