@@ -20,17 +20,27 @@
 }
 
 - (void) setUp {
-    UIColor *color = [UIColor colorWithHue:self.hue
-                                saturation:0.85
-                                brightness:0.9
-                                     alpha:1.0];
-    self.backgroundColor = color;
-    self.titleLabel.textColor = ContrastColor(color, NO);
+    
     if(self.writeYourTag == 1) {
+        [self colorAdjust];
+        UIColor *color = [UIColor colorWithHue:self.hue
+                                    saturation:0.85 + self.saturation
+                                    brightness:0.9 + self.brightness
+                                         alpha:1.0];
+        self.backgroundColor = color;
+        self.titleLabel.textColor = ContrastColor(color, NO);
         self.titleLabel.text = @"";
         self.spacingLabel.text = @"Write your tag";
         self.titleLabel.userInteractionEnabled = true;
     } else {
+        self.saturation = [self.tag[@"saturation"] doubleValue];
+        self.brightness = [self.tag[@"brightness"] doubleValue];
+        UIColor *color = [UIColor colorWithHue:self.hue
+                                    saturation:0.85 + self.saturation
+                                    brightness:0.9 + self.brightness
+                                         alpha:1.0];
+        self.backgroundColor = color;
+        self.titleLabel.textColor = ContrastColor(color, NO);
         self.titleLabel.text = self.tag[@"title"];
         self.spacingLabel.text = self.tag[@"title"];
         self.titleLabel.userInteractionEnabled = false;
@@ -44,6 +54,16 @@
     
 }
 
+- (void)colorAdjust {
+    if(0.25 < self.hue < 0.75) {
+        self.brightness = -(pow(1.2, self.numTags)*0.01);
+        self.saturation = pow(1.2, self.numTags)*0.01;
+    } else {
+        self.brightness = pow(1.2, self.numTags)*0.01;
+        self.saturation = -(pow(1.2, self.numTags)*0.01);
+    }
+}
+
 - (void)doubleTap {
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
     [self.spacingLabel addGestureRecognizer:gestureRecognizer];
@@ -53,6 +73,11 @@
 }
 
 - (IBAction)madeTag:(id)sender {
+    if([self.titleLabel.text isEqualToString:@""]){
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+        [alert showWarning:self.parentVC title:@"No name" subTitle:@"Tag must have a name. Please enter some letters." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+    }
     [self checkUniqueness];
 }
 
@@ -78,6 +103,8 @@
             self.unique = 1;
             [Tag setTitle:self.titleLabel.text
                    setHue:[NSNumber numberWithDouble:self.hue]
+            setBrightness:[NSNumber numberWithDouble:self.brightness]
+            setSaturation:[NSNumber numberWithDouble:self.saturation]
              withCompletion: ^(BOOL succeeded, NSError * _Nullable error) {
                 if(succeeded) {
                     self.titleLabel.userInteractionEnabled = false;
