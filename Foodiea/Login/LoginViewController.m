@@ -65,18 +65,18 @@
     PFQuery *userQuery = [PFUser query];
     [userQuery whereKey:@"username" equalTo:self.usernameField.text];
     userQuery.limit = 2;
-    void (^callbackForTagCheck)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
-        [self callback:tags errorMessage:error];
+    void (^callbackForNameCheck)(NSArray *names, NSError *error) = ^(NSArray *names, NSError *error){
+        [self callback:names errorMessage:error];
     };
-   [self.manager query:userQuery getObjects:callbackForTagCheck];
+   [self.manager query:userQuery getObjects:callbackForNameCheck];
 }
 
-- (void)callback:(NSArray *)tags errorMessage:(NSError *)error{
-    if (tags != nil) {
-        if(!(tags.count == 0)) {
+- (void)callback:(NSArray *)names errorMessage:(NSError *)error{
+    if (names != nil) {
+        if(!(names.count == 0)) {
             SCLAlertView *alert = [[SCLAlertView alloc] init];
 
-            [alert showWarning:self title:@"Username exists" subTitle:@"This tag already exists. Please choose another." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+            [alert showWarning:self title:@"Username exists" subTitle:@"This username already exists. Please choose another." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
         } else {
             [self registerUser];
         }

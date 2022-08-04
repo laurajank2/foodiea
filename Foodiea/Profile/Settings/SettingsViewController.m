@@ -63,7 +63,9 @@
 }
 
 -(void)dismissKeyboard {
-    [self.userName resignFirstResponder];
+    if([self.userName resignFirstResponder]) {
+        [self checkUniqueness];
+    }
     [self.screenName resignFirstResponder];
     [self.bio resignFirstResponder];
     [self.fav1 resignFirstResponder];
@@ -73,6 +75,33 @@
     [self.fav2Link resignFirstResponder];
     [self.fav3Link resignFirstResponder];
 }
+
+- (void)checkUniqueness{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"username" equalTo:self.userName.text];
+    userQuery.limit = 2;
+    void (^callbackForNameCheck)(NSArray *names, NSError *error) = ^(NSArray *names, NSError *error){
+        [self callback:names errorMessage:error];
+    };
+   [self.manager query:userQuery getObjects:callbackForNameCheck];
+}
+
+- (void)callback:(NSArray *)names errorMessage:(NSError *)error{
+    if (names != nil) {
+        if(!(names.count == 0)) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showWarning:self title:@"Username exists" subTitle:@"This name already exists. Please choose another." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+        } else {
+            self.user[@"username"] = self.userName.text;
+            [self.manager saveUserInfo:self.user];
+        }
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
+}
+
 
 -(void)filloutUser {
     //image
@@ -109,7 +138,6 @@
 }
 
 - (void)fieldDidEndEditing {
-    self.user[@"username"] = self.userName.text;
     self.user[@"screenname"] = self.screenName.text;
     self.user[@"fav1"] = self.fav1.text;
     self.user[@"fav2"] = self.fav2.text;
