@@ -12,9 +12,11 @@
 #import "SCLAlertView.h"
 #import "APIManager.h"
 #import "Tag.h"
+#import "TagsCell.h"
 #import <ChameleonFramework/Chameleon.h>
 
-@interface MainMapViewController ()
+@interface MainMapViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@property (weak, nonatomic) IBOutlet UICollectionView *tagCollectionView;
 @property GMSMapView *mapView;
 @property (nonatomic, strong) NSArray *posts;
 @property (nonatomic, strong) NSMutableArray *prevposts;
@@ -27,6 +29,9 @@
 @property double prevLatitude;
 @property NSMutableArray *following;
 @property APIManager *manager;
+@property NSMutableArray *currTags;
+@property NSMutableArray *markedPosts;
+
 
 @end
 
@@ -35,9 +40,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.manager = [[APIManager alloc] init];
+    [self setUpTags];
     self.following = [[NSMutableArray alloc] init];
     [self fetchFollowerPosts];
+    
 }
+
+-(void)setUpTags {
+    self.tagCollectionView.dataSource = self;
+    self.tagCollectionView.delegate = self;
+    self.currTags = [[NSMutableArray alloc] init];
+    self.markedPosts = [[NSMutableArray alloc] init];
+}
+
+-(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+    return self.currTags.count;
+}
+
+- (UICollectionViewCell *)collectionView: (UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    TagsCell *cell = [self.tagCollectionView dequeueReusableCellWithReuseIdentifier:@"TagsCell" forIndexPath:indexPath];
+    Tag *tag = self.currTags[indexPath.row];
+    cell.tag = tag;
+    cell.writeYourTag = 0;
+    cell.hue = [cell.tag.hue doubleValue];
+    [cell setUp];
+    return cell;
+}
+
 
 -(void)setUpMap{
     self.prevposts = [NSMutableArray new];
@@ -47,6 +77,7 @@
     self.mapView = [GMSMapView mapWithFrame:self.view.frame camera:self.camera];
     [self.view addSubview:self.mapView];
     self.visible = [self.mapView.projection visibleRegion];
+    [self.view bringSubviewToFront:self.tagCollectionView];
     [self fetchPosts];
 }
 
@@ -144,43 +175,15 @@
     [postQuery whereKey:@"objectId" notContainedIn:self.prevposts];
     [postQuery whereKey:@"author" containedIn:self.following];
     postQuery.limit = 20;
-    __block NSArray *allPosts;
-    __block NSSet *followedUsers;
-    __block NSMutableArray *followedPosts = [NSMutableArray new];
 
     // fetch data asynchronously
     [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-                // all posts in descending order
-                allPosts = posts;
-                PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
-                // generate a query based on that relation
-                PFQuery *query = [relation query];
-                [query findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
-                    if (users != nil) {
-                        // get users and make a mutable array of ids
-                        NSMutableArray *userIds = [NSMutableArray new];
-                        for (PFUser *user in users){
-                            [userIds addObject:user.objectId];
-                        }
-                        //make a set of the userids
-                        followedUsers = [NSSet setWithArray:[userIds copy]];
-                        //check if posts have an author you follow
-                        for (Post *post in allPosts) {
-                            //if so, add them to followed posts
-                            if([followedUsers containsObject:post.author.objectId]) {
-                                [followedPosts addObject:post];
-                            }
-                        }
-                        for(Post *post in self.posts) {
-                            [self.prevposts addObject:post.objectId];
-                        }
-                        self.posts = [followedPosts copy];
-                        [self makeMarkers];
-                    } else {
-                        NSLog(@"%@", error.localizedDescription);
-                    }
-                }];
+            for(Post *post in self.posts) {
+                [self.prevposts addObject:post.objectId];
+            }
+            self.posts = posts;
+            [self makeMarkers];
             
         } else {
             NSLog(@"%@", error.localizedDescription);
@@ -222,10 +225,17 @@
     if (tags.count >= 1) {
         Tag *tag = [tags objectAtIndex:0];
         UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
-                                    saturation:0.85
-                                    brightness:0.9
+                                    saturation:0.85 + [tag.saturation doubleValue]
+                                    brightness:0.9 + [tag.brightness doubleValue]
                                          alpha:1.0];
         marker.icon = [GMSMarker markerImageWithColor:color];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           // do work here to Usually to update the User Interface
+            [self.markedPosts addObject:post];
+            [self.currTags addObjectsFromArray:tags];
+            [self.tagCollectionView reloadData];
+        });
+        
     } else {
         marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
     }
@@ -237,9 +247,44 @@
     self.visible = [self.mapView.projection visibleRegion];
     if(self.prevLongitude != self.visible.nearRight.longitude || self.prevLatitude != self.visible.nearRight.latitude) {
         [self fetchPosts];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           // do work here to Usually to update the User Interface
+            double minLat = [self findMin:self.visible.nearRight.latitude numTwo:self.visible.farLeft.latitude];
+            double maxLat = [self findMax:self.visible.nearRight.latitude numTwo:self.visible.farLeft.latitude];;
+            double minLong = [self findMin:self.visible.nearRight.longitude numTwo:self.visible.farLeft.longitude];
+            double maxLong = [self findMax:self.visible.nearRight.longitude numTwo:self.visible.farLeft.longitude];
+            for(Post *marker in self.markedPosts) {
+                if([marker.latitude doubleValue] > maxLat || [marker.latitude doubleValue] < minLat || [marker.longitude doubleValue] > maxLong || [marker.longitude doubleValue] < minLong) {
+                    PFRelation *relation = [marker relationForKey:@"tags"];
+                    // generate a query based on that relation
+                    PFQuery *usersQuery = [relation query];
+                    void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+                        [self markerTagsCallback:tags post:marker errorMessage:error];
+                        };
+                    [self.manager query:usersQuery getObjects:callbackForTags];
+                    
+                }
+            }
+            [self.tagCollectionView reloadData];
+        });
     }
     self.prevLongitude = self.visible.nearRight.longitude;
     self.prevLatitude = self.visible.nearRight.latitude;
+    
+    
+}
+
+- (void)markerTagsCallback:(NSArray *)tags post:(Post * _Nullable)post errorMessage:(NSError *)error {
+    for(Tag *tag in tags) {
+        int counter = 0;
+        for(Tag *currTag in self.currTags) {
+            if([currTag.objectId isEqualToString:tag.objectId]){
+                [self.currTags removeObjectAtIndex:counter];
+                break;
+            }
+            counter++;
+        }
+    }
     
 }
 

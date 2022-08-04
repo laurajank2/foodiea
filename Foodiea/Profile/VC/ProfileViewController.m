@@ -207,7 +207,6 @@
 
 - (IBAction)tapTopRight:(id)sender {
     [self handleNav];
-    
 }
 
 - (IBAction)didTapBookmark:(id)sender {
