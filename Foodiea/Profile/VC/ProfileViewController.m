@@ -49,6 +49,7 @@
     
 }
 
+
 -(void)filloutUser {
     [self.profileImage.layer setBorderColor: [[UIColor blackColor] CGColor]];
     [self.profileImage.layer setBorderWidth: 1.5];
@@ -78,17 +79,31 @@
     if([self.fav1.currentTitle isEqualToString:@""] || self.fav1.currentTitle == nil) {
         self.fav1.hidden = YES;
         self.fav1.userInteractionEnabled = NO;
+    } else if (![self.fav1.currentTitle isEqualToString:@""] && self.fav1.currentTitle != nil) {
+        self.fav1.hidden = NO;
+        self.fav1.userInteractionEnabled = YES;
     }
+    
     if([self.fav2.currentTitle isEqualToString:@""] || self.fav2.currentTitle == nil) {
         self.fav2.hidden = YES;
         self.fav2.userInteractionEnabled = NO;
+    } else if (![self.fav2.currentTitle isEqualToString:@""] && self.fav2.currentTitle != nil) {
+        self.fav2.hidden = NO;
+        self.fav2.userInteractionEnabled = YES;
     }
+    
     if([self.fav3.currentTitle isEqualToString:@""] || self.fav3.currentTitle == nil) {
         self.fav3.hidden = YES;
         self.fav3.userInteractionEnabled = NO;
+    } else if (![self.fav3.currentTitle isEqualToString:@""] && self.fav3.currentTitle != nil) {
+        self.fav3.hidden = NO;
+        self.fav3.userInteractionEnabled = YES;
     }
+    
     if(self.fav1.hidden && self.fav2.hidden && self.fav3.hidden) {
         self.favslabel.hidden = YES;
+    } else {
+        self.favslabel.hidden = NO;
     }
 }
 
