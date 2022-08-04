@@ -1321,7 +1321,6 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9Jr-PO-X1h">
                                 <rect key="frame" x="207" y="34" width="183" height="273"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="f9I-aC-8Mh">
                                     <size key="itemSize" width="63" height="20"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1336,14 +1335,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="63" height="20"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="req-Xu-ERo">
-                                                    <rect key="frame" x="0.0" y="-1" width="63" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="req-Xu-ERo">
+                                                    <rect key="frame" x="5" y="5" width="53" height="10"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="req-Xu-ERo" secondAttribute="trailing" constant="5" id="1O0-dX-5Ag"/>
+                                                <constraint firstItem="req-Xu-ERo" firstAttribute="leading" secondItem="Ycj-ED-xsG" secondAttribute="leading" constant="5" id="AlL-pi-sg3"/>
+                                                <constraint firstItem="req-Xu-ERo" firstAttribute="top" secondItem="Ycj-ED-xsG" secondAttribute="top" constant="5" id="WGN-Q4-do8"/>
+                                                <constraint firstAttribute="bottom" secondItem="req-Xu-ERo" secondAttribute="bottom" constant="5" id="a2U-Yr-9NQ"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="63" height="20"/>
                                         <connections>

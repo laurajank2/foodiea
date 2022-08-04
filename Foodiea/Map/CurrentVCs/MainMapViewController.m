@@ -31,6 +31,7 @@
 @property APIManager *manager;
 @property NSMutableArray *currTags;
 @property NSMutableArray *markedPosts;
+@property NSMutableArray *visMarkedPosts;
 
 
 @end
@@ -51,6 +52,7 @@
     self.tagCollectionView.delegate = self;
     self.currTags = [[NSMutableArray alloc] init];
     self.markedPosts = [[NSMutableArray alloc] init];
+    self.visMarkedPosts = [[NSMutableArray alloc] init];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -232,6 +234,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
            // do work here to Usually to update the User Interface
             [self.markedPosts addObject:post];
+            [self.visMarkedPosts addObject:post];
             [self.currTags addObjectsFromArray:tags];
             [self.tagCollectionView reloadData];
         });
@@ -254,18 +257,37 @@
             double minLong = [self findMin:self.visible.nearRight.longitude numTwo:self.visible.farLeft.longitude];
             double maxLong = [self findMax:self.visible.nearRight.longitude numTwo:self.visible.farLeft.longitude];
             for(Post *marker in self.markedPosts) {
+                //no longer in view
                 if([marker.latitude doubleValue] > maxLat || [marker.latitude doubleValue] < minLat || [marker.longitude doubleValue] > maxLong || [marker.longitude doubleValue] < minLong) {
+                    [self.visMarkedPosts removeObject:marker];
                     PFRelation *relation = [marker relationForKey:@"tags"];
                     // generate a query based on that relation
                     PFQuery *usersQuery = [relation query];
                     void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
-                        [self markerTagsCallback:tags post:marker errorMessage:error];
+                        [self markerTagsCallback:tags post:marker removal:YES errorMessage:error];
                         };
                     [self.manager query:usersQuery getObjects:callbackForTags];
                     
                 }
+                //returned to view
+                if([marker.latitude doubleValue] <= maxLat && [marker.latitude doubleValue] >= minLat && [marker.longitude doubleValue] <= maxLong && [marker.longitude doubleValue] >= minLong) {
+                    BOOL contains = NO;
+                    NSLog(@"%d", ![self.visMarkedPosts containsObject:marker]);
+                    if(![self.visMarkedPosts containsObject:marker]) {
+                        [self.visMarkedPosts addObject:marker];
+                        PFRelation *relation = [marker relationForKey:@"tags"];
+                        // generate a query based on that relation
+                        PFQuery *usersQuery = [relation query];
+                        void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+                            [self markerTagsCallback:tags post:marker removal:NO errorMessage:error];
+                            };
+                        [self.manager query:usersQuery getObjects:callbackForTags];
+                    }
+                }
             }
-            [self.tagCollectionView reloadData];
+            
+            
+            
         });
     }
     self.prevLongitude = self.visible.nearRight.longitude;
@@ -274,17 +296,23 @@
     
 }
 
-- (void)markerTagsCallback:(NSArray *)tags post:(Post * _Nullable)post errorMessage:(NSError *)error {
-    for(Tag *tag in tags) {
-        int counter = 0;
-        for(Tag *currTag in self.currTags) {
-            if([currTag.objectId isEqualToString:tag.objectId]){
-                [self.currTags removeObjectAtIndex:counter];
-                break;
+- (void)markerTagsCallback:(NSArray *)tags post:(Post * _Nullable)post removal:(BOOL)removal errorMessage:(NSError *)error {
+    if(removal){
+        for(Tag *tag in tags) {
+            int counter = 0;
+            for(Tag *currTag in self.currTags) {
+                if([currTag.objectId isEqualToString:tag.objectId]){
+                    [self.currTags removeObjectAtIndex:counter];
+                    break;
+                }
+                counter++;
             }
-            counter++;
         }
+    } else {
+        [self.currTags addObjectsFromArray:tags];
     }
+    
+    [self.tagCollectionView reloadData];
     
 }
 
