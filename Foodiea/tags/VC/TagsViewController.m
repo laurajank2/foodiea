@@ -19,6 +19,7 @@
 @property NSArray *filteredTags;
 @property double lastHue;
 @property NSString *searchBy;
+@property BOOL loadedLast;
 
 @end
 
@@ -32,6 +33,7 @@
     self.tagsView.delegate = self;
     self.tagsSearch.delegate = self;
     self.tagsSearch.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.loadedLast = NO;
     [self fetchTags];
 }
 
@@ -42,6 +44,7 @@
         [tagQuery whereKey:@"title" notEqualTo:@"zzzzz"];
     }
     tagQuery.limit = 20;
+    tagQuery.skip = self.tags.count;
 
     void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
             [self tagCallback:tags errorMessage:error];
@@ -54,10 +57,17 @@
 - (void)tagCallback:(NSArray *)tags errorMessage:(NSError *)error{
     if (tags != nil) {
         // do something with the array of object returned by the call
+        Tag *lastTag = [self.tags objectAtIndex:self.tags.count-1];
+        if([lastTag.title isEqualToString:@"zzzzz"]){
+            self.loadedLast = YES;
+        }
         self.tags = tags;
         self.filteredTags = self.tags;
-        [self.tagsView reloadData];
-        
+        if(self.loadedLast) {
+            [self.tagsView reloadData];
+        } else {
+            [self fetchTags];
+        }
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
@@ -79,7 +89,12 @@
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
         cell.tag = tag;
         cell.writeYourTag = 1;
-        cell.hue = self.lastHue + 0.01;
+        if(self.lastHue <0.95){
+            cell.hue = self.lastHue + 0.035;
+        } else {
+            cell.hue = self.tags.count*0.01;
+        }
+        
         [cell setUp];
         OutsideTap *outCellTap = [[OutsideTap alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
         outCellTap.avoidCell = cell;

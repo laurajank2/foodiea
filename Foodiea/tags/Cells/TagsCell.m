@@ -7,7 +7,7 @@
 
 #import "TagsCell.h"
 #import "SCLAlertView.h"
-
+#import <ChameleonFramework/Chameleon.h>
 @implementation TagsCell
 
 @dynamic tag;
@@ -25,6 +25,7 @@
                                 brightness:0.9
                                      alpha:1.0];
     self.backgroundColor = color;
+    self.titleLabel.textColor = ContrastColor(color, NO);
     if(self.writeYourTag == 1) {
         self.titleLabel.text = @"";
         self.spacingLabel.text = @"Write your tag";
@@ -56,7 +57,7 @@
 - (void)checkUniqueness{
     PFQuery *tagQuery = [Tag query];
     [tagQuery whereKey:@"title" equalTo:self.titleLabel.text];
-    tagQuery.limit = 20;
+    tagQuery.limit = 200;
     void (^callbackForTagCheck)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
         [self callback:tags errorMessage:error];
     };
