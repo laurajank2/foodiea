@@ -37,6 +37,9 @@
         if(self.parentVC != nil) {
             [self doubleTap];
         }
+        if(self.spacingLabel.textColor != ClearColor) {
+            self.spacingLabel.textColor = ContrastColor(color, NO);
+        }
     }
     
 }

@@ -8,10 +8,13 @@
 #import "LoginViewController.h"
 #import "HomeFeedViewController.h"
 #import <Parse/Parse.h>
+#import "SCLAlertView.h"
+#import "APIManager.h"
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property APIManager *manager;
 
 @end
 
@@ -19,6 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.manager = [[APIManager alloc] init];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
 
     [self.view addGestureRecognizer:tap];
@@ -31,7 +35,7 @@
     [self loginUser];
 }
 - (IBAction)didTapSignUp:(id)sender {
-    [self registerUser];
+    [self checkUniqueness];
 }
 - (void)registerUser {
     // initialize a user object
@@ -44,6 +48,9 @@
     // call sign up function on the object
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
         if (error != nil) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showWarning:self title:@"Sign Up Failed" subTitle:@"Sign Up failed. Try a new username." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
             NSLog(@"User registered successfully");
@@ -54,12 +61,40 @@
     }];
 }
 
+- (void)checkUniqueness{
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"username" equalTo:self.usernameField.text];
+    userQuery.limit = 2;
+    void (^callbackForTagCheck)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+        [self callback:tags errorMessage:error];
+    };
+   [self.manager query:userQuery getObjects:callbackForTagCheck];
+}
+
+- (void)callback:(NSArray *)tags errorMessage:(NSError *)error{
+    if (tags != nil) {
+        if(!(tags.count == 0)) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showWarning:self title:@"Username exists" subTitle:@"This tag already exists. Please choose another." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+        } else {
+            [self registerUser];
+        }
+        
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
+}
+
 - (void)loginUser {
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
     
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
         if (error != nil) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+
+            [alert showWarning:self title:@"Login Failed" subTitle:@"User not recognized in system. Please check your username and password" closeButtonTitle:@"Ok" duration:0.0f]; // Warning
             NSLog(@"User log in failed: %@", error.localizedDescription);
         } else {
             NSLog(@"User logged in successfully");
@@ -69,6 +104,8 @@
         }
     }];
 }
+
+
 
 /*
 #pragma mark - Navigation
