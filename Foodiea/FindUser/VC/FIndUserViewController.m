@@ -59,6 +59,9 @@
     if(![self.price isEqualToString: @""]) {
         [userQuery whereKey:@"price" equalTo:self.price];
     }
+    if(self.tags != nil) {
+        [userQuery whereKey:@"popTag" containedIn:self.tags];
+    }
 
     void (^callbackForUse)(NSArray *objects, NSError *error) = ^(NSArray *objects, NSError *error){
             [self callback:objects errorMessage:error];

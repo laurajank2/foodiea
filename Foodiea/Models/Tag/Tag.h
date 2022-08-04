@@ -14,8 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSNumber *hue;
+@property (nonatomic, strong) NSNumber *saturation;
+@property (nonatomic, strong) NSNumber *brightness;
 
-+ (void) setTitle:(NSString * _Nullable)title setHue:(NSNumber * _Nullable)hue withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (void) setTitle:(NSString * _Nullable) title setHue:(NSNumber * _Nullable)hue setBrightness:(NSNumber * _Nullable)brightness  setSaturation:(NSNumber * _Nullable)saturation withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 
 @end
 

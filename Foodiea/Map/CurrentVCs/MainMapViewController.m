@@ -9,6 +9,10 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <Parse/Parse.h>
 #import "Post.h"
+#import "SCLAlertView.h"
+#import "APIManager.h"
+#import "Tag.h"
+#import <ChameleonFramework/Chameleon.h>
 
 @interface MainMapViewController ()
 @property GMSMapView *mapView;
@@ -21,6 +25,8 @@
 @property double camLatitude;
 @property double prevLongitude;
 @property double prevLatitude;
+@property NSMutableArray *following;
+@property APIManager *manager;
 
 @end
 
@@ -28,14 +34,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self firstPostLatLong];
-    [self setUpMap];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
-                                                  target:self
-                                                  selector:@selector(updateMap)
-                                                  userInfo:nil
-                                                  repeats:YES];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    self.manager = [[APIManager alloc] init];
+    self.following = [[NSMutableArray alloc] init];
+    [self fetchFollowerPosts];
 }
 
 -(void)setUpMap{
@@ -49,12 +53,39 @@
     [self fetchPosts];
 }
 
+-(void)fetchFollowerPosts {
+    PFRelation *relation = [[PFUser currentUser] relationForKey:@"following"];
+    // generate a query based on that relation
+    PFQuery *usersQuery = [relation query];
+    void (^callbackForUsers)(NSArray *users, NSError *error) = ^(NSArray *users, NSError *error){
+            [self followerCountCallback:users errorMessage:error];
+        };
+    [self.manager query:usersQuery getObjects:callbackForUsers];
+    
+}
+
+- (void)followerCountCallback:(NSArray *)users errorMessage:(NSError *)error {
+    if (users.count == 0) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert showInfo:self title:@"Find Foodies!" subTitle:@"Go to the magnifying glass in the upper left corner to look for foodies to follow for recommendations, ideas, and inspiration." closeButtonTitle:@"Ok!" duration:0.0f];
+    } else if(users != nil) {
+        for (PFUser *user in users){
+            [self.following addObject:user];
+        }
+        [self firstPostLatLong];
+    }
+    
+}
+
+
 -(void)firstPostLatLong {
     PFQuery *postQuery = [Post query];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
     __block NSMutableArray *followedPosts = [NSMutableArray new];
+    [postQuery orderByDescending:@"createdAt"];
+    [postQuery whereKey:@"author" containedIn:self.following];
     [postQuery findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
                 // all posts in descending order
@@ -76,11 +107,20 @@
                             //if so, add them to followed posts
                             if([followedUsers containsObject:post.author.objectId]) {
                                 [followedPosts addObject:post];
+                                NSLog(@"%@", post);
+                                NSLog(@"%f",[post.latitude doubleValue]);
                                 self.camLatitude = [post.latitude doubleValue];
                                 self.camLongitude = [post.longitude doubleValue];
+                                [self setUpMap];
+                                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                                                              target:self
+                                                                              selector:@selector(updateMap)
+                                                                              userInfo:nil
+                                                                              repeats:YES];
                                 break;
                             }
                         }
+                        
                     } else {
                         NSLog(@"%@", error.localizedDescription);
                     }
@@ -105,6 +145,7 @@
     [postQuery whereKey:@"longitude" greaterThan:[NSNumber numberWithDouble:minLong]];
     [postQuery whereKey:@"longitude" lessThan:[NSNumber numberWithDouble:maxLong]];
     [postQuery whereKey:@"objectId" notContainedIn:self.prevposts];
+    [postQuery whereKey:@"author" containedIn:self.following];
     postQuery.limit = 20;
     __block NSArray *allPosts;
     __block NSSet *followedUsers;
@@ -159,13 +200,40 @@
         }
     }
     for(Post *post in onlyCurr) {
-        GMSMarker *marker = [[GMSMarker alloc] init];
-        marker.position = CLLocationCoordinate2DMake([post.latitude doubleValue], [post.longitude doubleValue]);
-        [marker setAppearAnimation:kGMSMarkerAnimationPop];
-        marker.title = post.restaurantName;
-        marker.snippet =  post.formattedAddress;
-        marker.map = self.mapView;
+        [self fetchPostTags:post];
     }
+}
+
+-(void)fetchPostTags:(Post * _Nullable)post{
+    PFRelation *relation = [post relationForKey:@"tags"];
+    // generate a query based on that relation
+    PFQuery *usersQuery = [relation query];
+    void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+        [self tagsCallback:tags post:post errorMessage:error];
+        };
+    [self.manager query:usersQuery getObjects:callbackForTags];
+    
+}
+
+- (void)tagsCallback:(NSArray *)tags post:(Post * _Nullable)post errorMessage:(NSError *)error {
+    GMSMarker *marker = [[GMSMarker alloc] init];
+    marker.position = CLLocationCoordinate2DMake([post.latitude doubleValue], [post.longitude doubleValue]);
+    [marker setAppearAnimation:kGMSMarkerAnimationPop];
+    marker.title = post.restaurantName;
+    marker.snippet =  post.formattedAddress;
+    
+    if (tags.count >= 1) {
+        Tag *tag = [tags objectAtIndex:0];
+        UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
+                                    saturation:0.85
+                                    brightness:0.9
+                                         alpha:1.0];
+        marker.icon = [GMSMarker markerImageWithColor:color];
+    } else {
+        marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+    }
+    marker.map = self.mapView;
+    
 }
 
 - (void)updateMap {

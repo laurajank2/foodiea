@@ -262,6 +262,9 @@
                                     <segment title="$$$"/>
                                     <segment title="$$$$"/>
                                 </segments>
+                                <connections>
+                                    <action selector="didChangePrice:" destination="SYc-Xa-DWO" eventType="valueChanged" id="WQT-x8-d65"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Located At:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kha-da-JQO">
                                 <rect key="frame" x="18" y="202" width="87" height="21"/>
@@ -315,7 +318,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tzr-E7-oJw">
                                 <rect key="frame" x="16" y="331" width="354" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.29445074580000002" green="0.54732858979999999" blue="0.68487610480000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ziP-CB-LTU">
                                     <size key="itemSize" width="132" height="54.666666666666664"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -465,7 +468,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10 mi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8X-Cj-8nh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8X-Cj-8nh">
                                                 <rect key="frame" x="131" y="8" width="191" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1228,7 +1231,7 @@
             <objects>
                 <viewController id="oao-lX-g0P" customClass="TagsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f9Y-rX-PiK">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ElQ-qz-niO">
@@ -1562,7 +1565,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uzq-1u-koJ">
-                                <rect key="frame" x="0.0" y="44" width="390" height="746"/>
+                                <rect key="frame" x="0.0" y="56" width="390" height="734"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VSy-BK-4rd">
                                         <rect key="frame" x="10" y="0.0" width="367" height="924.33333333333337"/>
@@ -1578,7 +1581,7 @@
                                                             <action selector="changePhoto:" destination="lhe-wC-i3p" eventType="touchUpInside" id="dwx-Ea-lRm"/>
                                                         </connections>
                                                     </button>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5h-mD-T8n" customClass="PFImageView">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5h-mD-T8n" customClass="PFImageView">
                                                         <rect key="frame" x="121" y="8" width="125" height="125"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="125" id="UQK-hB-StT"/>
@@ -2130,7 +2133,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="xDV-z4-I4w"/>
-        <segue reference="KgL-fN-wrv"/>
+        <segue reference="mPv-fx-UM2"/>
         <segue reference="3ez-2i-PgN"/>
     </inferredMetricsTieBreakers>
     <resources>

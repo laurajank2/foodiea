@@ -17,7 +17,7 @@
 @property APIManager *manager;
 @property NSArray *tags;
 @property NSArray *filteredTags;
-@property double lastHue;
+@property double latestHue;
 @property NSString *searchBy;
 
 @end
@@ -32,16 +32,16 @@
     self.tagsView.delegate = self;
     self.tagsSearch.delegate = self;
     self.tagsSearch.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [self fetchTags];
+    [self fetchTagsCreated];
 }
 
-- (void)fetchTags {
+- (void)fetchTagsHue {
     PFQuery *tagQuery = [Tag query];
     [tagQuery orderByAscending:@"hue"];
     if(self.filter) {
         [tagQuery whereKey:@"title" notEqualTo:@"zzzzz"];
     }
-    tagQuery.limit = 20;
+    tagQuery.limit = 100;
 
     void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
             [self tagCallback:tags errorMessage:error];
@@ -51,13 +51,37 @@
     
 }
 
+- (void)fetchTagsCreated {
+    PFQuery *tagQuery = [Tag query];
+    [tagQuery orderByDescending:@"createdAt"];
+    if(self.filter) {
+        [tagQuery whereKey:@"title" notEqualTo:@"zzzzz"];
+    }
+    tagQuery.limit = 100;
+
+    void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+            [self createdAtTagCallback:tags errorMessage:error];
+        };
+    [self.manager query:tagQuery getObjects:callbackForTags];
+    // fetch data asynchronously
+    
+}
+- (void)createdAtTagCallback:(NSArray *)tags errorMessage:(NSError *)error{
+    if (tags != nil) {
+        Tag *latest = [tags objectAtIndex:0];
+        self.latestHue = [latest.hue doubleValue];
+        [self fetchTagsHue];
+    } else {
+        NSLog(@"%@", error.localizedDescription);
+    }
+}
+
 - (void)tagCallback:(NSArray *)tags errorMessage:(NSError *)error{
     if (tags != nil) {
         // do something with the array of object returned by the call
         self.tags = tags;
         self.filteredTags = self.tags;
         [self.tagsView reloadData];
-        
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
@@ -79,7 +103,14 @@
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
         cell.tag = tag;
         cell.writeYourTag = 1;
-        cell.hue = self.lastHue + 0.01;
+        double newHue = self.latestHue + (0.15 - ((self.tags.count/pow(self.tags.count, 1.5)*0.001)));
+        if(newHue <0.998){
+            cell.hue = newHue;
+        } else {
+            cell.hue = self.tags.count*0.01;
+        }
+        cell.numTags = (int)self.tags.count;
+        
         [cell setUp];
         OutsideTap *outCellTap = [[OutsideTap alloc] initWithTarget:self action:@selector(dismissKeyboard:)];
         outCellTap.avoidCell = cell;
@@ -88,7 +119,6 @@
         cell.tag = tag;
         cell.writeYourTag = 0;
         cell.hue = [cell.tag.hue doubleValue];
-        self.lastHue = [cell.tag.hue doubleValue];
         [cell setUp];
     }
     cell.filter = self.filter;

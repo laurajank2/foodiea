@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property int writeYourTag;
 @property Boolean filter;
 @property double hue;
+@property double brightness;
+@property double saturation;
+@property int numTags;
 - (void) setUp;
 
 @end
