@@ -34,9 +34,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-}
-
--(void)viewDidAppear:(BOOL)animated{
     self.manager = [[APIManager alloc] init];
     self.following = [[NSMutableArray alloc] init];
     [self fetchFollowerPosts];
