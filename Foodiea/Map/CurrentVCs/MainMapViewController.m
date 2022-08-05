@@ -14,6 +14,7 @@
 #import "Tag.h"
 #import "TagsCell.h"
 #import <ChameleonFramework/Chameleon.h>
+#import "FontAwesomeKit/FontAwesomeKit.h"
 
 @interface MainMapViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *tagCollectionView;
@@ -32,6 +33,8 @@
 @property NSMutableArray *currTags;
 @property NSMutableArray *markedPosts;
 @property NSMutableArray *visMarkedPosts;
+@property NSMutableDictionary<NSString*, NSNumber*> *tagCounts;
+@property NSMutableDictionary<NSString*, Tag*> *tagDict;
 
 
 @end
@@ -41,6 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.manager = [APIManager sharedManager];
+    self.tagCounts = [[NSMutableDictionary alloc] init];
     [self setUpTags];
     self.following = [[NSMutableArray alloc] init];
     [self fetchFollowerPosts];
@@ -53,6 +57,8 @@
     self.currTags = [[NSMutableArray alloc] init];
     self.markedPosts = [[NSMutableArray alloc] init];
     self.visMarkedPosts = [[NSMutableArray alloc] init];
+    self.tagCounts = [NSMutableDictionary dictionary];
+    self.tagDict = [NSMutableDictionary dictionary];
 }
 
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -139,8 +145,6 @@
                             //if so, add them to followed posts
                             if([followedUsers containsObject:post.author.objectId]) {
                                 [followedPosts addObject:post];
-                                NSLog(@"%@", post);
-                                NSLog(@"%f",[post.latitude doubleValue]);
                                 self.camLatitude = [post.latitude doubleValue];
                                 self.camLongitude = [post.longitude doubleValue];
                                 [self setUpMap];
@@ -227,22 +231,47 @@
     marker.snippet =  post.formattedAddress;
     
     if (tags.count >= 1) {
-        Tag *tag = [tags objectAtIndex:0];
-        UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
-                                    saturation:0.85 + [tag.saturation doubleValue]
-                                    brightness:0.9 + [tag.brightness doubleValue]
-                                         alpha:1.0];
-        marker.icon = [GMSMarker markerImageWithColor:color];
+        FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:45];
+        if(tags.count > 1) {
+            NSMutableArray *tagColors = [[NSMutableArray alloc] init];
+            for(Tag *postTag in tags) {
+                UIColor *tagColor = [UIColor colorWithHue:[postTag.hue doubleValue]
+                                            saturation:0.85 + [postTag.saturation doubleValue]
+                                            brightness:0.9 + [postTag.brightness doubleValue]
+                                                 alpha:1.0];
+                [tagColors addObject:tagColor];
+            }
+            
+            UIColor *gradient = GradientColor(UIGradientStyleLeftToRight, CGRectMake(45,45,45,45), tagColors);
+            [mapIcon addAttribute:NSForegroundColorAttributeName value:gradient];
+            UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+            marker.icon = mapPin;
+        } else {
+            Tag *tag = [tags objectAtIndex:0];
+            UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
+                                        saturation:0.85 + [tag.saturation doubleValue]
+                                        brightness:0.9 + [tag.brightness doubleValue]
+                                             alpha:1.0];
+            
+            [mapIcon addAttribute:NSForegroundColorAttributeName value:color];
+            UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+            marker.icon = mapPin;
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
            // do work here to Usually to update the User Interface
             [self.markedPosts addObject:post];
             [self.visMarkedPosts addObject:post];
-            [self.currTags addObjectsFromArray:tags];
+            [self addTags:tags];
+            [self updateCurrTags];
             [self.tagCollectionView reloadData];
         });
         
     } else {
-        marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+        FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:45];
+        [mapIcon addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColorDark]];
+        UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+        marker.icon = mapPin;
     }
     marker.map = self.mapView;
     
@@ -261,20 +290,20 @@
             for(Post *marker in self.markedPosts) {
                 //no longer in view
                 if([marker.latitude doubleValue] > maxLat || [marker.latitude doubleValue] < minLat || [marker.longitude doubleValue] > maxLong || [marker.longitude doubleValue] < minLong) {
-                    [self.visMarkedPosts removeObject:marker];
-                    PFRelation *relation = [marker relationForKey:@"tags"];
-                    // generate a query based on that relation
-                    PFQuery *usersQuery = [relation query];
-                    void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
-                        [self markerTagsCallback:tags post:marker removal:YES errorMessage:error];
-                        };
-                    [self.manager query:usersQuery getObjects:callbackForTags];
+                    if([self.visMarkedPosts containsObject:marker]) {
+                        [self.visMarkedPosts removeObject:marker];
+                        PFRelation *relation = [marker relationForKey:@"tags"];
+                        // generate a query based on that relation
+                        PFQuery *usersQuery = [relation query];
+                        void (^callbackForTags)(NSArray *tags, NSError *error) = ^(NSArray *tags, NSError *error){
+                            [self markerTagsCallback:tags post:marker removal:YES errorMessage:error];
+                            };
+                        [self.manager query:usersQuery getObjects:callbackForTags];
+                    }
                     
                 }
                 //returned to view
                 if([marker.latitude doubleValue] <= maxLat && [marker.latitude doubleValue] >= minLat && [marker.longitude doubleValue] <= maxLong && [marker.longitude doubleValue] >= minLong) {
-                    BOOL contains = NO;
-                    NSLog(@"%d", ![self.visMarkedPosts containsObject:marker]);
                     if(![self.visMarkedPosts containsObject:marker]) {
                         [self.visMarkedPosts addObject:marker];
                         PFRelation *relation = [marker relationForKey:@"tags"];
@@ -301,21 +330,43 @@
 - (void)markerTagsCallback:(NSArray *)tags post:(Post * _Nullable)post removal:(BOOL)removal errorMessage:(NSError *)error {
     if(removal){
         for(Tag *tag in tags) {
-            int counter = 0;
-            for(Tag *currTag in self.currTags) {
-                if([currTag.objectId isEqualToString:tag.objectId]){
-                    [self.currTags removeObjectAtIndex:counter];
-                    break;
-                }
-                counter++;
+            if(self.tagCounts[tag.objectId] != nil) {
+                int numTags = [[self.tagCounts valueForKey:tag.objectId] integerValue];
+                self.tagCounts[tag.objectId] = [NSNumber numberWithInt:numTags-1];
+                
+            } else {
+                NSLog(@"Error. This tag should be in the array.");
             }
         }
     } else {
-        [self.currTags addObjectsFromArray:tags];
+        [self addTags:tags];
     }
-    
+    [self updateCurrTags];
     [self.tagCollectionView reloadData];
     
+}
+
+-(void)addTags:(NSArray * _Nullable)tags {
+    for(Tag *tag in tags) {
+        if(self.tagCounts[tag.objectId] != nil) {
+            int numTags = [[self.tagCounts valueForKey:tag.objectId] integerValue];
+            self.tagCounts[tag.objectId] = [NSNumber numberWithInt:numTags+1];
+            
+        }  else {
+            self.tagCounts[tag.objectId] = [NSNumber numberWithInt:1];
+            self.tagDict[tag.objectId] = tag;
+        }
+    }
+}
+
+-(void)updateCurrTags {
+    self.currTags = [[NSMutableArray alloc] init];
+    for(id key in self.tagDict) {
+       Tag *tag = [self.tagDict objectForKey:key];
+        for(int i = 0; i < [[self.tagCounts valueForKey:tag.objectId] integerValue]; i++) {
+            [self.currTags addObject:tag];
+        }
+    }
 }
 
 -(double)findMin:(double)numOne numTwo:(double) numTwo {
