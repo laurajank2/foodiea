@@ -14,6 +14,7 @@
 #import "Tag.h"
 #import "TagsCell.h"
 #import <ChameleonFramework/Chameleon.h>
+#import "FontAwesomeKit/FontAwesomeKit.h"
 
 @interface MainMapViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *tagCollectionView;
@@ -232,7 +233,10 @@
                                     saturation:0.85 + [tag.saturation doubleValue]
                                     brightness:0.9 + [tag.brightness doubleValue]
                                          alpha:1.0];
-        marker.icon = [GMSMarker markerImageWithColor:color];
+        FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:45];
+        [mapIcon addAttribute:NSForegroundColorAttributeName value:color];
+        UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+        marker.icon = mapPin;
         dispatch_async(dispatch_get_main_queue(), ^{
            // do work here to Usually to update the User Interface
             [self.markedPosts addObject:post];
