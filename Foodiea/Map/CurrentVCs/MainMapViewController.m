@@ -228,15 +228,33 @@
     marker.snippet =  post.formattedAddress;
     
     if (tags.count >= 1) {
-        Tag *tag = [tags objectAtIndex:0];
-        UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
-                                    saturation:0.85 + [tag.saturation doubleValue]
-                                    brightness:0.9 + [tag.brightness doubleValue]
-                                         alpha:1.0];
         FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:45];
-        [mapIcon addAttribute:NSForegroundColorAttributeName value:color];
-        UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
-        marker.icon = mapPin;
+        if(tags.count > 1) {
+            NSMutableArray *tagColors = [[NSMutableArray alloc] init];
+            for(Tag *postTag in tags) {
+                UIColor *tagColor = [UIColor colorWithHue:[postTag.hue doubleValue]
+                                            saturation:0.85 + [postTag.saturation doubleValue]
+                                            brightness:0.9 + [postTag.brightness doubleValue]
+                                                 alpha:1.0];
+                [tagColors addObject:tagColor];
+            }
+            
+            UIColor *gradient = GradientColor(UIGradientStyleLeftToRight, CGRectMake(45,45,45,45), tagColors);
+            [mapIcon addAttribute:NSForegroundColorAttributeName value:gradient];
+            UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+            marker.icon = mapPin;
+        } else {
+            Tag *tag = [tags objectAtIndex:0];
+            UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
+                                        saturation:0.85 + [tag.saturation doubleValue]
+                                        brightness:0.9 + [tag.brightness doubleValue]
+                                             alpha:1.0];
+            
+            [mapIcon addAttribute:NSForegroundColorAttributeName value:color];
+            UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+            marker.icon = mapPin;
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
            // do work here to Usually to update the User Interface
             [self.markedPosts addObject:post];
@@ -246,7 +264,10 @@
         });
         
     } else {
-        marker.icon = [GMSMarker markerImageWithColor:[UIColor blackColor]];
+        FAKFontAwesome *mapIcon = [FAKFontAwesome mapMarkerIconWithSize:45];
+        [mapIcon addAttribute:NSForegroundColorAttributeName value:[UIColor flatBlackColorDark]];
+        UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
+        marker.icon = mapPin;
     }
     marker.map = self.mapView;
     
