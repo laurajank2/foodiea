@@ -80,6 +80,8 @@
     [self.view addSubview:self.mapView];
     self.visible = [self.mapView.projection visibleRegion];
     [self.view bringSubviewToFront:self.tagCollectionView];
+    [self.tagCollectionView setBackgroundView:nil];
+    [self.tagCollectionView setBackgroundColor:[UIColor clearColor]];
     [self fetchPosts];
 }
 
