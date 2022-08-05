@@ -125,6 +125,9 @@
     return cell;
 }
 
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length != 0) {

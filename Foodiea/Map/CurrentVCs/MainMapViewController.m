@@ -298,7 +298,6 @@
                 }
                 //returned to view
                 if([marker.latitude doubleValue] <= maxLat && [marker.latitude doubleValue] >= minLat && [marker.longitude doubleValue] <= maxLong && [marker.longitude doubleValue] >= minLong) {
-                    BOOL contains = NO;
                     NSLog(@"%d", ![self.visMarkedPosts containsObject:marker]);
                     if(![self.visMarkedPosts containsObject:marker]) {
                         [self.visMarkedPosts addObject:marker];

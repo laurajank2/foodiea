@@ -1017,6 +1017,10 @@
                                                             <segment title="$$$$"/>
                                                         </segments>
                                                     </segmentedControl>
+                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="an2-cv-Lc4">
+                                                        <rect key="frame" x="177" y="49" width="20" height="20"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -1206,6 +1210,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="an2-cv-Lc4" id="0xx-SB-NNp"/>
                         <outlet property="btnLaunchAc" destination="ITC-ev-qeL" id="7qn-W5-DwN"/>
                         <outlet property="calImg" destination="RwG-Gk-c1r" id="4ld-al-1Fo"/>
                         <outlet property="locationLabel" destination="sDw-hS-kW0" id="wf2-wq-FCW"/>
@@ -1217,6 +1222,7 @@
                         <outlet property="priceSegControl" destination="hBq-Zb-eEO" id="Rvk-XO-dfZ"/>
                         <outlet property="restaurant" destination="JLD-HS-ap2" id="n18-Q4-qRz"/>
                         <outlet property="restaurantName" destination="oBs-cJ-Vto" id="h0u-tB-iHP"/>
+                        <outlet property="shareBtn" destination="t5z-Sl-7a8" id="3r3-Qe-Hc7"/>
                         <outlet property="tagImg" destination="PIg-07-oho" id="DIk-4x-4jb"/>
                         <outlet property="tagsView" destination="vRU-aQ-XaO" id="6YP-Kv-C3o"/>
                         <segue destination="oao-lX-g0P" kind="presentation" identifier="composeTagsSegue" id="fGy-sD-Aud"/>
@@ -1231,7 +1237,7 @@
             <objects>
                 <viewController id="oao-lX-g0P" customClass="TagsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f9Y-rX-PiK">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ElQ-qz-niO">
@@ -2176,7 +2182,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="xDV-z4-I4w"/>
-        <segue reference="mPv-fx-UM2"/>
+        <segue reference="fGy-sD-Aud"/>
         <segue reference="3ez-2i-PgN"/>
     </inferredMetricsTieBreakers>
     <resources>

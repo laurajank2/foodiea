@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *calImg;
 @property (weak, nonatomic) IBOutlet UIImageView *tagImg;
 @property (weak, nonatomic) IBOutlet UIImageView *pinImg;
+@property (weak, nonatomic) IBOutlet UIButton *shareBtn;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property GMSPlace *postLocation;
 @property APIManager *manager;
 @property NSString *userPrice;
@@ -49,6 +51,7 @@
     [self setIcons];
     [self initalTagSetup];
     [self makeButton];
+    [self.activityIndicator setHidden:YES];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
 }
@@ -152,11 +155,14 @@
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         [alert showWarning:self title:@"Incomplete Fields" subTitle:@"Please go back and fill in incomplete fields." closeButtonTitle:@"Done" duration:0.0f]; // Notice
     } else {
+        [self.shareBtn setUserInteractionEnabled:NO];
+        [self.activityIndicator setHidden:NO];
         CGFloat width = self.postImage.bounds.size.width * 10;
         CGFloat height = self.postImage.bounds.size.height * 10;
         CGSize newSize = CGSizeMake(width, height);
         NSString *selectedPrice = [self.priceSegControl titleForSegmentAtIndex:self.priceSegControl.selectedSegmentIndex];
         NSLog(@"Starting to upload image...");
+        
         [Post postUserImage:[self resizeImage:self.postImage.image withSize:newSize]
             restaurantName: self.restaurantName.text
             restaurantPrice:selectedPrice
@@ -171,6 +177,8 @@
                 NSLog(@"Successfully posted image!");
                 [self setPrice];
                 [self setPopTag];
+                [self.shareBtn setUserInteractionEnabled:YES];
+                [self.activityIndicator setHidden:YES];
                 [self dismissViewControllerAnimated:YES completion:nil];
                 
             } else {
