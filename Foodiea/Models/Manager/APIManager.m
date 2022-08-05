@@ -10,6 +10,19 @@
 #import <Parse/Parse.h>
 @implementation APIManager
 
++ (id)sharedManager {
+    static APIManager *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [[self alloc] init];
+    });
+    return sharedMyManager;
+}
+
+- (id)init {
+  return self;
+}
+
 - (void)saveUserInfo: (PFUser * _Nullable) user {
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if(error){

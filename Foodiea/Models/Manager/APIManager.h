@@ -11,6 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface APIManager : NSObject
 
++ (id)sharedManager;
+
+- (id)init;
+
 - (void)saveUserInfo: (PFUser * _Nullable) user;
 
 - (void)query:(PFQuery * _Nullable)userQuery getObjects:(void (^)(NSArray *objects, NSError *error))callback;

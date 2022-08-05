@@ -43,7 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
     self.tagCounts = [[NSMutableDictionary alloc] init];
     [self setUpTags];
     self.following = [[NSMutableArray alloc] init];
