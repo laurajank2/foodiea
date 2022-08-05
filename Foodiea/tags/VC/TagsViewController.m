@@ -27,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;
     self.tagsSearch.delegate = self;

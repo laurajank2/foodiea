@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
     [self setIcons];
     [self initalTagSetup];
     [self makeButton];

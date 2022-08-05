@@ -48,7 +48,7 @@
     self.user = [PFUser currentUser];
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
     [self filloutUser];
     [self makeButton];
     
