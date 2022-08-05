@@ -18,6 +18,8 @@
 @property NSArray *tags;
 @property NSArray *filteredTags;
 @property double latestHue;
+@property double latestSaturation;
+@property double latestBrightness;
 @property NSString *searchBy;
 
 @end
@@ -70,6 +72,8 @@
     if (tags != nil) {
         Tag *latest = [tags objectAtIndex:0];
         self.latestHue = [latest.hue doubleValue];
+        self.latestBrightness = [latest.brightness doubleValue];
+        self.latestSaturation = [latest.saturation doubleValue];
         [self fetchTagsHue];
     } else {
         NSLog(@"%@", error.localizedDescription);
@@ -103,12 +107,7 @@
     if ([tag[@"title"] isEqualToString:@"zzzzz"]) {
         cell.tag = tag;
         cell.writeYourTag = 1;
-        double newHue = self.latestHue + (0.15 - ((self.tags.count/pow(self.tags.count, 1.5)*0.001)));
-        if(newHue <0.998){
-            cell.hue = newHue;
-        } else {
-            cell.hue = self.tags.count*0.01;
-        }
+        [self colorAdjust:cell];
         cell.numTags = (int)self.tags.count;
         
         [cell setUp];
@@ -124,6 +123,33 @@
     cell.filter = self.filter;
     return cell;
 }
+
+- (void)colorAdjust:(TagsCell * _Nullable)cell {
+    double newHue = self.latestHue + (0.15 - ((self.tags.count/pow(self.tags.count, 1.5)*0.001)));
+    if(newHue <0.998){
+        cell.hue = newHue;
+    } else {
+        cell.hue = self.tags.count*0.01;
+    }
+    
+    double newBDiff = 0.01 + self.latestBrightness;
+    double newSDiff = 0.025 + self.latestSaturation;
+    if(newBDiff > 0.15){
+        newBDiff = self.tags.count*0.0001;
+    }
+    if(newSDiff > 0.5){
+        newSDiff = self.tags.count*0.0001;
+    }
+    if(self.tags.count % 2 == 0) {
+        cell.brightness = -newBDiff;
+        cell.saturation = newSDiff;
+    } else {
+        cell.brightness = newBDiff;
+        cell.saturation = -newSDiff;
+    }
+    
+}
+
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];

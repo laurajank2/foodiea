@@ -237,7 +237,7 @@
             for(Tag *postTag in tags) {
                 UIColor *tagColor = [UIColor colorWithHue:[postTag.hue doubleValue]
                                             saturation:0.85 + [postTag.saturation doubleValue]
-                                            brightness:0.9 + [postTag.brightness doubleValue]
+                                            brightness:0.85 + [postTag.brightness doubleValue]
                                                  alpha:1.0];
                 [tagColors addObject:tagColor];
             }
@@ -249,8 +249,8 @@
         } else {
             Tag *tag = [tags objectAtIndex:0];
             UIColor *color = [UIColor colorWithHue:[tag.hue doubleValue]
-                                        saturation:0.85 + [tag.saturation doubleValue]
-                                        brightness:0.9 + [tag.brightness doubleValue]
+                                        saturation:0.5 + [tag.saturation doubleValue]
+                                        brightness:0.85 + [tag.brightness doubleValue]
                                              alpha:1.0];
             
             [mapIcon addAttribute:NSForegroundColorAttributeName value:color];
