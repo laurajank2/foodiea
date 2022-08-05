@@ -47,7 +47,7 @@
     // Do any additional setup after loading the view.
     self.homeFeedTableView.delegate = self;
     self.homeFeedTableView.dataSource = self;
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
     [self setNavBtns];
 
 }

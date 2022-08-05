@@ -22,7 +22,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
