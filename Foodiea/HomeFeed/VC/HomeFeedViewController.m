@@ -342,6 +342,8 @@
             [self.postBox removeObject:post];
             
         }
+    } else if([tags count] == 0) {
+        [self.postBox removeObject:post];
     } else {
         NSLog(@"%@", error.localizedDescription);
     }
