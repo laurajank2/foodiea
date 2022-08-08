@@ -66,8 +66,9 @@
         SCLAlertView *alert = [[SCLAlertView alloc] init];
 
         [alert showWarning:self.parentVC title:@"No name" subTitle:@"Tag must have a name. Please enter some letters." closeButtonTitle:@"Ok" duration:0.0f]; // Warning
+    } else {
+        [self checkUniqueness];
     }
-    [self checkUniqueness];
 }
 
 
