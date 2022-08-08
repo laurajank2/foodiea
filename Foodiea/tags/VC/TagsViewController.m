@@ -132,8 +132,8 @@
         cell.hue = self.tags.count*0.01;
     }
     
-    double newBDiff = 0.01 + self.latestBrightness;
-    double newSDiff = 0.025 + self.latestSaturation;
+    double newBDiff = 0.01 + fabs(self.latestBrightness);
+    double newSDiff = 0.025 + fabs(self.latestSaturation);
     if(newBDiff > 0.15){
         newBDiff = self.tags.count*0.0001;
     }

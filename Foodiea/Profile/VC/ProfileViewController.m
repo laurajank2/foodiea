@@ -57,13 +57,24 @@
     self.profileFeed.delegate = self;
     self.username.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
-    self.bio.text = self.user[@"bio"];
-    self.expertLoc.text = self.user[@"location"];
+    if(self.user[@"bio"] != nil && ![self.user[@"bio"] isEqualToString:@""]) {
+        self.bio.text = self.user[@"bio"];
+        [self.bio setNumberOfLines:0];
+        [self.bio sizeToFit];
+    }
+    
+    if(self.user[@"location"] != nil && ![self.user[@"location"] isEqualToString:@""]) {
+        self.expertLoc.text = [NSString stringWithFormat:@"%@%@", @"Expertise:  ", self.user[@"location"]];
+    } else {
+        [self.expertLoc setNumberOfLines:0];
+        [self.expertLoc sizeToFit];
+    }
+    
     NSLog(@"%@", self.user[@"followingCount"]);
     if(self.user[@"followingCount"] == nil || [self.user[@"followingCount"] isEqualToNumber:@0]) {
         [self fetchFollowingCount];
     } else {
-        self.followingCount.text = [NSString stringWithFormat:@"%@", self.user[@"followingCount"]];
+        self.followingCount.text = [NSString stringWithFormat:@"%@%@", @"following ", self.user[@"followingCount"]];
     }
     [self.fav1 setTitle:self.user[@"fav1"] forState:UIControlStateNormal];
     [self.fav2 setTitle:self.user[@"fav2"] forState:UIControlStateNormal];
@@ -111,7 +122,7 @@
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         //set right nav btn
         FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:30];
-        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
         UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
         cogIcon.iconFontSize = 30;
         UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
