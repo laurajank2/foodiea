@@ -148,7 +148,7 @@
                                 self.camLatitude = [post.latitude doubleValue];
                                 self.camLongitude = [post.longitude doubleValue];
                                 [self setUpMap];
-                                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35
                                                                               target:self
                                                                               selector:@selector(updateMap)
                                                                               userInfo:nil
