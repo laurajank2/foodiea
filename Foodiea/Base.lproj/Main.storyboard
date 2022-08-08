@@ -1017,10 +1017,6 @@
                                                             <segment title="$$$$"/>
                                                         </segments>
                                                     </segmentedControl>
-                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="an2-cv-Lc4">
-                                                        <rect key="frame" x="177" y="49" width="20" height="20"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    </activityIndicatorView>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
@@ -1186,6 +1182,9 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="lbt-hu-NXe"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="5pK-pM-6Zp"/>
                             </scrollView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="an2-cv-Lc4">
+                                <rect key="frame" x="185" y="385" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9Lb-1F-mBB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1193,7 +1192,9 @@
                             <constraint firstItem="9Lb-1F-mBB" firstAttribute="trailing" secondItem="kT4-v2-mL3" secondAttribute="trailing" id="5In-WW-NOH"/>
                             <constraint firstItem="9Lb-1F-mBB" firstAttribute="bottom" secondItem="kT4-v2-mL3" secondAttribute="bottom" id="EqV-9R-bJf"/>
                             <constraint firstItem="kT4-v2-mL3" firstAttribute="leading" secondItem="9Lb-1F-mBB" secondAttribute="leading" id="TBk-o8-xs0"/>
+                            <constraint firstItem="an2-cv-Lc4" firstAttribute="centerX" secondItem="9Lb-1F-mBB" secondAttribute="centerX" id="Ux2-da-D5g"/>
                             <constraint firstItem="kT4-v2-mL3" firstAttribute="top" secondItem="9Lb-1F-mBB" secondAttribute="top" id="c3u-dm-xCy"/>
+                            <constraint firstItem="an2-cv-Lc4" firstAttribute="centerY" secondItem="9Lb-1F-mBB" secondAttribute="centerY" id="iYa-Ud-0JW"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Yr5-Iz-MNe">
