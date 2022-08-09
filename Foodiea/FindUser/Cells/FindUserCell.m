@@ -20,6 +20,7 @@
 
 - (void)fillCell {
     self.userImage.file = self.user[@"profileImage"];
+    [self.userImage.layer setCornerRadius:self.userImage.frame.size.height/2];
     [self.userImage loadInBackground];
     self.username.text = self.user[@"username"];
     self.screenname.text = self.user[@"screenname"];

@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "APIManager.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import <ChameleonFramework/Chameleon.h>
 #import "SCLAlertView.h"
 @import GooglePlaces;
 
@@ -48,12 +49,47 @@
     self.user = [PFUser currentUser];
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
+    [self setBackgrounds];
     self.manager = [APIManager sharedManager];
     [self filloutUser];
     [self makeButton];
+    NSArray *backgroundColors = [NSArray arrayWithObjects:
+                                 [UIColor colorWithHue:0.50
+                                            saturation:0.05
+                                            brightness:1.0
+                                                 alpha:1.0],
+                                 [UIColor colorWithHue:0.70
+                                            saturation:0.05
+                                            brightness:1.0
+                                                 alpha:1.0],
+                                 [UIColor colorWithHue:0.75
+                                            saturation:0.12
+                                            brightness:1.0
+                                                 alpha:1.0],
+                                 nil];
+    UIColor *gradient = GradientColor(UIGradientStyleTopToBottom, self.view.bounds, backgroundColors);
+    [self.view setBackgroundColor:gradient];
+    
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
+}
+
+-(void)setBackgrounds {
+    UIColor *labelColor = [UIColor colorWithHue:0.45
+                                     saturation:0.25
+                                     brightness:1.0
+                                          alpha:0.25];
+    [self.bio setBackgroundColor: labelColor];
+    [self.screenName setBackgroundColor:labelColor];
+    [self.userName setBackgroundColor:labelColor];
+    [self.fav1 setBackgroundColor:labelColor];
+    [self.fav2 setBackgroundColor:labelColor];
+    [self.fav3 setBackgroundColor:labelColor];
+    [self.fav1Link setBackgroundColor:labelColor];
+    [self.fav2Link setBackgroundColor:labelColor];
+    [self.fav3Link setBackgroundColor:labelColor];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -107,8 +143,7 @@
     //image
     self.profileImage.file = self.user[@"profileImage"];
     [self.profileImage loadInBackground];
-    [self.profileImage.layer setBorderColor: [[UIColor blackColor] CGColor]];
-    [self.profileImage.layer setBorderWidth: 1.5];
+    [self.profileImage.layer setCornerRadius:self.profileImage.frame.size.height/2];
     self.userName.text = self.user.username;
     self.screenName.text = self.user[@"screenname"];
     self.bio.text = self.user[@"bio"];
