@@ -51,8 +51,7 @@
 
 
 -(void)filloutUser {
-    [self.profileImage.layer setBorderColor: [[UIColor blackColor] CGColor]];
-    [self.profileImage.layer setBorderWidth: 1.5];
+    [self.profileImage.layer setCornerRadius:self.profileImage.frame.size.height/2];
     self.profileFeed.dataSource = self;
     self.profileFeed.delegate = self;
     self.username.text = self.user.username;
