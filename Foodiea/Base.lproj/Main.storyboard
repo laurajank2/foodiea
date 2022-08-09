@@ -155,8 +155,8 @@
                                                         <constraint firstAttribute="height" constant="75" id="qwM-ul-gji"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9E-GU-OQW">
-                                                    <rect key="frame" x="103" y="13" width="81" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="screenname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjX-Dm-eQA">
+                                                    <rect key="frame" x="103" y="13" width="138" height="17"/>
                                                     <fontDescription key="fontDescription" name="HiraMaruProN-W4" family="Hiragino Maru Gothic ProN" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -167,19 +167,19 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="screenname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CjX-Dm-eQA">
-                                                    <rect key="frame" x="103" y="42" width="79" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9E-GU-OQW">
+                                                    <rect key="frame" x="103" y="40.666666666666664" width="75.333333333333314" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="CjX-Dm-eQA" firstAttribute="centerY" secondItem="j23-1z-7Av" secondAttribute="centerY" id="5QS-Ke-wal"/>
+                                                <constraint firstItem="CjX-Dm-eQA" firstAttribute="top" secondItem="j23-1z-7Av" secondAttribute="top" id="Ct8-lA-IoH"/>
                                                 <constraint firstItem="j23-1z-7Av" firstAttribute="top" secondItem="EZF-dh-Eoi" secondAttribute="top" constant="13" id="OF4-rq-mUk"/>
-                                                <constraint firstItem="U9E-GU-OQW" firstAttribute="top" secondItem="j23-1z-7Av" secondAttribute="top" id="RBk-oo-d5u"/>
                                                 <constraint firstItem="j23-1z-7Av" firstAttribute="leading" secondItem="EZF-dh-Eoi" secondAttribute="leading" constant="20" symbolic="YES" id="WTm-02-jQQ"/>
                                                 <constraint firstItem="U9E-GU-OQW" firstAttribute="leading" secondItem="j23-1z-7Av" secondAttribute="trailing" constant="8" symbolic="YES" id="cfy-WI-DMh"/>
+                                                <constraint firstItem="U9E-GU-OQW" firstAttribute="centerY" secondItem="j23-1z-7Av" secondAttribute="centerY" id="idI-0c-OJd"/>
                                                 <constraint firstAttribute="bottom" secondItem="j23-1z-7Av" secondAttribute="bottom" constant="16" id="uMu-2M-RmG"/>
                                                 <constraint firstItem="ybV-dY-hqa" firstAttribute="leading" secondItem="j23-1z-7Av" secondAttribute="trailing" constant="8" symbolic="YES" id="yTL-Bu-21c"/>
                                                 <constraint firstItem="ybV-dY-hqa" firstAttribute="bottom" secondItem="j23-1z-7Av" secondAttribute="bottom" id="yqy-Fv-gSn"/>
@@ -224,7 +224,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uSO-LY-cPh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5640" y="877"/>
+            <point key="canvasLocation" x="5640" y="876.5402843601895"/>
         </scene>
         <!--Search Filter View Controller-->
         <scene sceneID="YeD-Ku-Xrb">
@@ -2195,7 +2195,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xDV-z4-I4w"/>
+        <segue reference="6iQ-Hm-ceQ"/>
         <segue reference="fGy-sD-Aud"/>
         <segue reference="3ez-2i-PgN"/>
     </inferredMetricsTieBreakers>

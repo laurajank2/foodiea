@@ -141,9 +141,31 @@
     } else {
         //set right nav btn
         if(self.followed) {
-            [self.rightNavBtn setTitle:@"Unfollow" forState:UIControlStateNormal];
+            //set right nav btn
+            FAKFontAwesome *cogIcon = [FAKFontAwesome minusIconWithSize:30];
+            [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+            UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+            cogIcon.iconFontSize = 30;
+            UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+            self.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithImage:rightImage
+                               landscapeImagePhone:rightLandscapeImage
+                                             style:UIBarButtonItemStylePlain
+                                            target:self
+                                            action:@selector(handleNav)];
         } else {
-            [self.rightNavBtn setTitle:@"Follow" forState:UIControlStateNormal];
+            //set right nav btn
+            FAKFontAwesome *cogIcon = [FAKFontAwesome userPlusIconWithSize:30];
+            [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+            UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+            cogIcon.iconFontSize = 30;
+            UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
+            self.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithImage:rightImage
+                               landscapeImagePhone:rightLandscapeImage
+                                             style:UIBarButtonItemStylePlain
+                                            target:self
+                                            action:@selector(handleNav)];
         }
         
         //set post btn
