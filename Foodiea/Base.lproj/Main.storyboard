@@ -1519,6 +1519,7 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dWg-TV-exT" customClass="PFImageView">
                                                 <rect key="frame" x="0.0" y="0.0" width="126" height="128"/>
+                                                <color key="backgroundColor" red="0.76567016779999997" green="0.89204253069999995" blue="0.93335700749999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="126" id="8N1-qj-gzr"/>
                                                     <constraint firstAttribute="height" constant="128" id="BaD-Xl-bB9"/>
@@ -1582,7 +1583,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tCc-1I-L8x">
                                                 <rect key="frame" x="46" y="0.0" width="294" height="31"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eC-58-7CL">
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eC-58-7CL">
                                                         <rect key="frame" x="0.0" y="0.0" width="94.666666666666671" height="31"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="tinted" title="Button"/>
@@ -1590,7 +1591,7 @@
                                                             <action selector="didTapFav1:" destination="5rJ-G6-ujB" eventType="touchUpInside" id="RKa-YU-fap"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6S-8R-OC7">
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r6S-8R-OC7">
                                                         <rect key="frame" x="99.666666666666657" y="0.0" width="94.666666666666657" height="31"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="tinted" title="Button"/>
@@ -1598,7 +1599,7 @@
                                                             <action selector="didTapFav2:" destination="5rJ-G6-ujB" eventType="touchUpInside" id="LwP-fa-nBo"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qx-17-prC">
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5qx-17-prC">
                                                         <rect key="frame" x="199.33333333333331" y="0.0" width="94.666666666666686" height="31"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="tinted" title="Button"/>
@@ -1608,6 +1609,7 @@
                                                     </button>
                                                 </subviews>
                                                 <constraints>
+                                                    <constraint firstAttribute="width" constant="294" id="rxh-eG-3gc"/>
                                                     <constraint firstAttribute="height" constant="31" id="xoD-LF-Zfv"/>
                                                 </constraints>
                                             </stackView>
@@ -1827,6 +1829,7 @@
                                                     </button>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w5h-mD-T8n" customClass="PFImageView">
                                                         <rect key="frame" x="121" y="8" width="125" height="125"/>
+                                                        <color key="backgroundColor" red="0.76567016777098906" green="0.89204253065344441" blue="0.93335700754141415" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="125" id="UQK-hB-StT"/>
                                                             <constraint firstAttribute="height" constant="125" id="gsl-Sd-bib"/>
@@ -2301,7 +2304,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="ObO-rd-zjb"/>
-        <segue reference="KgL-fN-wrv"/>
+        <segue reference="fGy-sD-Aud"/>
         <segue reference="3ez-2i-PgN"/>
     </inferredMetricsTieBreakers>
     <resources>
