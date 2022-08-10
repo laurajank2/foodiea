@@ -9,6 +9,8 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+//in Appdelegate.h file
+
 
 @end
 
