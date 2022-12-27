@@ -156,7 +156,7 @@
                                 self.camLatitude = [post.latitude doubleValue];
                                 self.camLongitude = [post.longitude doubleValue];
                                 [self setUpMap];
-                                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.25
+                                self.timer = [NSTimer scheduledTimerWithTimeInterval:0.35
                                                                               target:self
                                                                               selector:@selector(updateMap)
                                                                               userInfo:nil
@@ -250,7 +250,7 @@
                 [tagColors addObject:tagColor];
             }
             
-            UIColor *gradient = GradientColor(UIGradientStyleLeftToRight, CGRectMake(45,45,45,45), tagColors);
+            UIColor *gradient = GradientColor(UIGradientStyleLeftToRight, CGRectMake(20,0,45,45), tagColors);
             [mapIcon addAttribute:NSForegroundColorAttributeName value:gradient];
             UIImage *mapPin= [mapIcon imageWithSize:CGSizeMake(45, 45)];
             marker.icon = mapPin;

@@ -117,7 +117,9 @@
     self.dateLabel.text = dateString;
     self.priceLabel.text = self.post[@"price"];
     self.restaurantName.text = [NSString stringWithFormat:@"%@%@", @"Ate at ",  self.post[@"restaurantName"]];
+    self.nameBackground.text = self.post[@"restaurantName"];
     //image
+    [self.userImage.layer setCornerRadius:self.userImage.frame.size.height/2];
     self.postImage.file = self.post[@"picture"];
     [self.postImage loadInBackground];
     

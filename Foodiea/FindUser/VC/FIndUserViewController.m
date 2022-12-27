@@ -38,7 +38,7 @@
     self.usersTableView.dataSource = self;
     self.userSearchBar.delegate = self;
     self.userSearchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.manager = [[APIManager alloc] init];
+    self.manager = [APIManager sharedManager];
     [self fetchUsers];
 }
 
@@ -59,7 +59,7 @@
     if(![self.price isEqualToString: @""]) {
         [userQuery whereKey:@"price" equalTo:self.price];
     }
-    if(self.tags != nil) {
+    if(self.tags != nil && self.tags.count > 0) {
         [userQuery whereKey:@"popTag" containedIn:self.tags];
     }
 
