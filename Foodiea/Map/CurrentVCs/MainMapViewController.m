@@ -51,6 +51,14 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    self.tagCounts = [[NSMutableDictionary alloc] init];
+    [self setUpTags];
+    self.following = [[NSMutableArray alloc] init];
+    [self fetchFollowerPosts];
+}
+
 -(void)setUpTags {
     self.tagCollectionView.dataSource = self;
     self.tagCollectionView.delegate = self;
