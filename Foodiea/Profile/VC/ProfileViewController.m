@@ -42,11 +42,13 @@
     [super viewDidLoad];
     self.manager = [APIManager sharedManager];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self filloutUser];
     [self setFollowed];
     [self fetchPosts];
     [self setFavs];
-    
 }
 
 
@@ -121,12 +123,15 @@
     if ([self.user.objectId isEqualToString:[PFUser currentUser].objectId]) {
         //set right nav btn
         FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:30];
-        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor]];
+        [cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHue:0.5
+                                                                              saturation:1.0
+                                                                              brightness:0.39
+                                                                                   alpha:1.0]];
         UIImage *rightImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
         cogIcon.iconFontSize = 30;
         UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
         self.navigationItem.rightBarButtonItem =
-        [[UIBarButtonItem alloc] initWithImage:rightImage
+        [[UIBarButtonItem alloc] initWithImage:[rightImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                            landscapeImagePhone:rightLandscapeImage
                                          style:UIBarButtonItemStylePlain
                                         target:self
@@ -147,7 +152,7 @@
             cogIcon.iconFontSize = 30;
             UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
             self.navigationItem.rightBarButtonItem =
-            [[UIBarButtonItem alloc] initWithImage:rightImage
+            [[UIBarButtonItem alloc] initWithImage:[rightImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                landscapeImagePhone:rightLandscapeImage
                                              style:UIBarButtonItemStylePlain
                                             target:self
@@ -160,7 +165,7 @@
             cogIcon.iconFontSize = 30;
             UIImage *rightLandscapeImage = [cogIcon imageWithSize:CGSizeMake(30, 30)];
             self.navigationItem.rightBarButtonItem =
-            [[UIBarButtonItem alloc] initWithImage:rightImage
+            [[UIBarButtonItem alloc] initWithImage:[rightImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                landscapeImagePhone:rightLandscapeImage
                                              style:UIBarButtonItemStylePlain
                                             target:self
@@ -385,10 +390,6 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [self filloutUser];
-    [self setFollowed];
-    [self fetchPosts];
-    [self setFavs];
     if(self.user == [PFUser currentUser]) {
         if((![self.user[@"fav1"] isEqualToString:@""] && self.user[@"fav1"] != nil) && ([self.user[@"fav1Link"] isEqualToString:@""] || self.user[@"fav1Link"] == nil)) {
             [self showLinkAlert:@"1"];

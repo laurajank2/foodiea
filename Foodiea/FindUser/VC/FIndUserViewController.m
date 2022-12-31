@@ -42,6 +42,10 @@
     [self fetchUsers];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    self.tabBarController.tabBar.translucent = NO;
+}
+
 - (IBAction)didTapFilter:(id)sender {
     [self performSegueWithIdentifier:@"searchFilterSegue" sender:sender];
 }
