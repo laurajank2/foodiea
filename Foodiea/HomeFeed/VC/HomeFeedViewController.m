@@ -65,13 +65,13 @@
     //pagination
     if(self.distance == 0 && self.userLat != 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert showWarning:self title:@"No Start Location" subTitle:@"Please enter a start location with a distance." closeButtonTitle:@"Ok!" duration:0.0f];
+        [alert showWarning:self title:@"No Distance" subTitle:@"Please enter the distance you want to travel from your start location." closeButtonTitle:@"Ok!" duration:0.0f];
         self.userLat = 0;
     }
     
     if(self.distance != 0 && self.userLat == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert showWarning:self title:@"No Distance" subTitle:@"Please enter the distance you want to travel from your start location." closeButtonTitle:@"Ok!" duration:0.0f];
+        [alert showWarning:self title:@"No Start Location" subTitle:@"Please enter a start location with a distance." closeButtonTitle:@"Ok!" duration:0.0f];
         self.distance = 0;
     }
     [self chooseFetch];

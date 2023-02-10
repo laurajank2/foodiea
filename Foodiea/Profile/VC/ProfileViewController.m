@@ -56,7 +56,7 @@
     [self.profileImage.layer setCornerRadius:self.profileImage.frame.size.height/2];
     self.profileFeed.dataSource = self;
     self.profileFeed.delegate = self;
-    self.username.text = self.user.username;
+    self.username.text = [NSString stringWithFormat:@"%@%@", @"@", self.user.username];
     self.screenName.text = self.user[@"screenname"];
     if(self.user[@"bio"] != nil && ![self.user[@"bio"] isEqualToString:@""]) {
         self.bio.text = self.user[@"bio"];
