@@ -213,7 +213,7 @@
     [postQuery orderByDescending:@"createdAt"];
     [postQuery includeKey:@"author"];
     [postQuery whereKey:@"author" equalTo:follower];
-    if(self.price != nil) {
+    if(self.price != nil && [self.price isEqualToString: @"Any"]) {
         [postQuery whereKey:@"price" equalTo:self.price];
     }
     if(self.followerPagesLoaded[follower.objectId] != nil) {
