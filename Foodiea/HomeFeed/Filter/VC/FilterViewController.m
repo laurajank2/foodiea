@@ -40,6 +40,9 @@
     // Do any additional setup after loading the view.
     [self initalTagSetup];
     [self makeButton];
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTapCollectionView:)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.tagsView addGestureRecognizer:doubleTapGesture];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -174,6 +177,29 @@ didFailAutocompleteWithError:(NSError *)error {
     cell.writeYourTag = 0;
     [cell setUp];
     return cell;
+}
+
+- (void)didDoubleTapCollectionView:(UITapGestureRecognizer *)gesture {
+
+    CGPoint pointInCollectionView = [gesture locationInView:self.tagsView];
+    NSIndexPath *selectedIndexPath = [self.tagsView indexPathForItemAtPoint:pointInCollectionView];
+    TagsCell *selectedCell = [self.tagsView cellForItemAtIndexPath:selectedIndexPath];
+    NSMutableArray *tempTags = self.tags.mutableCopy;
+    for (Tag* tag in tempTags) {
+        if (tag.title == selectedCell.tag.title) {
+            [tempTags removeObject:tag];
+            break;
+        }
+    }
+    self.tags = [NSArray arrayWithArray:tempTags];
+    [self.tagsView reloadData];
+        
+            
+    // do something
+    
+    
+    
+    
 }
 
 

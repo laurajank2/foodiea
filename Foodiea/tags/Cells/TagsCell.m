@@ -61,6 +61,14 @@
     gestureRecognizer.numberOfTapsRequired = 2;
 }
 
+- (void)singleTap {
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    [self.spacingLabel addGestureRecognizer:gestureRecognizer];
+    self.spacingLabel.userInteractionEnabled = YES;
+    gestureRecognizer.cancelsTouchesInView = NO;
+    gestureRecognizer.numberOfTapsRequired = 1;
+}
+
 - (IBAction)madeTag:(id)sender {
     if([self.titleLabel.text isEqualToString:@""] || self.titleLabel.text == nil){
         SCLAlertView *alert = [[SCLAlertView alloc] init];
